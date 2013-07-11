@@ -1,0 +1,2 @@
+#!/bin/bash
+diff -q <(sed 1d $1) <(sed 1d $2) >/dev/null

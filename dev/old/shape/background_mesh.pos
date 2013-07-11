@@ -1,0 +1,11 @@
+View "Background Field"{
+//the lists below specify elements, their nodes and values at the nodes.
+//first triangle (ST for Scalar on Triangle, I supose we could also have vector and tensor fields)
+//  triangle points located at (0.0, 0.0, 0.0,) , (1.0, 0.0, 0.0) and (0.0, 1.0, 0.0).
+//  the list in {} specifies the values at the aforementioned points.
+ST(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0){0.01, 0.05, 0.05};
+ST(0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0){0.05, 0.05, 0.01};
+//SQ for scalar quandrangle, the lists specify coords of four points and the corresponding scalar values
+//  at the nodes.
+SQ(1.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, 1.0, 0.0, 1.0, 1.0, 0.0){0.03, 0.05, 0.01, 0.01};
+};

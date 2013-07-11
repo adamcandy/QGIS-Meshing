@@ -1,0 +1,5 @@
+<RCC> 
+  <qresource prefix="/plugins/Define_Boundary_Ids" > 
+    <file>icon.png</file> 
+  </qresource> 
+</RCC> 

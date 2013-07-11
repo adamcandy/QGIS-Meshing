@@ -1,0 +1,45 @@
+#! /bin/sh
+
+OUTLOC=$(pwd)
+SCPTLOC=$(pwd)
+LOC=$(pwd)
+
+echo "........................................
+
+Building: domain_0
+
+......................................."
+
+python $SCPTLOC/generate_field_xyz_data.py --lat "(46,1),(64,1)" --lon "(-14,1),(6,1)" --join $OUTLOC/testcase_domain_0.shp
+
+echo "........................................
+
+Building: domain_1
+
+......................................."
+
+python $SCPTLOC/generate_field_xyz_data.py --guass "(1.0,-2.0,53,0,1)" --lat "(46,1),(64,1)" --lon "(-14,1),(6,1)" --join $OUTLOC/testcase_domain_1.shp
+
+echo "........................................
+
+Building: domain_2
+
+......................................."
+
+python $SCPTLOC/generate_field_xyz_data.py --guass "(1.0,-2.0,53,0,1),(1.0,-4.0,57,0,1)" --lat "(46,1),(64,1)" --lon "(-14,1),(6,1)" --join $OUTLOC/testcase_domain_2.shp
+
+echo "........................................
+
+Building: domain_3
+
+......................................."
+
+python $SCPTLOC/generate_field_xyz_data.py --guass "(1.0,-2.0,53,0,1),(1.0,-4.0,57,0,1),(1.0,-8.0,53.0,0,1)" --lat "(46,1),(64,1)" --join --lon "(-14,1),(6,1)" $OUTLOC/testcase_domain_3.shp
+
+if [ "$OUTLOC" != "$LOC" ]; then
+  cp generate_field_file* $OUTLOC
+  rm generate_field_file*
+fi
+
+echo "done"
+  
