@@ -1,15 +1,14 @@
 class MeshData(object):
 	"""class the data about the mesh file that will be used for testing"""
 
-	node_dict = {}
-	elems_list = []
-	number_of_nodes = 0
-	number_of_elems = 0
-
 
 	def __init__(self, file_path):
 
 		self.file_path = file_path
+		self.node_dict = {}
+		self.elems_list = []
+		self.number_of_nodes = 0
+		self.number_of_elems = 0
 
 	def parse(self) :
 
