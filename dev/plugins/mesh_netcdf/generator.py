@@ -2,7 +2,6 @@
 
 import os
 import glob
-from test.test_geo import test_geo_files
 
 pwd = os.getcwd()
 test = pwd+"/../../tests"
@@ -91,12 +90,26 @@ os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_1.geo --id "+idfile
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_2.geo "+rtpmultdomain+" --mesh")
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
 
-ref = open("test/ref.geo", 'r')
-test_file = open("test/test.geo", 'r')
-os.system("py.test"+ test_geo_files(ref, test_file))
-ref.close()
-test_file.close()
-  #os.system("py.test test/test_geo.py")
+
+
+#writes all the .geo filenames into the text file called filenames in test.
+fnames = glob.glob("/home/jk3111/test_engine/dev/tests/*.geo")
+filenames = open(pwd+"/test/filenames.txt", 'w')
+filenames.write("1\n")
+for i in fnames:
+  filenames.write(i+"\n")
+
+filenames.close()
+
+#prints out the current file teting and then diff it
+for n in range(0,len(fnames)):
+  filenames = open(pwd+"/test/filenames.txt", 'r')
+  count = int(names.readline())  
+  lines = filenames.readlines()
+  print lines[count]
+  filenames.close()
+  os.system("py.test test/test_geo.py")
+
 
 print  "Done Testing"
 
