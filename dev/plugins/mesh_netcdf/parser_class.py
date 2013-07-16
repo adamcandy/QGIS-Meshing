@@ -14,9 +14,6 @@ class MeshData(object):
 
 		input_file = open(self.file_path, "r")
 
-#		with open(self.file_path, "r") as file_as_text:
-#			input_file = file_as_text.read()
-
 		current_line = input_file.readline()
 
 		while current_line != "$Nodes\n" :
