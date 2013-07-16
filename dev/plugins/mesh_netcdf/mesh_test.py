@@ -1,7 +1,6 @@
 from parser_class import MeshData
 #main method called from outside. Compares given file with the model answer
-def test_mesh_file(file_path) :
-
+def mesh_file_test(file_path) :
 
 	index = len(file_path) - 1
 	curr = file_path[index]
@@ -51,7 +50,6 @@ def test_mesh_file(file_path) :
 	return False
 
 
-# WILL NEED TO ACCEPT SIMILAR INPPUTS (As opp to IDENTICAL)
 def compare_nodes(shorter_dict, longer_dict) :
 	print "in comp nodes..."
 
@@ -131,6 +129,8 @@ def compare_elements(shorter_list, longer_list) :
 		else :
 			return False
 
+	return True
+
 
 """
 		print "looking for potential matches" + str(c)
@@ -154,4 +154,3 @@ def compare_elements(shorter_list, longer_list) :
 """
 
 
-print test_mesh_file("ref.msh")
