@@ -1,23 +1,18 @@
 #!/usr/bin/env python
 
 import os
+import glob
 
 pwd = os.getcwd()
 test = pwd+"/../../tests"
 data = pwd+"/../../tests/data"
 
-rtponedomain = data+"/rtopo_shape_DN__2.shp"
+rtponedomain = data+"/rtopo_shape_DN_2.shp"
 rtpmultdomain = data+"/ID0Layer.shp"
 
 idfile = data+"/a_idLayer.shp"
 
 ncfile = data+"/none"
-
-print data
-print rtponedomain
-print rtpmultdomain
-print idfile
-print ncfile
 
 
 
@@ -76,10 +71,6 @@ os.system("python mesh_terminal --line BN -g "+test+"/testfileBN_1.geo --id "+id
 os.system("python mesh_terminal --line BN -g "+test+"/testfileBN_2.geo "+rtpmultdomain+" --mesh")
 os.system("python mesh_terminal --line BN -g "+test+"/testfileBN_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
 
-
-
-
-
 print "............................................."
 
 print "Testing: BSplines = False Compounds = True"
@@ -100,13 +91,17 @@ os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_2.geo "+rtpmultdoma
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
 
 
-os.system("py.test test/test_geo.py")
-
-os.system("echo Done Testing ")
 
 
-#else
-#  echo "mesh_terminal has not been updated since last test"
-#fi
+
+for i in range(0,len(filenames)):
+  os.system("py.test test/test_geo.py")
+
+print  "Done Testing"
+
+
+
+
+
 
 
