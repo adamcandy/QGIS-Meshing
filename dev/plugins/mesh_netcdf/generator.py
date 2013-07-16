@@ -2,6 +2,7 @@
 
 import os
 import glob
+from test.test_geo import test_geo_files
 
 pwd = os.getcwd()
 test = pwd+"/../../tests"
@@ -90,12 +91,12 @@ os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_1.geo --id "+idfile
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_2.geo "+rtpmultdomain+" --mesh")
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
 
-
-
-
-
-for i in range(0,len(filenames)):
-  os.system("py.test test/test_geo.py")
+ref = open("test/ref.geo", 'r')
+test_file = open("test/test.geo", 'r')
+os.system("py.test"+ test_geo_files(ref, test_file))
+ref.close()
+test_file.close()
+  #os.system("py.test test/test_geo.py")
 
 print  "Done Testing"
 

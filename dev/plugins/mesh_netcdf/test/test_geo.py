@@ -4,30 +4,26 @@ import pytest
 from support_files.diff_match_patch import diff_match_patch
 import glob
 
+class test_geo:
 
-string = "test/ref.geo"
-ref =  open(string, 'r')
-test = open("test/tester.geo", 'r')
-
-
-def test_geo():
-  filenames = glob.glob("/home/jk3111/test_engine/dev/tests/*.geo")
-  for i in filenames:
+  def test_geo_files(reference, test):
+    filenames = glob.glob("/home/jk3111/test_engine/dev/tests/*.geo")
+#  for i in filenames:
     
     diffcheck = diff_match_patch()
-    diffs = diffcheck.diff_main(ref.read(), test.read())
+    diffs = diffcheck.diff_main(reference.read(), test.read())
     not_zeroes = [i for i, v in enumerate(diffs) if v[0] != 0]
     print string
     assert (not not_zeroes)
 
-def updateParam(referring, tester):
-	ref.close()
-	test.close()
-	global ref 
-	ref = open(referring, 'r')
-	global test 
-	test = open(tester, 'r') 
-	test_geo()
+  def updateParam(referring, tester):
+  	ref.close()
+  	test.close()
+  	global ref 
+  	ref = open(referring, 'r')
+  	global test  
+  	test = open(tester, 'r') 
+  	test_geo()
 
 
   
