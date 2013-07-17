@@ -102,9 +102,9 @@ for i in fnames:
 filenames.close()
 
 #prints out the current file teting and then diff it
-for n in range(0,len(fnames)):
+for n in range(0,len(fnames)-1):
   filenames = open(pwd+"/test/filenames.txt", 'r')
-  count = int(names.readline())  
+  count = int(filenames.readline())  
   lines = filenames.readlines()
   print lines[count]
   filenames.close()
