@@ -56,3 +56,15 @@ class MeshData(object):
 			current_line = input_file.readline()
 
 		input_file.close()
+
+
+#mesh = MeshData("ref.msh")
+
+#mesh.parse()
+
+#print "No of nodes:" + str(mesh.number_of_nodes)
+#print "No of elems:" + str(mesh.number_of_elems)
+#print "Nodes:\n"
+#print mesh.node_dict
+#print "Elems:\n"
+#print mesh.elems_list

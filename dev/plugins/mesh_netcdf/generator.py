@@ -16,16 +16,12 @@ idfile = data+"/a_idLayer.shp"
 
 ncfile = data+"/none"
 
-
-
 print "............................................."
 
 print "Generating data: Gaussian bump"
 
 
 print "............................................."
-
-
 
 os.system("python "+test+"/gaussian_bump.py "+test+"/gaussian_bump.nc")
 os.system("grdmath "+test+"/gaussian_bump.nc 2 MUL = "+test+"/gaussian_bump_medium.nc")
@@ -93,7 +89,9 @@ os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_2.geo "+rtpmultdoma
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
 
 
-
+print "............................................."
+print "Testing .geo files...  "
+print "............................................."
 #writes all the .geo filenames into the text file called filenames in test.
 fnames = glob.glob("/home/jk3111/test_engine/dev/tests/*.geo")
 filenames = open(pwd+"/test/filenames.txt", 'w')
@@ -112,15 +110,14 @@ for n in range(0,len(fnames)-1):
   filenames.close()
   os.system("py.test test/test_geo.py")
 
-os.system("py.test test_msh.py")
+print "............................................."
+print "Testing .msh files...  "
+print "............................................."
 
 
 
-print  "Done Testing"
+os.system("py.test test/test_msh.py")
 
-
-
-
-
+print  "Finished Testing"
 
 
