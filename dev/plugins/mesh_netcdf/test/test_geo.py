@@ -19,6 +19,28 @@ def test_geo_files():
   lines = names.readlines()
   fname = ntpath.basename(lines[count]).rstrip()
   
+  ref  = open(pwd+"/../../tests/model_answers/"+fname,'r')
+  test = open(pwd+"/../../tests/"+fname,'r')  
+  test_lines = test.readlines()
+  ref_lines = ref.readlines()
+  
+  ref.close()
+  test.close()
+  
+  ref  = open(pwd+"/../../tests/model_answers/"+fname,'w')
+  test = open(pwd+"/../../tests/"+fname,'w')  
+  for line in ref_lines:
+    if line.split() == [] or line.split()[0] != "Merge":
+      ref.write(line)
+  for line in test_lines:
+    if line.split() == [] or line.split()[0] != "Merge":
+      test.write(line)
+  ref.close()
+  test.close()  
+  
+  
+  
+  
   #diff the two files
   ref  = open(pwd+"/../../tests/model_answers/"+fname,'r')
   test = open(pwd+"/../../tests/"+fname,'r')  
@@ -29,7 +51,7 @@ def test_geo_files():
   ref.close()
   names.close()
   
-  fnames = glob.glob("/home/jk3111/test_engine/dev/tests/*.geo")
+  fnames = glob.glob(pwd+"/../../tests/*.geo")
   filenames = open(pwd+"/test/filenames.txt", 'w')
   filenames.write(str(count+1)+"\n")
   for i in fnames:
