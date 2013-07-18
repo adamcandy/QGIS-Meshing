@@ -1,7 +1,7 @@
 class MeshData(object):
-	"""class the data about the mesh file that will be used for testing"""
+	"""a class for parsing the .msh files to get the the data needed for testing"""
 
-
+	# initialises the class. Takes in the filepath of a file to be parsed.
 	def __init__(self, file_path):
 
 		self.file_path = file_path
@@ -10,6 +10,7 @@ class MeshData(object):
 		self.number_of_nodes = 0
 		self.number_of_elems = 0
 
+	# parses the file passed in while creating an instance of MeshData
 	def parse(self) :
 
 		input_file = open(self.file_path, "r")
