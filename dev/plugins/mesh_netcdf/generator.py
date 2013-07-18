@@ -2,6 +2,8 @@
 
 import os
 import glob
+#from test.test_geo import test_geo_files
+
 
 pwd = os.getcwd()
 test = pwd+"/../../tests"
@@ -105,11 +107,14 @@ filenames.close()
 #prints out the current file teting and then diff it
 for n in range(0,len(fnames)-1):
   filenames = open(pwd+"/test/filenames.txt", 'r')
-  count = int(filenames.readline())  
+  count = int(filenames.readline())
   lines = filenames.readlines()
   print lines[count]
   filenames.close()
   os.system("py.test test/test_geo.py")
+
+os.system("py.test test_msh.py")
+
 
 
 print  "Done Testing"
