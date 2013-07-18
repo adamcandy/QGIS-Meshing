@@ -101,7 +101,7 @@ for i in fnames:
 
 filenames.close()
 
-#prints out the current file teting and then diff it
+#prints out the current file testing and then diff it
 for n in range(0,len(fnames)-1):
   filenames = open(pwd+"/test/filenames.txt", 'r')
   count = int(filenames.readline())
