@@ -4,7 +4,7 @@ import py
 import glob
 
 
-# used too pass arguments to the test function
+# used to pass arguments to the test function
 def pytest_generate_tests(metafunc):
     # called once per each test function
     for funcargs in metafunc.cls.params[metafunc.function.__name__]:
