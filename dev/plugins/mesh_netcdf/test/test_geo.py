@@ -16,9 +16,35 @@ def test_geo_files():
   #gets the count number on the file to be read
   count = int(names.readline())
   
+  #get the filename
   lines = names.readlines()
   fname = ntpath.basename(lines[count]).rstrip()
+  names.close()
   
+  #delete the merge line in the test files
+  del_merge(fname, pwd)
+  
+  #diff the two files
+  diffs = diff_check(fname, pwd)
+
+  #rewrite the filenames file with increasing the count by 1
+  fnames = glob.glob(pwd+"/../../tests/*.geo")
+  filenames = open(pwd+"/test/filenames.txt", 'w')
+  filenames.write(str(count+1)+"\n")
+  for i in fnames:
+    filenames.write(i+"\n")
+
+  filenames.close()
+ 
+ #not_zeroes will not be empty if the 2 files are not identical
+  not_zeroes = [i for i, v in enumerate(diffs) if v[0] != 0]
+ # print string
+  assert (not not_zeroes), "%s is not same as the model answer"%(fname)
+
+
+# delete the merge line in the model answer and the test case if it is there
+# this depends on which user generated the model answer and the test cases
+def del_merge(fname, pwd):
   ref  = open(pwd+"/../../tests/model_answers/"+fname,'r')
   test = open(pwd+"/../../tests/"+fname,'r')  
   test_lines = test.readlines()
@@ -37,11 +63,10 @@ def test_geo_files():
       test.write(line)
   ref.close()
   test.close()  
-  
-  
-  
-  
-  #diff the two files
+
+
+##checks if the test file and the model answer are identical
+def diff_check(fname, pwd):
   ref  = open(pwd+"/../../tests/model_answers/"+fname,'r')
   test = open(pwd+"/../../tests/"+fname,'r')  
   diffcheck = diff_match_patch()
@@ -49,29 +74,7 @@ def test_geo_files():
  
   test.close()
   ref.close()
-  names.close()
-  
-  fnames = glob.glob(pwd+"/../../tests/*.geo")
-  filenames = open(pwd+"/test/filenames.txt", 'w')
-  filenames.write(str(count+1)+"\n")
-  for i in fnames:
-    filenames.write(i+"\n")
-
-  filenames.close()
- 
- 
-  not_zeroes = [i for i, v in enumerate(diffs) if v[0] != 0]
- # print string
-  assert (not not_zeroes)
-
-
-  
-
-def func(x):
-  return x+1
-  
-#def test_func():
-#	assert func(3) ==5
-  	
+  return diffs
+    	
 
 
