@@ -15,7 +15,7 @@ def pytest_generate_tests(metafunc):
 
 class TestClass:
     params = {
-        'test_geo_files': [dict(a=x) for x in glob.glob("../../tests/*.geo")],
+        'test_geo_files': [dict(a=x) for x in glob.glob(os.path.dirname(os.path.realpath(__file__))+"/../../../tests/*.geo")],
     }
 
     def test_geo_files(self, a):
@@ -36,7 +36,7 @@ class TestClass:
         assert geo_files_test(a),"%s does not match the model answer" % (fname)
 
 def geo_files_test(file_path):
-  pwd = os.getcwd()
+  pwd = os.path.dirname(os.path.realpath(__file__))
   
  
   fname = ntpath.basename(file_path).rstrip()
@@ -57,16 +57,16 @@ def geo_files_test(file_path):
 # delete the merge line in the model answer and the test case if it is there
 # this depends on which user generated the model answer and the test cases
 def del_merge(fname, pwd):
-  ref  = open(pwd+"/../../tests/model_answers/"+fname,'r')
-  test = open(pwd+"/../../tests/"+fname,'r')  
+  ref  = open(pwd+"/../../../tests/model_answers/"+fname,'r')
+  test = open(pwd+"/../../../tests/"+fname,'r')  
   test_lines = test.readlines()
   ref_lines = ref.readlines()
   
   ref.close()
   test.close()
   
-  ref  = open(pwd+"/../../tests/model_answers/"+fname,'w')
-  test = open(pwd+"/../../tests/"+fname,'w')  
+  ref  = open(pwd+"/../../../tests/model_answers/"+fname,'w')
+  test = open(pwd+"/../../../tests/"+fname,'w')  
   for line in ref_lines:
     if line.split() == [] or line.split()[0] != "Merge":
       ref.write(line)
@@ -79,8 +79,8 @@ def del_merge(fname, pwd):
 
 ##checks if the test file and the model answer are identical
 def diff_check(fname, pwd):
-  ref  = open(pwd+"/../../tests/model_answers/"+fname,'r')
-  test = open(pwd+"/../../tests/"+fname,'r')  
+  ref  = open(pwd+"/../../../tests/model_answers/"+fname,'r')
+  test = open(pwd+"/../../../tests/"+fname,'r')  
   diffcheck = diff_match_patch()
   diffs = diffcheck.diff_main(ref.read(), test.read())
  

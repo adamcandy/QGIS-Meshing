@@ -5,7 +5,8 @@ import glob
 #from test.test_geo import test_geo_files
 
 
-pwd = os.getcwd()
+
+pwd = os.path.dirname(os.path.realpath(__file__))
 test = pwd+"/../../tests"
 data = pwd+"/../../tests/data"
 
@@ -90,13 +91,13 @@ os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_3.geo --id "+idfile
 
 print "Testing .geo files...  "
 
-os.system("py.test test/test_geo.py")
+os.system("py.test "+pwd+"/test/test_geo.py")
 
 
 
 print "Testing .msh files...  "
 
-os.system("py.test test/test_msh.py")
+os.system("py.test "+pwd+"/test/test_msh.py")
 
 print  "Finished Testing"
 
