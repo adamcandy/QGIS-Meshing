@@ -9,7 +9,7 @@ pwd = os.getcwd()
 test = pwd+"/../../tests"
 data = pwd+"/../../tests/data"
 
-rtponedomain = data+"/rtopo_shape_DN_2.shp"
+rtponedomain = data+"/rtopo_shape_DN__2.shp"
 rtpmultdomain = data+"/ID0Layer.shp"
 
 idfile = data+"/a_idLayer.shp"
@@ -89,26 +89,12 @@ os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_2.geo "+rtpmultdoma
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
 
 print "Testing .geo files...  "
-#writes all the .geo filenames into the text file called filenames in test.
-fnames = glob.glob(test + "/*.geo")
-filenames = open(pwd+"/test/filenames.txt", 'w')
-filenames.write("1\n")
-for i in fnames:
-  filenames.write(i+"\n")
 
-filenames.close()
+os.system("py.test test/test_geo.py")
 
-#prints out the current file teting and then diff it
-for n in range(0,len(fnames)-1):
-  filenames = open(pwd+"/test/filenames.txt", 'r')
-  count = int(filenames.readline())
-  lines = filenames.readlines()
-  print lines[count]
-  filenames.close()
-  os.system("py.test test/test_geo.py")
+
 
 print "Testing .msh files...  "
-
 
 os.system("py.test test/test_msh.py")
 

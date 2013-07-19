@@ -7,19 +7,39 @@ import os
 import ntpath
 
 
-def test_geo_files():
-  pwd = os.getcwd()
+def pytest_generate_tests(metafunc):
+    # called once per each test function
+    for funcargs in metafunc.cls.params[metafunc.function.__name__]:
+        # schedule a new test function run with applied **funcargs
+        metafunc.addcall(funcargs=funcargs)
 
-  #opens the list of filenames in the folder
-  names = open(pwd+"/test/filenames.txt", 'r')
+class TestClass:
+    params = {
+        'test_geo_files': [dict(a=x) for x in glob.glob("../../tests/*.geo")],
+    }
+
+    def test_geo_files(self, a):
+
+    	index = len(a) - 1
+        curr = a[index]
+
+        # retrieve just the file name from the path
+        while index > 0 and curr != '/':
+
+            index -= 1
+            curr = a[index]
+
+
+        index -= 1
+        fname = a[index : len(a)]
+
+        assert geo_files_test(a),"%s does not match the model answer" % (fname)
+
+def geo_files_test(file_path):
+  pwd = os.getcwd()
   
-  #gets the count number on the file to be read
-  count = int(names.readline())
-  
-  #get the filename
-  lines = names.readlines()
-  fname = ntpath.basename(lines[count]).rstrip()
-  names.close()
+ 
+  fname = ntpath.basename(file_path).rstrip()
   
   #delete the merge line in the test files
   del_merge(fname, pwd)
@@ -27,19 +47,11 @@ def test_geo_files():
   #diff the two files
   diffs = diff_check(fname, pwd)
 
-  #rewrite the filenames file with increasing the count by 1
-  fnames = glob.glob(pwd+"/../../tests/*.geo")
-  filenames = open(pwd+"/test/filenames.txt", 'w')
-  filenames.write(str(count+1)+"\n")
-  for i in fnames:
-    filenames.write(i+"\n")
-
-  filenames.close()
  
  #not_zeroes will not be empty if the 2 files are not identical
   not_zeroes = [i for i, v in enumerate(diffs) if v[0] != 0]
  # print string
-  assert (not not_zeroes), "%s is not same as the model answer"%(fname)
+  return (not not_zeroes)
 
 
 # delete the merge line in the model answer and the test case if it is there
