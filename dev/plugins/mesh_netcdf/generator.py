@@ -9,7 +9,7 @@ pwd = os.getcwd()
 test = pwd+"/../../tests"
 data = pwd+"/../../tests/data"
 
-rtponedomain = data+"/rtopo_shape_DN_2.shp"
+rtponedomain = data+"/rtopo_shape_DN__2.shp"
 rtpmultdomain = data+"/ID0Layer.shp"
 
 idfile = data+"/a_idLayer.shp"
