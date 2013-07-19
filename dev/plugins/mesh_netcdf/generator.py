@@ -92,7 +92,7 @@ print "............................................."
 print "Testing .geo files...  "
 print "............................................."
 #writes all the .geo filenames into the text file called filenames in test.
-fnames = glob.glob("/home/jk3111/test_engine/dev/tests/*.geo")
+fnames = glob.glob(test+"/*.geo")
 filenames = open(pwd+"/test/filenames.txt", 'w')
 filenames.write("1\n")
 for i in fnames:
