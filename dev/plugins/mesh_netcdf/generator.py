@@ -91,30 +91,17 @@ os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_3.geo --id "+idfile
 print "............................................."
 print "Testing .geo files...  "
 print "............................................."
-#writes all the .geo filenames into the text file called filenames in test.
-fnames = glob.glob(test+"/*.geo")
-filenames = open(pwd+"/test/filenames.txt", 'w')
-filenames.write("1\n")
-for i in fnames:
-  filenames.write(i+"\n")
 
-filenames.close()
 
-#prints out the current file teting and then diff it
-for n in range(0,len(fnames)-1):
-  filenames = open(pwd+"/test/filenames.txt", 'r')
-  count = int(filenames.readline())
-  lines = filenames.readlines()
-  print lines[count]
-  filenames.close()
-  os.system("py.test test/test_geo.py")
+
+
+os.system("py.test test/test_geo.py")
+
+
 
 print "............................................."
 print "Testing .msh files...  "
 print "............................................."
-
-
-
 
 os.system("py.test test/test_msh.py")
 
