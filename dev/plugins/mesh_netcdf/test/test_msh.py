@@ -1,40 +1,41 @@
 from parser_class import MeshData
-# content of test_expectation.py
 import py
 import glob
 
 
+# used too pass arguments to the test function
 def pytest_generate_tests(metafunc):
     # called once per each test function
     for funcargs in metafunc.cls.params[metafunc.function.__name__]:
         # schedule a new test function run with applied **funcargs
         metafunc.addcall(funcargs=funcargs)
 
+
 class TestClass:
+	#parameters to the test function
     params = {
-        'test_msh_files': [dict(a=x) for x in glob.glob("../../tests/*.msh")],
+        'test_msh_files': [dict(curr_file=x) for x in glob.glob("../../tests/*.msh")],
     }
 
-    def test_msh_files(self, a):
+    def test_msh_files(self, curr_file):
 
-    	index = len(a) - 1
-        curr = a[index]
+    	index = len(curr_file) - 1
+        curr = curr_file[index]
 
         # retrieve just the file name from the path
         while index > 0 and curr != '/':
 
             index -= 1
-            curr = a[index]
+            curr = curr_file[index]
 
 
         index -= 1
-        fname = a[index : len(a)]
+        fname = curr_file[index : len(curr_file)]
 
-        assert mesh_file_test(a),"%s does not match the model answer" % (fname)
+        assert mesh_file_test(curr_file),"%s does not match the model answer" % (fname)
 
 
-
-# Compares given file with the model answer
+# Compares given file with the model answer. Throws an AssertionError if the files don't match
 def mesh_file_test(file_path) :
 
 	index = len(file_path) - 1
@@ -54,11 +55,9 @@ def mesh_file_test(file_path) :
 	model_answer = MeshData("../../tests/model_answers/" + fname)
 	tested_answer = MeshData(file_path)
 
+	#parse the file being tested and the model answer
 	model_answer.parse()
 	tested_answer.parse()
-
-	print "checking meshes ..."
-
 
 	if model_answer.number_of_nodes > tested_answer.number_of_nodes :
 		#model answer has more nodes
@@ -85,8 +84,10 @@ def mesh_file_test(file_path) :
 	return False
 
 
+# compares the nodes in the tested and model answer files. First it looks for
+# the identical nodes, if found deletes them off the longer dictionary,
+# otherwise adds to a 'wait_list'. This is to speed up the process of testing.
 def compare_nodes(shorter_dict, longer_dict) :
-	print "in comp nodes..."
 
 	wait_list = {}
 
@@ -103,56 +104,44 @@ def compare_nodes(shorter_dict, longer_dict) :
 	return check_nodes_wait_list(wait_list, longer_dict)
 
 
+# go through all keys in the wait_list dictionary and compare to model answer (here: comp dictioary)
+# if they are within +/- 5 delete off the comp dictionary
 def check_nodes_wait_list(wait_list, comp) :
-
-	# go through all keys in dict and compare to model (here: comp)
-	# if withi +/- 5 delete off longer
-	print wait_list
-	print comp
-
-	print "in check wait_list"
 
 	for key in wait_list :
 
 		for comp_key in comp :
 
 			if (float(comp_key) + 5.0) >= float(key) >= (float(comp_key) - 5.0)  and (float(comp[comp_key]) + 5.0) >= float(wait_list[key]) >= (float(comp[comp_key]) - 5.0) :
-				print "yes"
-
 				del(comp[comp_key])
 				break
 			else :
-				print "no"
 				return False
 	return True
 
 
-# WILL NEED TO ACCEPT SIMILAR INPPUTS (As opp to IDENTICAL)
+# compares the elements in the tested and model answer files. First it looks for
+# the identical elements, if found deletes them off the longer list,
+# otherwise adds to a 'wait_list'. This is to speed up the process of testing.
 def compare_elements(shorter_list, longer_list) :
-	print "in comp elems"
 
 	wait_list = []
 
 	c = 0
 	for tuple1 in shorter_list :
-		print "looking for potential matches" + str(c)
-
 		c += 1
 
 		if tuple1 in longer_list :
-			print  str(tuple1)
 			longer_list.remove(tuple1)
 		else :
 			wait_list.append(tuple1)
 
 	return check_elems_wait_list(wait_list, longer_list)
 
+
+# go through all keys in the wait_list and compare to model answer (here: comp list)
+# if they are within ................... delete off the comp list
 def  check_elems_wait_list(wait_list, comp):
-
-	print "......................"
-	print wait_list
-	print comp
-
 
 	for elem in wait_list :
 

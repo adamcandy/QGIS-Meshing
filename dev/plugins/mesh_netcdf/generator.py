@@ -88,11 +88,9 @@ os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_1.geo --id "+idfile
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_2.geo "+rtpmultdomain+" --mesh")
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
 
-print "............................................."
 print "Testing .geo files...  "
-print "............................................."
 #writes all the .geo filenames into the text file called filenames in test.
-fnames = glob.glob("/home/jk3111/test_engine/dev/tests/*.geo")
+fnames = glob.glob(test + "/*.geo")
 filenames = open(pwd+"/test/filenames.txt", 'w')
 filenames.write("1\n")
 for i in fnames:
@@ -109,11 +107,7 @@ for n in range(0,len(fnames)-1):
   filenames.close()
   os.system("py.test test/test_geo.py")
 
-print "............................................."
 print "Testing .msh files...  "
-print "............................................."
-
-
 
 
 os.system("py.test test/test_msh.py")
