@@ -1,6 +1,9 @@
 from parser_class import MeshData
 import py
 import glob
+import os
+
+pwd = os.path.dirname(os.path.realpath(__file__))
 
 
 # used too pass arguments to the test function
@@ -14,7 +17,7 @@ def pytest_generate_tests(metafunc):
 class TestClass:
 	#parameters to the test function
     params = {
-        'test_msh_files': [dict(curr_file=x) for x in glob.glob("../../tests/*.msh")],
+        'test_msh_files': [dict(curr_file=x) for x in glob.glob(pwd +"/../../../tests/*.msh")],
     }
 
     def test_msh_files(self, curr_file):
@@ -52,7 +55,7 @@ def mesh_file_test(file_path) :
 
 
 	#get filepath of the correct model answer
-	model_answer = MeshData("../../tests/model_answers/" + fname)
+	model_answer = MeshData(pwd +"/../../../tests/model_answers/" + fname)
 	tested_answer = MeshData(file_path)
 
 	#parse the file being tested and the model answer
