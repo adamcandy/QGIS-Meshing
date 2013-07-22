@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/meshnetcdf" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
