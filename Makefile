@@ -21,3 +21,7 @@ installdev:
 	install -d $(localplugindir)
 	cp -a $(foreach FILE, $(DEVPACKAGEFILES), dev/plugins/$(FILE)) $(localplugindir)
 	chmod u+rX -R $(foreach FILE, $(DEVPACKAGEFILES), dev/plugins/$(FILE)) $(localplugindir)
+
+.PHONY: test
+test: 
+	python dev/plugins/mesh_netcdf/generator.py
