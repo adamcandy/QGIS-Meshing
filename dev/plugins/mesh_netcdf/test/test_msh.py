@@ -125,7 +125,6 @@ def check_nodes_wait_list(wait_list, comp) :
 
 # compares the elements in the tested and model answer files. First it looks for
 # the identical elements, if found deletes them off the longer list,
-# otherwise adds to a 'wait_list'. This is to speed up the process of testing.
 def compare_elements(shorter_list, longer_list) :
 
 	wait_list = []
@@ -137,22 +136,6 @@ def compare_elements(shorter_list, longer_list) :
 		if tuple1 in longer_list :
 			longer_list.remove(tuple1)
 		else :
-			wait_list.append(tuple1)
+			return False
 
-	return check_elems_wait_list(wait_list, longer_list)
-
-
-# go through all keys in the wait_list and compare to model answer (here: comp list)
-# if they are within ................... delete off the comp list
-def  check_elems_wait_list(wait_list, comp):
-
-	for elem in wait_list :
-
-		for comp_elem in comp :
-
-			if True :
-				print "REMEMBER TO FINISH THIS!!!!!!!!!!!!!!!!!!!!!"
-			else :
-				return False
 	return True
-
