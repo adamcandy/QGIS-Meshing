@@ -1,0 +1,6 @@
+<RCC> 
+  <qresource prefix="/plugins/polygonizer" > 
+    <file>icon.png</file> 
+  </qresource> 
+</RCC> 
+
