@@ -64,25 +64,10 @@ def mesh_file_test(file_path) :
 
 	if model_answer.number_of_nodes > tested_answer.number_of_nodes :
 		#model answer has more nodes
-		if compare_nodes(tested_answer.node_dict, model_answer.node_dict) :
-
-			if model_answer.number_of_elems > tested_answer.number_of_elems :
-				# model answer has more elems
-				return compare_elements(tested_answer.elems_list, model_answer.elems_list)
-			else :
-				# tested answer has more elems
-				return compare_elements(model_answer.elems_list, tested_answer.elems_list)
-
+		return compare_nodes(tested_answer.node_dict, model_answer.node_dict)
 	else :
 		# tested answer has more nodes
-		if compare_nodes(model_answer.node_dict, tested_answer.node_dict) :
-
-			if model_answer.number_of_elems > tested_answer.number_of_elems :
-				# model answer has more elems
-				return compare_elements(tested_answer.elems_list, model_answer.elems_list)
-			else :
-				# tested answer has more elems
-				return compare_elements(model_answer.elems_list, tested_answer.elems_list)
+		return compare_nodes(model_answer.node_dict, tested_answer.node_dict)
 
 	return False
 
@@ -103,6 +88,8 @@ def compare_nodes(shorter_dict, longer_dict) :
 		else :
 			wait_list[key] = shorter_dict[key] # add it to waiting dictionary
 
+	print wait_list
+	print longer_dict
 	# need to check the wait list if theres any matches
 	return check_nodes_wait_list(wait_list, longer_dict)
 
@@ -122,7 +109,7 @@ def check_nodes_wait_list(wait_list, comp) :
 				return False
 	return True
 
-
+"""
 # compares the elements in the tested and model answer files. First it looks for
 # the identical elements, if found deletes them off the longer list,
 def compare_elements(shorter_list, longer_list) :
@@ -139,3 +126,4 @@ def compare_elements(shorter_list, longer_list) :
 			return False
 
 	return True
+"""

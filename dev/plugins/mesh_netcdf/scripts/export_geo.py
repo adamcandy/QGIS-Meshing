@@ -1,13 +1,13 @@
 """
 This script writes the geo file. This script works with multiple domains and the surface id for that domain
-is same as the id for the shape file in the shapefile. This script also respects the physical line id which 
+is same as the id for the shape file in the shapefile. This script also respects the physical line id which
 is defined using define_id script.
 
 This script has an option to allow the user to choose if BSpline or Line has to be used. Another option is
 to enable compound lines.
 
 @author Varun Verma
-@hashItUpSoTheMathsWorksButTheCodeDoesn't Elliot Lynch 
+@hashItUpSoTheMathsWorksButTheCodeDoesn't Elliot Lynch
 """
 
 #might change to arrays, but extreamly quick anyway
@@ -36,7 +36,7 @@ class __recersive_list_gen:
 		f = lambda k, isc, self = self: self._sub_gen(k, isc, brk)
 		self.new_list = dict(enumerate(map(f,range(len(arr1)),map(lambda k, self = self:eval(iscon,locals(),globals()),range(len(arr1))))))
 		map(lambda x, self = self: self._rem_emp(x,self.new_list),self.new_list.keys())
-		
+
 	def _sub_gen( self, k, iscon, brk):
 		a = np.extract(iscon,self.index)
 		if brk and a.size != 0:
@@ -53,12 +53,12 @@ def _set_dict( diction ):#rewrite _r_l_g
 		if np.any(map(lambda x: np.all(val == x), new_list)):
 			continue
 		new_list += [val]
-	return dict(enumerate(new_list)) 
+	return dict(enumerate(new_list))
 
 
 def unzip( arr1, index = 0):
 	return map(lambda x: x[index], arr1)
-	
+
 #def unzip_d( diction, index = 0):
 	#return map(lambda x, x[index], diction.values())
 
@@ -67,7 +67,7 @@ def unzip( arr1, index = 0):
 This funcion writes the physical surafces in the geo file. The id used for
 the physical surface is the id from the shapefile which contains all the region
 ids which distingueshes multiple domains
-@param region_id_list    : specifies the ids of different surfaces in a list 
+@param region_id_list    : specifies the ids of different surfaces in a list
 @param number_of_regions : specifies the number of different surfaces in the #pointless
                            given domain data
 @param geoFile           : file stream for the geo file to write the surfaces
@@ -82,7 +82,7 @@ def __write_physical_surface_list_obs(region_id_list,number_of_regions,geoFile) 
 		physical_id_dict[region_id_list[i]].append(i+1)
 	for k in physical_id_dict.keys():
 		geoFile.write("Physical Surface(%i) = {%s};\n" % (k,str(physical_id_dict[k])[1:-1]))
-		
+
 def __write_physical_surface_list( region_id_list, p_surface_dict, geoFile ):#printing blanks
 	physical_id_dict = {}
 	p_k = p_surface_dict.keys()
@@ -93,7 +93,7 @@ def __write_physical_surface_list( region_id_list, p_surface_dict, geoFile ):#pr
 		for p in p_k:
 			if p[1] == region_id_list[i]:
 				lst.append(p[0])
-		physical_id_dict[region_id_list[i]] = lst	
+		physical_id_dict[region_id_list[i]] = lst
 	for k in physical_id_dict.keys():
 		geoFile.write("Physical Surface(%i) = {%s};\n" % (k,str(physical_id_dict[k])[1:-1]))
 
@@ -108,7 +108,7 @@ This method uses a helper method second which returns the second element in the 
 def __write_physical_lines_to_geo(lines_ids, geoFile):
  	def second(a):
 		return a[1]
-											
+
 	line_numbers = lines_ids[0]
 	unique_pid_list = set(map(second,lines_ids))
 	physical_line_id_dict = {}
@@ -120,7 +120,7 @@ def __write_physical_lines_to_geo(lines_ids, geoFile):
 		geoFile.write("Physical Line(%i) = {%s};\n" % (physical_line_id_dict.keys()[i],str(physical_line_id_dict.values()[i])[1:-1]))
 
 """
-This method writes the physical line ids for individual compound lines in the 
+This method writes the physical line ids for individual compound lines in the
 given domain data.
 @param lines_ids : list of tuples which consists of the id for the line and the physical
                    id for the line
@@ -141,7 +141,7 @@ def __write_compound_lines_as_physical( compound_line_dict, geoFile ):
 		physical_line_dict[keys[1][k]] = [keys[0][k]]
 	for k in physical_line_dict.keys():
 		geoFile.write("Physical Line(%i) = {%s};\n" % (k,str(physical_line_dict[k])[1:-1]))#physical Line Ids may be wrong
-		
+
 #still missing some compound lines in some instances, possibly working under the assumtion that the idpolygons only intersect the boundary once?
 #optermising this code is vital it is the slowest part of the script
 def __split_compound_lines_for_line_ids( compound_line_list, line_dict, line_num ):#again very bad coding, at some point use more efficient types
@@ -171,7 +171,7 @@ def __split_compound_lines_for_line_ids( compound_line_list, line_dict, line_num
 		dictn_list += zip(key,val)
 	line_num += len(dictn_list)
 	return dict(dictn_list), line_num
-		
+
 
 """
 this method splits the compound lines for multiple region which have adjacent boundaries
@@ -186,11 +186,11 @@ class __split_compound_lines_for_multiple_regions:
 					test = (self.values[self.itr1],self.values[self.itr2])#again possibly unnesicary
 				except:
 					return
-				print 'a'
-				print self.values[self.itr1]
-				print self.values[self.itr2]
+#				print 'a'
+#				print self.values[self.itr1]
+#				print self.values[self.itr2]
 				apre, a1l, apo, s1l, bpre, b1l, bpo = self.__check_for_intersection(self.values[self.itr1],self.values[self.itr2])
-				print s1l+apre+bpre+a1l+b1l+apo+bpo
+#				print s1l+apre+bpre+a1l+b1l+apo+bpo
 				if s1l == []:
 					continue
 				try:#bad code+probably wrong, might now be unnesicary
@@ -202,7 +202,7 @@ class __split_compound_lines_for_multiple_regions:
 				except:
 					pass
 				self.values += s1l+apre+bpre+a1l+b1l+apo+bpo
-				
+
 				#not currently working
 				#vtmp = self.values + self.__check_for_intersection(self.values[self.itr1],self.values[self.itr2])[0]
 				#if vtmp == self.values:
@@ -210,7 +210,7 @@ class __split_compound_lines_for_multiple_regions:
 				#self.values = vtmp
 				#del self.values[self.itr1]
 				#del self.values[self.itr2-1]
-				
+
 	"""
 	This method is to be implemented and would carry out the intersection
 	"""
@@ -297,7 +297,7 @@ def __write_compound_lines(compound_dict, geo):
 
 """
 This method writes the geo and physical ids using the helper emthods defined above.
-This method makes sure there are no duplicate lines or points in the geo. The lines 
+This method makes sure there are no duplicate lines or points in the geo. The lines
 which are shared are only written once and the same id for the line is used anywhere
 else where the same line is in the shape.
 @param filepath : specifies the filepath of the geo file to be written
@@ -310,7 +310,7 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 			lines.pop()
 		return lines
 	region_id = data[0]
-	
+
 	if use_bspline:
 		line_string = "BSpline"
 	else:
@@ -419,27 +419,27 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 			compound_line_list_b = map(list,line_loop_dict.keys())
 			if len(shapes_index)>1:
 				compound_line_list = __split_compound_lines_for_multiple_regions(copy.copy(compound_line_list_b)).values
-			print compound_line_list
+#			print compound_line_list
 			compound_line_dict, line_num = __split_compound_lines_for_line_ids(compound_line_list,line_dict,line_num)#note currently incompatible with line id's
-			print compound_line_dict
+#			print compound_line_dict
 			compound_line_dict = dict(zip(compound_line_dict.keys(),__list_abs(compound_line_dict.values())))
 			__write_compound_lines(compound_line_dict,geo)
 			print 'compounds written'
-			
+
 			line_loop_line = __recersive_list_gen(\
 			line_loop_dict.keys(),\
 			unzip(compound_line_dict.keys()),\
 			'map(lambda x, nset = nset: nset.intersect1d(x,self.Globals[1][k]).size != 0, self.Globals[0])',\
 			Globals = (compound_line_dict.values(),__list_abs(line_loop_dict.keys()))).new_list#possiblity reordering occuring here, can keys be reorder at all (or do it post creating dictionary)
-			print 'l', line_loop_line
+#			print 'l', line_loop_line
 			line_loop_dict = dict(enumerate(line_loop_line.values(), line_num))#note too many when there is complete intersection, may not matter too much, note this is fine res ordering
 			for key in line_loop_dict.keys():#these might not be correct/or possibly the compound lines
 				geo.write("Line Loop(%i) = {%s};\n" % (key,str(list(line_loop_dict[key]))[1:-1]))
 			print 'line loops written'
-			print line_loop_dict.keys()
-			print line_loop_dict.values()
-			print shapes_index
-			print region_id
+#			print line_loop_dict.keys()
+#			print line_loop_dict.values()
+#			print shapes_index
+#			print region_id
 			prev = [0]
 			xkeys = line_loop_dict.keys()
 			xkeys.reverse()#this isn't ordered correctly for some reason, where is this being ordered. note pre-lineloops is correct, its a dictionary, most likely resulting in the lack of order
@@ -451,11 +451,11 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 			mnval.reverse()
 			xkeys2 = []
 			#wrong order
-			print 'begin'
+#			print 'begin'
 			for i in range(len(mnval)):
 				for j in range(len(xval)):
 					if mnval[i] in xval[j]:
-						print i, [xkeys[j]]
+#						print i, [xkeys[j]]
 						xkeys2 += [xkeys[j]]
 						del xval[j]
 						del xkeys[j]
@@ -467,7 +467,7 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 					#geo.write("Plane Surface(%i) = {%s};\n" % (surface_num,str(crnt)[1:-1]))
 					#continue
 				crnt = xkeys2[shapes_index[i]:shapes_index[i+1]]
-				print crnt
+#				print crnt
 				geo.write("Plane Surface(%i) = {%s};\n" % (surface_num,str(crnt)[1:-1]))
 				#prev = _flatten(map(list,line_loop_dict.values()[shapes_index[i]:shapes_index[i+1]]))
 				#prev_i = i
@@ -484,7 +484,7 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 				except:
 					physical_list[region_id[shapes_index[i]]] = [i+1]
 					continue
-			#note sometimes reverse of physical_line_list - thought this may not work in all situations 
+			#note sometimes reverse of physical_line_list - thought this may not work in all situations
 			for key in physical_list.keys():
 				geo.write("Physical Surface(%i) = {%s};\n" % (key,str(physical_list[key])[1:-1]))
 			print 'Surfaces Written'
@@ -500,7 +500,7 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 		QMessageBox.critical(None,"Error: In Writing Geo File","An error has occurred while writing the geo file")
 		raise AssertionError
 
- 
+
 """
 This method uses a text file generated by the data given from the define id script.
 """
