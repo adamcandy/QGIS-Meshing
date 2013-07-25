@@ -20,10 +20,12 @@ A. Test Engine based on py.test
         Include tests for supporting software
 
 B. Streamline meshing code
+
     1. Ensure core code separated in a module
        Wrappers for the plugins, and tests
 
 C. Improve testing
+
     1. Create modules for tests in tests/comparators
        Imported by the Python file for each test
        Bringing in A2
