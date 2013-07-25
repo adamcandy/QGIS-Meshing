@@ -1,0 +1,118 @@
+#! /bin/sh
+
+##########################################################################
+#  
+#  QGIS-meshing plugins.
+#  
+#  Copyright (C) 2012-2013 Imperial College London and others.
+#  
+#  Please see the AUTHORS file in the main source directory for a
+#  full list of copyright holders.
+#  
+#  Dr Adam S. Candy, adam.candy@imperial.ac.uk
+#  Applied Modelling and Computation Group
+#  Department of Earth Science and Engineering
+#  Imperial College London
+#  
+#  This library is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU Lesser General Public
+#  License as published by the Free Software Foundation,
+#  version 2.1 of the License.
+#  
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  Lesser General Public License for more details.
+#  
+#  You should have received a copy of the GNU Lesser General Public
+#  License along with this library; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+#  USA
+#  
+##########################################################################
+
+TST=$PWD/../../tests
+DATA=$PWD/../../tests/data
+
+RTPONEDOMAIN=$DATA/rtopo_shape_DN__2.shp
+RTPMULTDOMAIN=$DATA/ID0Layer.shp
+
+IDFILE=$DATA/a_idLayer.shp
+
+NCFILE=$DATA/none
+
+command="./mesh_surface"
+
+echo "....................................
+
+Generating data: Gaussian bump
+
+....................................."
+
+python $TST/gaussian_bump.py $TST/gaussian_bump.nc
+grdmath $TST/gaussian_bump.nc 2 MUL = $TST/gaussian_bump_medium.nc
+grdmath $TST/gaussian_bump.nc 4 MUL = $TST/gaussian_bump_coarse.nc
+
+echo "....................................
+
+Testing: annulus, Bsplines = True Compounds = False
+
+....................................."
+
+python "${command}" --line BN -g $TST/test_annulus_BN.geo $DATA/annulus.shp --mesh --mval 10
+
+echo "....................................
+
+Testing: annulus, Bsplines = True Compounds = True
+
+....................................."
+
+python "${command}" --line BY -g $TST/test_annulus_BY.geo $DATA/annulus.shp --mesh --mval 10
+python "${command}" --line BY -g $TST/test_annulus_BY_metric.geo $DATA/annulus.shp --mesh -m $TST/gaussian_bump.nc
+python "${command}" --line BY -g $TST/test_annulus_BY_medium_metric.geo $DATA/annulus.shp --mesh -m $TST/gaussian_bump_medium.nc
+python "${command}" --line BY -g $TST/test_annulus_BY_coarse_metric.geo $DATA/annulus.shp --mesh -m $TST/gaussian_bump_coarse.nc
+
+echo "....................................
+
+Testing: annulus, Bsplines = False Compounds = True
+
+....................................."
+
+python "${command}" --line LY -g $TST/test_annulus_LY.geo $DATA/annulus.shp --mesh --mval 10
+python "${command}" --line LY -g $TST/test_annulus_LY_metric.geo $DATA/annulus.shp --mesh -m $TST/gaussian_bump.nc
+python "${command}" --line LY -g $TST/test_annulus_LY_medium_metric.geo $DATA/annulus.shp --mesh -m $TST/gaussian_bump_medium.nc
+python "${command}" --line LY -g $TST/test_annulus_LY_coarse_metric.geo $DATA/annulus.shp --mesh -m $TST/gaussian_bump_coarse.nc
+
+
+
+echo ".....................................
+
+Testing: BSplines = True Compounds = False
+
+....................................."
+python "${command}" --line BN -g $TST/testfileBN_0.geo $RTPONEDOMAIN --mesh
+python "${command}" --line BN -g $TST/testfileBN_1.geo --id $IDFILE $RTPONEDOMAIN --mesh
+python "${command}" --line BN -g $TST/testfileBN_2.geo $RTPMULTDOMAIN --mesh
+python "${command}" --line BN -g $TST/testfileBN_3.geo --id $IDFILE $RTPMULTDOMAIN  --mesh
+
+echo ".....................................
+
+Testing: BSplines = False Compounds = True
+
+......................................."
+python "${command}" -l LY -g $TST/testfileLY_0.geo $RTPONEDOMAIN --mesh
+python "${command}" -l LY -g $TST/testfileLY_1.geo --id $IDFILE $RTPONEDOMAIN --mesh
+python "${command}" -l LY -g $TST/testfileLY_2.geo $RTPMULTDOMAIN --mesh
+python "${command}" -l LY -g $TST/testfileLY_3.geo --id $IDFILE $RTPMULTDOMAIN  --mesh
+
+echo ".....................................
+
+Testing: BSplines = True Compounds = True
+
+......................................"
+python "${command}" -l BY -g $TST/testfileBY_0.geo $RTPONEDOMAIN --mesh
+python "${command}" -l BY -g $TST/testfileBY_1.geo --id $IDFILE $RTPONEDOMAIN --mesh
+python "${command}" -l BY -g $TST/testfileBY_2.geo $RTPMULTDOMAIN --mesh
+python "${command}" -l BY -g $TST/testfileBY_3.geo --id $IDFILE $RTPMULTDOMAIN  --mesh
+
+echo "Done Testing"

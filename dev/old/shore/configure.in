@@ -1,0 +1,179 @@
+#     Copyright (c) 2004-2006 by Gerard Gorman
+#     Copyright (c) 2006- Imperial College London
+#     See COPYING file for copying and redistribution conditions.
+#
+#     This program is free software; you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation; version 2 of the License.
+#
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#
+#     Contact info: gerard.j.gorman@gmail.com/g.gorman@imperial.ac.uk
+
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(src/shore.cpp)
+AC_CONFIG_HEADERS(include/config.h)
+
+# Check system type
+AC_CANONICAL_HOST
+
+# Override autoconf defaults for CXXFLAGS before searching for compiler
+CXXFLAGS="${CXXFLAGST:''}"
+FCFLAGS="${FCFLAGS:''}"
+CPPFLAGS="${CPPFLAGS:''}"
+
+AC_PROG_CXX
+AC_PROG_FC
+AC_PROG_CPP
+
+AC_FC_LIBRARY_LDFLAGS
+
+AC_LANG_PUSH([C++])
+
+AC_OPENMP()
+AC_SUBST(OPENMP_CXXFLAGS)
+
+AC_PROG_INSTALL
+AC_CHECK_PROG(AR, ar, ar, ,$PATH)
+test -n "$ARFLAGS" || ARFLAGS="cr"
+AC_PROG_RANLIB
+AC_CHECK_PROG(MAKE, gmake, gmake, make, $PATH)
+
+# Various GCC options
+if test "$ac_compiler_gnu" = yes ; then
+   CXXFLAGS="$CXXFLAGS -Wall -Wno-deprecated"
+fi
+
+AC_ARG_ENABLE(debugging,
+[AC_HELP_STRING([--enable-debugging],
+[turns on debugging])])
+
+if test "$enable_debugging" = "yes" ; then
+  CXXFLAGS="-g -O0 $CXXFLAGS"
+  LDFLAGS="-g $LDFLAGS"
+else
+  CXXFLAGS="-O3 $CXXFLAGS"
+  CPPFLAGS="$CPPFLAGS -DNDEBUG"
+fi
+
+AC_CHECK_LIB(stdc++,main,,) 
+AC_CHECK_LIB(m,main,,)
+
+# Detect VTK
+AC_CHECK_LIB(dl, dlopen)
+
+if test -n "$VTK_LIBS" ; then
+    LIBS="$LIBS -L$VTK_LIBS"
+fi
+for i in $VTK_INCLUDE $(ls -d /usr/include/vtk*); do
+    if test -r $i/vtkCellData.h; then
+        CPPFLAGS="-I$i $CPPFLAGS"
+    fi
+done
+
+AC_CHECK_HEADER(vtkVersion.h,
+    [AC_DEFINE([HAVE_VTK])])
+
+AC_MSG_CHECKING([for libvtksys])
+old_libs="$LIBS"
+LIBS="-lvtksys $LIBS"
+AC_LINK_IFELSE([
+        AC_LANG_PROGRAM(
+            [[
+#include "vtksys/Directory.hxx"
+                    ]],
+            [[      
+                    vtksys::Directory dir;
+                    ]])
+        ],
+    [AC_MSG_RESULT([yes])],
+    [LIBS="$old_libs" ; AC_MSG_RESULT([no])])
+
+AC_MSG_CHECKING([for libvtkCommon])
+old_libs="$LIBS"
+LIBS="-lvtkCommon $LIBS"
+AC_LINK_IFELSE([
+        AC_LANG_PROGRAM(
+            [[
+#include <vtkQuadric.h>
+                    ]],
+            [[
+                    vtkQuadric *q=vtkQuadric::New();
+                    ]])
+        ],
+    [AC_MSG_RESULT([yes])],
+    [LIBS="$old_libs" ; AC_MSG_RESULT([no])])
+
+AC_MSG_CHECKING([for libvtkFiltering])
+old_libs="$LIBS"
+
+LIBS="-lvtkFiltering $LIBS"
+AC_LINK_IFELSE([
+        AC_LANG_PROGRAM(
+            [[
+#include <vtkVersion.h>
+#include <vtkUnstructuredGrid.h>
+                    ]],
+            [[
+                    vtkVersion::GetVTKMajorVersion();
+                    vtkUnstructuredGrid *ug=vtkUnstructuredGrid::New();
+                    ]])
+        ],
+    [AC_MSG_RESULT([yes])],
+    [LIBS="$old_libs" ; AC_MSG_RESULT([no])])
+
+AC_MSG_CHECKING([for libvtkGraphics])
+old_libs="$LIBS"
+LIBS="-lvtkGraphics $LIBS"
+AC_LINK_IFELSE([
+        AC_LANG_PROGRAM(
+            [[
+#include <vtkCellDataToPointData.h>
+                    ]],
+            [[
+                    vtkCellDataToPointData *c=vtkCellDataToPointData::New();
+                    ]])
+        ],
+    [AC_MSG_RESULT([yes])],
+    [LIBS="$old_libs" ; AC_MSG_RESULT([no])])
+
+AC_CHECK_LIB(vtkzlib, vtk_zlib_gzopen,,)
+AC_CHECK_LIB(vtkexpat, vtk_expat_XML_ExpatVersion)
+
+AC_MSG_CHECKING([for libvtkIO])
+old_libs="$LIBS"
+LIBS="-lvtkIO $LIBS"
+AC_LINK_IFELSE([
+        AC_LANG_PROGRAM(
+            [[
+#include <vtkXMLUnstructuredGridWriter.h>
+                    ]],
+            [[
+                    vtkXMLUnstructuredGridWriter *c=vtkXMLUnstructuredGridWriter::New();
+                    ]])
+        ],
+    [AC_MSG_RESULT([yes])],
+    [LIBS="$old_libs" ; AC_MSG_RESULT([no])])
+
+#pushd spatialindex
+#if test "$enable_debugging" = "yes" ; then
+#   SPATIALINDEX_CONFIGURE_DEBUG_OPTION=--enable-debug=yes
+#fi
+#if test "$enable_profiling" = "yes" ; then
+#   SPATIALINDEX_CONFIGURE_PROF_OPTION=--enable-profiling=yes
+#fi
+#CC="${CC}" CXX="${CXX}" CFLAGS="${env_cflags}" CXXFLAGS="${env_cxxflags}" CPPFLAGS="-D_GNU_SOURCE" \
+#    LIBS="${env_lib}" ./configure --prefix=${PWD}/../ --disable-shared --without-pic \
+#    ${SPATIALINDEX_CONFIGURE_DEBUG_OPTION} ${SPATIALINDEX_CONFIGURE_PROF_OPTION}
+#popd
+
+AC_SUBST(ARFLAGS)
+AC_C_CONST
+AC_C_INLINE
+
+AC_OUTPUT(Makefile)
+
+cat confdefs.h | grep "^#[dua][enl][fdl][ieo][nfw]" > include/confdefs.h

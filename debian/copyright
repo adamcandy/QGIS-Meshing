@@ -1,0 +1,18 @@
+This package was debianized by Adam Candy <adam.candy@imperial.ac.uk> on
+Wed, 05 Sep 2012 15:35:54 +0000.
+
+Upstream Author(s): 
+
+    See AUTHORS
+
+Copyright: 
+
+    See AUTHORS
+    Copyright (C) 2012 Imperial College London
+
+License:
+
+    LGPL v2.1
+
+The Debian packaging is (C) 2012, Adam Candy <adam.candy@imperial.ac.uk> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.

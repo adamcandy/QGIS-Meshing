@@ -1,0 +1,19 @@
+[general]
+name = RasterCalc
+description = Perform raster algebra operations
+category = Raster
+version = 0.2.5
+qgisMinimumVersion = 1.0.0
+
+icon = rastercalc.png
+
+authorName = Alexander Bruy (NextGIS)
+
+tags = raster, calculator, algebra
+
+homepage = http://gis-lab.info/qa/rastercalc-eng.html
+tracker = http://hub.qgis.org/projects/rastercalc
+repository = http://svn.gis-lab.info/rastercalc
+
+experimental = False
+deprecated = False

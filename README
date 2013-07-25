@@ -1,0 +1,6 @@
+
+
+TODO:
+ - Add manual build to packaging, and include in debian/docs. 
+ - Adjust the copyright notice to take into account the basis for the Raster Calculator and also the third party plugins now here
+

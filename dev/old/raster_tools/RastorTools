@@ -1,0 +1,106 @@
+
+##########################################################################
+#  
+#  QGIS-meshing plugins.
+#  
+#  Copyright (C) 2012-2013 Imperial College London and others.
+#  
+#  Please see the AUTHORS file in the main source directory for a
+#  full list of copyright holders.
+#  
+#  Dr Adam S. Candy, adam.candy@imperial.ac.uk
+#  Applied Modelling and Computation Group
+#  Department of Earth Science and Engineering
+#  Imperial College London
+#  
+#  This library is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU Lesser General Public
+#  License as published by the Free Software Foundation,
+#  version 2.1 of the License.
+#  
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  Lesser General Public License for more details.
+#  
+#  You should have received a copy of the GNU Lesser General Public
+#  License along with this library; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+#  USA
+#  
+##########################################################################
+
+def getField(netcdf_file):
+	file = NetCDF.NetCDFFile(netcdf_file, 'r')
+	lon = file.variables['lon'][:]
+	lat = file.variables['lat'][:]
+	psi = file.variables['z'][:, :]
+	lon = array(lon)
+	lat = array(lat)
+	psi = array(psi)
+	return lon, lat, f
+
+def diferentialOp(field, withRespectTo):
+	lim = 'lim'
+	result = []
+	for i in field.size(axis = 0):
+		if i > 0 & i < field.size(axis = 0):
+			del_field = (field[i+1]-field[i-1])/2.0
+			del_par   = (withRespectTo[i+1]-withRespectTo[i-1])/2.0
+		elif i == 0:
+			del_field = (field[1]-field[0])/2.0
+			del_par   = (withRespectTo[1]-withRespectTo[0])/2.0
+		else:
+			del_field = (field[i]-field[i-1])/2.0
+			del_par   = (withRespectTo[i]-withRespectTo[i-1])/2.0
+		if isinstance(field, float) == true:# is this field correct param
+			if del_par != 0:
+				dif_field = del_field/del_par
+			else:
+				dif_field = lim
+		else:
+			shp = del_field.shape
+			for j in range(del_field.size):
+				if del_par.flat[j] != 0:
+					elementIn_dif_field = del_field.flat[j]/del_par.flat[j]
+				else:
+					elementIn_dif_field = lim
+				dif_field.append(elementIn_dif_field)
+			dif_field = array(dif_field)
+			dif_field.shape = shp
+		result.append(dif_field) # note dif_field is an array
+	result = array(result)
+	mx = result.max()
+	for i in range(result.size):
+		if result.flat[i] == lim:
+			result.flat[i] = 10*mx	
+	return result
+
+def intOp(field, withRespectTo, c = 0):
+	lim = 'lim'
+	result = []
+	for i in field.size(axis = 0):
+		if i > 0 & i < field.size(axis = 0):
+			av_field = (2*field[i]+field[i-1]+field[i+1])/4.0 #note maybe inacurate
+			del_par   = (withRespectTo[i+1]-withRespectTo[i-1])/2.0
+		elif i == 0:
+			av_field = (field[1]+field[0])/2.0
+			del_par   = (withRespectTo[1]-withRespectTo[0])/2.0
+		else:
+			av_field = (field[i]+field[i-1])/2.0 #note maybe inacurate
+			del_par   = (withRespectTo[i]-withRespectTo[i-1])/2.0
+		dif_field = av_field*del_par
+		result.append(dif_field) # note dif_field is an array
+	result = array(result)
+	result += c
+	return result
+
+def returnField(outputFileName):
+	output_file = '%s.nc' % str(outputFileName)
+	f = open(output_file,'w')
+	f.variables['lon'][:] = outLon
+	f.variables['lat'][:] = outLat
+	f.variables['z'][:] = outField
+	f.close()
+
+

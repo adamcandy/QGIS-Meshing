@@ -1,0 +1,14 @@
+RASTERISE POLYGONS DOCUMENTATION
+
+Author: Shaun Lee.
+
+\section{Introduction}
+<Image 1>
+
+Rasterise Polygons produces a NetCDF file(s) from Shapefile polygons with the same dimensions as the specified background layer. This differs from the existing Rasterize tool in QGIS under Raster -> Conversions -> Rasterize which only creates a file as large as the polygon's bounding box. Rasterise Polygons will also import the newly created NetCDF files into QGIS in Pseudolcolour rather than the default Grayscale. \\
+
+\section{Tutorial}
+The example shown here has a bathymetry NetCDF file loaded as the background layer and two polygons on seperate layers. Their ID's are displayed for reference and can be turned on by right-clicking a the polygon layer -> Properties -> Labels, tick 'Display labels' and set the 'Field containing ID' dropdown to id and click 'OK'.
+
+\section{Usage}
+The polygons used to create the raster layers must have an integer ID which is set when the polygon is created. The example 

@@ -1,0 +1,12 @@
+Source: qgis-plugins-meshing
+Section: science
+Priority: extra
+Maintainer: Adam Candy <adam.candy@imperial.ac.uk>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.3
+
+Package: qgis-plugins-meshing
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, blender, qgis, python-shapely, inkscape, grass, qgis-plugin-grass, thuban, gmt, gpsbabel, gpx2shp, gpsd, gpsd-clients, gpsdrive, gpsman, avce00, e00compr, cgi-mapserver, mapserver-bin, perl-mapscript, php5-mapscript, python-mapscript, postgis, python-gdal, proj, libterralib1c2a | libterralib
+Description: Meshing plugins for QGIS 
+

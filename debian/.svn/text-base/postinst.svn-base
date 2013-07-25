@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# This is a totally trivial script which just runs texhash to update
+# the LaTeX file registry. Running texhash is never a bad thing to do
+# so there should be no need for more complex logic.
+texhash

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="ocean_mesh_generation_overview.svg">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3811">
+      <stop
+         id="stop3813"
+         offset="0"
+         style="stop-color:#00d021;stop-opacity:1;" />
+      <stop
+         style="stop-color:#dac88c;stop-opacity:1;"
+         offset="1"
+         id="stop3815" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3847">
+      <stop
+         style="stop-color:#00d021;stop-opacity:1;"
+         offset="0"
+         id="stop3849" />
+      <stop
+         id="stop3857"
+         offset="1"
+         style="stop-color:#5bb4ff;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3847"
+       id="linearGradient3853"
+       x1="384.75"
+       y1="454.86218"
+       x2="492.25"
+       y2="454.86218"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3811"
+       id="linearGradient3021"
+       gradientUnits="userSpaceOnUse"
+       x1="482"
+       y1="454.36218"
+       x2="427"
+       y2="454.36218"
+       gradientTransform="translate(-102,-66.999997)" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.5622181"
+     inkscape:cx="327.9766"
+     inkscape:cy="657.27411"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:url(#linearGradient3021);fill-opacity:1;stroke:none"
+       d="m 289,382.36218 71,0 0,45 5,0 -10,10 -10,-10 5,0 -0.0569,-34 -60.94314,0 0,5 -9,-10.43294 9,-10.56706 z"
+       id="path3019"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccccc" />
+    <path
+       sodipodi:nodetypes="cccccccc"
+       inkscape:connector-curvature="0"
+       id="path3843"
+       d="m 385,449.36218 98,0 0,-5 9,10.54732 -9,10.45268 0,-5 -98,0 z"
+       style="fill:url(#linearGradient3853);fill-opacity:1;stroke:none" />
+    <path
+       sodipodi:nodetypes="cccccccc"
+       inkscape:connector-curvature="0"
+       id="path3845"
+       d="m 586.85254,452.36218 33,0 0,-5 5,7.54732 -5,7.45268 0,-5 -33,0 z"
+       style="fill:#5bb4ff;stroke:none;stroke-width:0.50000000000000000;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#a7d4fb;stroke:#000000;stroke-width:0.69999999000000002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1"
+       id="path3071"
+       sodipodi:cx="655"
+       sodipodi:cy="447.36218"
+       sodipodi:rx="30"
+       sodipodi:ry="15"
+       d="m 647.03646,432.90032 a 30,15 0 1 1 -0.0229,0.003"
+       sodipodi:start="4.4437169"
+       sodipodi:end="10.72611"
+       sodipodi:open="true"
+       transform="translate(-5e-6,8)" />
+    <path
+       style="fill:#00d021;stroke:none;stroke-width:0.50000000000000000;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+       d="m 267,452.36218 33,0 0,-5 5,7.54732 -5,7.45268 0,-5 -33,0 z"
+       id="path3073"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc" />
+    <rect
+       style="fill:#c9fba7;stroke:#000000;stroke-width:0.69999999999999996;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1"
+       id="rect2987"
+       width="80"
+       height="35"
+       x="305"
+       y="437.36218" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#c9fba7;stroke:#000000;stroke-width:0.46577463000000002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1"
+       id="path2991"
+       sodipodi:cx="60"
+       sodipodi:cy="447.36218"
+       sodipodi:rx="30"
+       sodipodi:ry="30"
+       d="m 52.036458,418.43846 a 30,30 0 1 1 -0.06157,0.017"
+       sodipodi:start="4.4437169"
+       sodipodi:end="10.724773"
+       sodipodi:open="true"
+       transform="matrix(2.4663525,0,0,0.91577604,47.01885,45.151896)" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2993"
+       style="font-size:10px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-40.078125,1.988441)"><flowRegion
+         id="flowRegion2995"><rect
+           id="rect2997"
+           width="139.84628"
+           height="29.943115"
+           x="165.15372"
+           y="437.41907"
+           style="text-align:center;text-anchor:middle" /></flowRegion><flowPara
+         id="flowPara2999">GIS &amp; other data</flowPara><flowPara
+         id="flowPara3001">(netCDF, shapefiles, png...)</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3003"
+       style="font-size:10px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-6.9375,-3.230309)"><flowRegion
+         id="flowRegion3005"><rect
+           id="rect3007"
+           width="80"
+           height="24.999992"
+           x="311.9375"
+           y="445.62375"
+           style="text-align:center;text-anchor:middle" /></flowRegion><flowPara
+         id="flowPara3013">GIS software</flowPara><flowPara
+         id="flowPara3020">(Quantum-GIS)</flowPara></flowRoot>    <rect
+       y="437.36218"
+       x="492"
+       height="35"
+       width="95"
+       id="rect3041"
+       style="fill:#a7d4fb;fill-opacity:1;stroke:#000000;stroke-width:0.7;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <flowRoot
+       transform="translate(179.5625,-3.230309)"
+       style="font-size:10px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3043"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3045"><rect
+           style="text-align:center;text-anchor:middle"
+           y="445.62375"
+           x="311.9375"
+           height="24.999992"
+           width="95"
+           id="rect3047" /></flowRegion><flowPara
+         id="flowPara3049">Meshing software</flowPara><flowPara
+         id="flowPara3051">(Gmsh)</flowPara></flowRoot>    <flowRoot
+       transform="translate(419.92187,9.988441)"
+       style="font-size:10px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3055"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3057"><rect
+           style="text-align:center;text-anchor:middle"
+           y="437.41907"
+           x="165.15372"
+           height="29.943115"
+           width="139.84628"
+           id="rect3059" /></flowRegion><flowPara
+         id="flowPara3067">Mesh</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3859"
+       style="font-size:10px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-6.265625,1.7631893)"><flowRegion
+         id="flowRegion3861"><rect
+           id="rect3863"
+           width="72.484955"
+           height="12.980555"
+           x="410.03067"
+           y="447.61844"
+           style="text-align:center;text-anchor:middle" /></flowRegion><flowPara
+         id="flowPara3865"
+         style="font-size:8px;text-align:center;text-anchor:middle">Meshing plugins</flowPara></flowRoot>    <path
+       transform="matrix(2.4663525,0,0,0.91577604,47.01885,-21.848104)"
+       sodipodi:open="true"
+       sodipodi:end="10.724773"
+       sodipodi:start="4.4437169"
+       d="m 50.851524,420.54404 a 34.463848,27.816061 0 1 1 -0.07073,0.0158"
+       sodipodi:ry="27.816061"
+       sodipodi:rx="34.463848"
+       sodipodi:cy="447.36218"
+       sodipodi:cx="60"
+       id="path3017"
+       style="fill:#fbe7a7;fill-opacity:1;stroke:#000000;stroke-width:0.46577463000000002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       sodipodi:type="arc" />
+    <flowRoot
+       transform="translate(-50.109375,-70.011559)"
+       style="font-size:10px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3023"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3025"><rect
+           style="text-align:center;text-anchor:middle"
+           y="437.41907"
+           x="165.15372"
+           height="39.954674"
+           width="159.92441"
+           id="rect3027" /></flowRegion><flowPara
+         id="flowPara3031">Required boundaries (coastlines &amp; open boundaries) and mesh size metric</flowPara></flowRoot>    <flowRoot
+       transform="translate(-124.26563,-65.449656)"
+       style="font-size:10px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3803"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3805"><rect
+           style="text-align:center;text-anchor:middle"
+           y="447.61844"
+           x="410.03067"
+           height="12.980555"
+           width="72.484955"
+           id="rect3807" /></flowRegion><flowPara
+         style="font-size:8px;text-align:center;text-anchor:middle"
+         id="flowPara3809">Meshing plugins</flowPara></flowRoot>  </g>
+</svg>

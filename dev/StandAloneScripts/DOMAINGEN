@@ -1,0 +1,76 @@
+#! /bin/sh
+
+##########################################################################
+#  
+#  QGIS-meshing plugins.
+#  
+#  Copyright (C) 2012-2013 Imperial College London and others.
+#  
+#  Please see the AUTHORS file in the main source directory for a
+#  full list of copyright holders.
+#  
+#  Dr Adam S. Candy, adam.candy@imperial.ac.uk
+#  Applied Modelling and Computation Group
+#  Department of Earth Science and Engineering
+#  Imperial College London
+#  
+#  This library is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU Lesser General Public
+#  License as published by the Free Software Foundation,
+#  version 2.1 of the License.
+#  
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  Lesser General Public License for more details.
+#  
+#  You should have received a copy of the GNU Lesser General Public
+#  License along with this library; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+#  USA
+#  
+##########################################################################
+
+OUTLOC=$(pwd)
+SCPTLOC=$(pwd)
+LOC=$(pwd)
+
+echo "........................................
+
+Building: domain_0
+
+......................................."
+
+python $SCPTLOC/generate_field_xyz_data.py --lat "(46,1),(64,1)" --lon "(-14,1),(6,1)" --join $OUTLOC/testcase_domain_0.shp
+
+echo "........................................
+
+Building: domain_1
+
+......................................."
+
+python $SCPTLOC/generate_field_xyz_data.py --guass "(1.0,-2.0,53,0,1)" --lat "(46,1),(64,1)" --lon "(-14,1),(6,1)" --join $OUTLOC/testcase_domain_1.shp
+
+echo "........................................
+
+Building: domain_2
+
+......................................."
+
+python $SCPTLOC/generate_field_xyz_data.py --guass "(1.0,-2.0,53,0,1),(1.0,-4.0,57,0,1)" --lat "(46,1),(64,1)" --lon "(-14,1),(6,1)" --join $OUTLOC/testcase_domain_2.shp
+
+echo "........................................
+
+Building: domain_3
+
+......................................."
+
+python $SCPTLOC/generate_field_xyz_data.py --guass "(1.0,-2.0,53,0,1),(1.0,-4.0,57,0,1),(1.0,-8.0,53.0,0,1)" --lat "(46,1),(64,1)" --join --lon "(-14,1),(6,1)" $OUTLOC/testcase_domain_3.shp
+
+if [ "$OUTLOC" != "$LOC" ]; then
+  cp generate_field_file* $OUTLOC
+  rm generate_field_file*
+fi
+
+echo "done"
+  

@@ -1,0 +1,52 @@
+SHELL = @SHELL@
+
+prefix  = @prefix@
+
+CXX  = @CXX@
+FC  = @FC@
+
+CPPFLAGS =  -I./include @CPPFLAGS@
+
+CXXFLAGS = $(CPPFLAGS) @CXXFLAGS@ @OPENMP_CXXFLAGS@
+LDFLAGS  = @LDFLAGS@  @OPENMP_CXXFLAGS@
+
+LIBS = -L./lib @LIBS@ @FCLIBS@
+
+OBJECTS = DecimateCoast.o Polyline.o Vertex.o Ellipsoid.o TVincenty.o inverse.o
+
+BINARIES = ./bin/shore
+
+prefix = @prefix@
+
+VPATH = ./:./src
+
+.SUFFIXES: .cpp .o .for
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -c $<
+
+.for.o:
+	$(FC) $(FCFLAGS) -c $<
+
+default: bin lib $(OBJECTS) $(BINARIES)
+	chmod +x $(BINARIES)
+
+bin:
+		mkdir -p bin
+lib:
+		mkdir -p lib
+
+./bin/shore: shore.o $(OBJECTS)
+	$(CXX) $(LDFLAGS) -o ./bin/shore shore.o $(OBJECTS) $(LIBS)
+
+install:
+	cp $(BINARIES) $(DESTDIR)$(prefix)/bin/
+
+test:
+	true
+
+clean:
+	rm -rf *.o $(BINARIES)
+
+distclean: clean
+	rm -rf Makefile autom4te.cache bin config.log config.status lib include/confdefs.h include/config.h

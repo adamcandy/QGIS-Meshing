@@ -1,0 +1,18 @@
+nLayer(self):
+   #creates a new layer for placing the pins
+
+   self.pinNumber = self.pinNumber + 1
+   layer = QgsVectorLayer("Point", "Pins - Layer %d " %self.pinNumber, "memory")
+   provider = layer.dataProvider()
+   provider.addAttributes([
+          QgsField("id", QVariant.Int),
+          QgsField("Coarsity", QVariant.Double),
+          QgsField("x", QVariant.Double),
+          QgsField("y", QVariant.Double)
+          ])
+   layer.updateFieldMap()
+   layer.setDisplayField("Coarsity")
+   provider.createSpatialIndex()
+   QgsMapLayerRegistry.instance().addMapLayer(layer)
+   self.layer.append(layer)
+

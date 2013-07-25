@@ -1,0 +1,27 @@
+<PAMDataset>
+  <Metadata>
+    <MDI key="NC_GLOBAL#Conventions">COARDS/CF-1.0</MDI>
+    <MDI key="NC_GLOBAL#title">wider_area_bathymetry_filtered_subsampled.nc</MDI>
+    <MDI key="NC_GLOBAL#history">grdsample -I0.05/0.05 wider_area_bathymetry_filtered.nc -Gwider_area_bathymetry_filtered_subsampled.nc</MDI>
+    <MDI key="NC_GLOBAL#GMT_version">4.5.6 [64-bit]</MDI>
+    <MDI key="NC_GLOBAL#node_offset">1</MDI>
+    <MDI key="z#long_name">z</MDI>
+    <MDI key="z#_FillValue">-nan</MDI>
+    <MDI key="z#actual_range">-3115.79, 654.902</MDI>
+    <MDI key="lon#long_name">longitude</MDI>
+    <MDI key="lon#units">degrees_east</MDI>
+    <MDI key="lon#actual_range">-12, -1</MDI>
+    <MDI key="lat#long_name">latitude</MDI>
+    <MDI key="lat#units">degrees_north</MDI>
+    <MDI key="lat#actual_range">48.5, 57</MDI>
+  </Metadata>
+  <PAMRasterBand band="1">
+    <Metadata>
+      <MDI key="NETCDF_VARNAME">z</MDI>
+      <MDI key="STATISTICS_MINIMUM">-3115.7941894531</MDI>
+      <MDI key="STATISTICS_MAXIMUM">654.90216064453</MDI>
+      <MDI key="STATISTICS_MEAN">-177.50215570801</MDI>
+      <MDI key="STATISTICS_STDDEV">603.06448064265</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>

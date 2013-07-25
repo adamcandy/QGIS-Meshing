@@ -1,0 +1,13 @@
+Source: latex-beamer-amcg
+Section: tex
+Priority: extra
+Maintainer: David Ham <David.Ham@imperial.ac.uk>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.3
+
+Package: latex-beamer-amcg
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, latex-beamer
+Description: An Imperial College London style for beamer
+ This package provides an Imperial College London style for developing 
+ presentations using LaTeX and the Beamer package. 
