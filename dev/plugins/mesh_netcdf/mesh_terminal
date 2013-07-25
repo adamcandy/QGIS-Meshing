@@ -123,28 +123,28 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 				os.system('gmsh '+str(self.geofilepath))
 
 	def read_sarg( self ):
-		carg = self.sarg.pop(0)
-		if '.shp' in carg and self.domainShapefileLayerFileName == None:
-			self.domainShapefileLayerFileName = carg
-		elif '.nc' in carg:
-			self.singleNetCDFLayerFileName = carg
-			self.postviewFileName = carg[:-2]+'pos'
-			converter.writePosFile(self)
-		else:
-			if self.errorHide:
-				try:
-					eval(self.commands[carg])
-				except:
+        	while self.sarg != []:
+                	
+			carg = self.sarg.pop(0)
+			if '.shp' in carg and self.domainShapefileLayerFileName == None:
+				self.domainShapefileLayerFileName = carg
+			elif '.nc' in carg:
+				self.singleNetCDFLayerFileName = carg
+				self.postviewFileName = carg[:-2]+'pos'
+				converter.writePosFile(self)
+			else:
+				if self.errorHide:
+					try:
+						eval(self.commands[carg])
+					except:
 					#print 'Incorrect Terminal Commands'
 					#self._usage()
-					print 'Warning:  Incorrect Terminal Commands. Failiure at %s.' % carg
-			else:
-				eval(self.commands[carg])
+						print 'Warning:  Incorrect Terminal Commands. Failiure at %s.' % carg
+				else:
+					eval(self.commands[carg])
 			#else:
 			#	self.idFilePath = carg
 			#	self.isIdLayer = True
-		if self.sarg != []:
-			self.read_sarg()
 
 	def get_metric( self ):
 		self.singleNetCDFLayerFileName = self.sarg.pop(0)

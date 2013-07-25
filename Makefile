@@ -3,6 +3,7 @@ datadir = $(prefix)/share
 
 plugindir = $(datadir)/qgis/python/plugins/
 localplugindir = ${HOME}/.qgis/python/plugins/
+testdir = dev/plugins/mesh_netcdf/
 DEVPACKAGEFILES = mesh_netcdf  rastercalc  rasterise_polygons define_boundary_ids
 PACKAGEFILES = mesh_netcdf  rastercalc  rasterise_polygons Polygonizer QuickMultiAttributeEdit
 
@@ -24,4 +25,6 @@ installdev:
 
 .PHONY: test
 test: 
-	python dev/plugins/mesh_netcdf/generator.py
+	python $(testdir)/generator.py
+
+
