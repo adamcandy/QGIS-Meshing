@@ -1,4 +1,4 @@
-Blueprint for the Meshing test engine
+Blueprint for the Meshing Test Engine
 =====================================
 
 A. Test Engine based on py.test
