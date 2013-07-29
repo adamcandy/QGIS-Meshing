@@ -100,7 +100,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 
 	def __init__( self , commands):
 		arguments = shlex.split(commands)
-		self.sarg = arguments[2:]
+		self.sarg = arguments[1:]
 		self.read_sarg()
 
 
