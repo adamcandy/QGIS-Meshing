@@ -90,15 +90,18 @@ os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_2.geo "+rtpmultdoma
 os.system("python mesh_terminal -l BY -g "+test+"/testfileBY_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
 
 
-print '\033[1m' +  "================================================================================" + '\033[0m'
+print '\033[1m' +  "============================================================" + '\033[0m'
 print "Testing .geo files...  "
 
-os.system("py.test "+pwd+"/test/test_geo.py")
+
+
+
+os.system("py.test --resultlog="+pwd+"/test/test.log "+pwd+"/test/test_geo.py")
 
 
 
 print "Testing .msh files...  "
 
-os.system("py.test "+pwd+"/test/test_msh.py")
+os.system("py.test --resultlog="+pwd+"/test/test.log "+pwd+"/test/test_msh.py")
 
 print "Finished Testing"

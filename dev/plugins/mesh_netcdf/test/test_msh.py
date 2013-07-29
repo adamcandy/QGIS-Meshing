@@ -16,11 +16,15 @@ def pytest_generate_tests(metafunc):
 
 
 class TestClass:
-	#parameters to the test function
+    """ Runs different tests on the .msh files """
+
+    #parameters to the test function
     params = {
         'test_msh_files': [dict(curr_file=x) for x in glob.glob(pwd +"/../../../tests/*.msh")],
     }
 
+    # Tests whether nodes of the file being are similar to the nodes in the
+    # model answer.
     def test_msh_files(self, curr_file):
 
     	index = len(curr_file) - 1
