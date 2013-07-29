@@ -6,6 +6,7 @@ call using: python <filepath to mesh_terminal>/mesh_terminal [commands] <DomainF
 '''
  
 import sys
+import shlex
 from scripts import define_id, export_geo  
 from scripts.MeshOperations import MeshOp
 from scripts.PosFileConverter import *
@@ -45,7 +46,7 @@ class _baseCommands( object ):
 		-e			:Shows all errors found after command.
 		''' 
 
-class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
+class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 
 	domainShapefileLayerFileName = None
 	threshold = None
@@ -95,9 +96,14 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 	
 #note compound lines are not being written are bsplines?
 
-	def __init__( self ):
-		self.sarg = sys.argv[1:]
+#os.system("python "+pwd+"/mesh_terminal --line LY -g "+test+"/test_annulus_LY.geo "+data+"/annulus.shp --mesh --mval 10")
+
+	def __init__( self , commands):
+		arguments = shlex.split(commands)
+		self.sarg = arguments[2:]
 		self.read_sarg()
+
+
 		if self.domainShapefileLayerFileName != None:
 			self.define_bounds(self.isIdLayer)
 			self.data = [self.domainData.regionIDs,self.domainData.shapes,self.boundaryIDList,self.domainData.points]
@@ -122,29 +128,26 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 			if self.gmshShow:
 				os.system('gmsh '+str(self.geofilepath))
 
-	def read_sarg( self ):
-		carg = self.sarg.pop(0)
-		if '.shp' in carg and self.domainShapefileLayerFileName == None:
-			self.domainShapefileLayerFileName = carg
-		elif '.nc' in carg:
-			self.singleNetCDFLayerFileName = carg
-			self.postviewFileName = carg[:-2]+'pos'
-			converter.writePosFile(self)
-		else:
-			if self.errorHide:
-				try:
-					eval(self.commands[carg])
-				except:
+	def read_sarg( self):
+		while self.sarg:
+			carg = self.sarg.pop(0)
+			if '.shp' in carg and self.domainShapefileLayerFileName == None:
+				self.domainShapefileLayerFileName = carg
+			elif '.nc' in carg:
+				self.singleNetCDFLayerFileName = carg
+				self.postviewFileName = carg[:-2]+'pos'
+				converter.writePosFile(self)
+			else:
+				if self.errorHide:
+					try:
+						eval(self.commands[carg])
+					except:
 					#print 'Incorrect Terminal Commands'
 					#self._usage()
-					print 'Warning:  Incorrect Terminal Commands. Failiure at %s.' % carg
-			else:
-				eval(self.commands[carg])
-			#else:
-			#	self.idFilePath = carg
-			#	self.isIdLayer = True
-		if self.sarg != []:
-			self.read_sarg()
+						print 'Warning:  Incorrect Terminal Commands. Failiure at %s.' % carg
+				else:
+					eval(self.commands[carg])
+
 
 	def get_metric( self ):
 		self.singleNetCDFLayerFileName = self.sarg.pop(0)
@@ -178,7 +181,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 	def gradeToNCFlat( self ):
 		MeshOp.gradeToNCFlat(self)
 	def set_mevalcall( self ):
-		self.mEval = int(self.sarg.pop(0))
+		self.mEval = int(self.mval_num)
 	def write_meval( self ):
 		geoFile = open(str(self.geofilepath), 'a')
 		geoFile.write('\n//Code added by Mesh NetCDF to create uniform mesh.\n')
@@ -191,4 +194,4 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 		self.errorHide = False
 
 
-_mainObject()
+#_mainObject()
