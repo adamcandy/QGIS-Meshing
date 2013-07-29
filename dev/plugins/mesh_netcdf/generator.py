@@ -7,7 +7,7 @@ import glob
 
 
 pwd = os.path.dirname(os.path.realpath(__file__))
-test = pwd+"/../../tests"
+test = pwd+"/../../tests/output"
 data = pwd+"/../../tests/data"
 
 rtponedomain = data+"/rtopo_shape_DN__2.shp"
@@ -96,12 +96,13 @@ print "Testing .geo files...  "
 
 
 
-os.system("py.test --resultlog="+pwd+"/test/test.log "+pwd+"/test/test_geo.py")
+#os.system("py.test --resultlog="+pwd+"/test/test.log "+test+"/../test_geo.py")
+os.system("py.test "+test+"/../test_geo.py")
 
 
 
 print "Testing .msh files...  "
 
-os.system("py.test --resultlog="+pwd+"/test/test.log "+pwd+"/test/test_msh.py")
+os.system("py.test "+test+"/../test_msh.py")
 
 print "Finished Testing"
