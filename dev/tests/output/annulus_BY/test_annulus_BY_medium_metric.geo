@@ -682,6 +682,7 @@ Physical Surface(0) = {1};
 Mesh.RemeshAlgorithm=1;
 
 //Code added by Mesh NetCDF to merge the created PostView file and use it as mesh-size metric.
+Merge "/home/mg2111/test_engine/dev/plugins/mesh_netcdf/../../tests/output/gaussian_bump_medium.pos";
 Field[1] = PostView;
 Field[1].IView = 1;
 Plugin(Triangulate).Run;

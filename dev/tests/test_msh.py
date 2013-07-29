@@ -22,7 +22,7 @@ class TestClass:
 
     #parameters to the test function
     params = {
-        'test_msh_files': [dict(curr_file=x) for x in glob.glob(pwd +"/output/*.msh")],
+        'test_msh_files': [dict(curr_file=x) for x in glob.glob(pwd +"/output/*/*.msh")],
     }
 
     # Tests whether nodes of the file being are similar to the nodes in the
