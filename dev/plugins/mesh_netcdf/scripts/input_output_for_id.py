@@ -1,5 +1,5 @@
 """
-This is a helper module for the plugin which deals with assigning id's 
+This is a helper module for the plugin which deals with assigning id's
 to allow it to be used in fluidity
 """
 
@@ -43,7 +43,7 @@ class ShapeData:
         ID = records[shapeNo][0]
         points = shape.points
         shapeParts = shape.parts
-        print shapeParts
+#        print shapeParts
         shapeList.append(PartNumber)
         if len(shapeParts) == 1 :
           pointsList.append(points)
@@ -81,7 +81,7 @@ class ShapeData:
     w = shapefile.Writer()
     filename = str(filename)
     w.field("id","c","40")
-    w.field("type","c","40")		
+    w.field("type","c","40")
     w.shapetype = shapefile.POLYLINE
     for i in range(len(bounds)):
        for j in range(len(bounds[i])):
@@ -90,7 +90,7 @@ class ShapeData:
          w.line(parts = [[line[0],line[1]]])
          w.record(str(lineID),str(i))
 
-    w.save(filename)				
+    w.save(filename)
 
   def get_shapes(self):
     """

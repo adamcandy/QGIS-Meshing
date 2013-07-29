@@ -2,7 +2,8 @@ Blueprint for the Meshing Test Engine
 =====================================
 
 A. Test Engine based on py.test
-    Focused on the main meshing plugin
+
+Focused on the main meshing plugin
 
     1. Wrap mesh_terminal script with py.test, and drive with py.test
 

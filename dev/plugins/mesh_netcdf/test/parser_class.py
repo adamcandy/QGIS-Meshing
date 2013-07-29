@@ -1,3 +1,6 @@
+from collections import defaultdict
+
+
 class MeshData(object):
 	"""a class for parsing the .msh files to get the the data needed for testing"""
 
@@ -6,7 +9,7 @@ class MeshData(object):
 	def __init__(self, file_path):
 
 		self.file_path = file_path
-		self.node_dict = {}
+		self.node_dict = defaultdict(list)
 		self.elems_list = []
 		self.number_of_nodes = 0
 		self.number_of_elems = 0
@@ -28,13 +31,13 @@ class MeshData(object):
 		current_line = input_file.readline()
 
 		while current_line != "$EndNodes\n" :
-			# keep adding to the dictionary
-			current_line_as_list = current_line.split() # split into words
+
+			# split line into words
+			current_line_as_list = current_line.split()
 
 			# insert into dictionary
-			self.node_dict[current_line_as_list[1]] =  current_line_as_list[2]
+			self.node_dict[current_line_as_list[1]].append(current_line_as_list[2])
 			current_line = input_file.readline()
-
 
 		# reached end of nodes data
 		current_line = input_file.readline()
