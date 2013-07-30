@@ -38,8 +38,8 @@ print "Testing: annulus, Bsplines = True Compounds = False"
 
 print "............................................."
 
-if not os.path.exists("mkdir "+test +"/annulus_BN"):
-    os.makedirs("mkdir "+test +"/annulus_BN")
+if not os.path.exists(test+"/annulus_BN"):
+    os.makedirs(test+"/annulus_BN")
 
 Modular_meshing("--line BN -g "+test+"/annulus_BN/test_annulus_BN.geo "+data+"/annulus.shp --mesh --mval 10")
 
@@ -49,8 +49,8 @@ print "Testing: annulus, Bsplines = True Compounds = True"
 
 print "............................................."
 
-if not os.path.exists("mkdir "+test +"/annulus_BY"):
-    os.makedirs("mkdir "+test +"/annulus_BY")
+if not os.path.exists(test+"/annulus_BY"):
+    os.makedirs(test+"/annulus_BY")
 
 Modular_meshing("--line BY -g "+test+"/annulus_BY/test_annulus_BY.geo "+data+"/annulus.shp --mesh --mval 10")
 Modular_meshing("--line BY -g "+test+"/annulus_BY/test_annulus_BY_metric.geo "+data+"/annulus.shp --mesh -m "+test+"/gaussian_bump.nc")
@@ -62,8 +62,8 @@ print "............................................."
 print "Testing: annulus, Bsplines = False Compounds = True"
 
 print "............................................."
-if not os.path.exists("mkdir "+test +"/annulus_LY"):
-    os.makedirs("mkdir "+test +"/annulus_LY")
+if not os.path.exists(test+"/annulus_LY"):
+    os.makedirs(test+"/annulus_LY")
 Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY.geo "+data+"/annulus.shp --mesh --mval 10")
 Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY_metric.geo "+data+"/annulus.shp --mesh -m "+test+"/gaussian_bump.nc")
 Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY_medium_metric.geo "+data+"/annulus.shp --mesh -m "+test+"/gaussian_bump_medium.nc")
@@ -76,8 +76,8 @@ print "............................................."
 print "Testing: BSplines = True Compounds = False"
 
 print "............................................."
-if not os.path.exists("mkdir "+test +"/BN"):
-    os.makedirs("mkdir "+test +"/BN")
+if not os.path.exists(test+"/BN"):
+    os.makedirs(test+"/BN")
 Modular_meshing("--line BN -g "+test+"/BN/testfileBN_0.geo "+rtponedomain+" --mesh")
 Modular_meshing("--line BN -g "+test+"/BN/testfileBN_1.geo --id "+idfile+" "+rtponedomain+" --mesh")
 Modular_meshing("--line BN -g "+test+"/BN/testfileBN_2.geo "+rtpmultdomain+" --mesh")
@@ -88,8 +88,8 @@ print "............................................."
 print "Testing: BSplines = False Compounds = True"
 
 print "............................................."
-if not os.path.exists("mkdir "+test +"/LY"):
-    os.makedirs("mkdir "+test +"/LY")
+if not os.path.exists(test+"/LY"):
+    os.makedirs(test+"/LY")
 
 Modular_meshing("-l LY -g "+test+"/LY/testfileLY_0.geo "+rtponedomain+" --mesh")
 Modular_meshing("-l LY -g "+test+"/LY/testfileLY_1.geo --id "+idfile+" "+rtponedomain+" --mesh")
@@ -102,8 +102,8 @@ print "Testing: BSplines = True Compounds = True"
 print "............................................."
 
 
-if not os.path.exists("mkdir "+test +"/BY"):
-    os.makedirs("mkdir "+test +"/BY")
+if not os.path.exists(test+"/BY"):
+    os.makedirs(test+"/BY")
 Modular_meshing("-l BY -g "+test+"/BY/testfileBY_0."+rtponedomain+" --mesh")
 Modular_meshing("-l BY -g "+test+"/BY/testfileBY_1.geo --id "+idfile+" "+rtponedomain+" --mesh")
 Modular_meshing("-l BY -g "+test+"/BY/testfileBY_2.geo "+rtpmultdomain+" --mesh")

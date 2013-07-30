@@ -27,5 +27,10 @@ installdev:
 test: 
 	#python $(testdir)/generator.py
 	python $(testdir)/modular_generator.py
+	
+.PHONY: clean test
+clean test:
+	-rm -rf $(outputdir)
+	python $(testdir)/modular_generator.py
 
 
