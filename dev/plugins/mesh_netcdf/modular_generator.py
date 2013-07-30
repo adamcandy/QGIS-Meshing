@@ -16,6 +16,7 @@ os.system("python "+test+"/../gaussian_bump.py "+data+"/gaussian_bump.nc")
 os.system("grdmath "+data+"/gaussian_bump.nc 2 MUL = "+data+"/gaussian_bump_medium.nc")
 os.system("grdmath "+data+"/gaussian_bump.nc 4 MUL = "+data+"/gaussian_bump_coarse.nc")
 
+
 print "\n......................................................."
 
 print ". Testing: annulus, Bsplines = True Compounds = False ."
