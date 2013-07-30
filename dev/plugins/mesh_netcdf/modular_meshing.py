@@ -103,6 +103,8 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 		#self.sarg = arguments[1:]
 		self.read_sarg()
 
+		print self.sarg
+
 
 		if self.domainShapefileLayerFileName != None:
 			self.define_bounds(self.isIdLayer)
