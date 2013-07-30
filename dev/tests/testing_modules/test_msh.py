@@ -9,38 +9,14 @@ import ntpath
 pwd = os.path.dirname(os.path.realpath(__file__))
 
 
-# used too pass arguments to the test function
-def pytest_generate_tests(metafunc):
-    # called once per each test function
-    for funcargs in metafunc.cls.params[metafunc.function.__name__]:
-        # schedule a new test function run with applied **funcargs
-        metafunc.addcall(funcargs=funcargs)
-
-
-class TestClass:
-    """ Runs different tests on the .msh files """
-
-    #parameters to the test function
-    params = {
-        'test_msh_files': [dict(curr_file=x) for x in glob.glob(pwd +"/output/*/*.msh")],
-    }
-
-    # Tests whether nodes of the file being are similar to the nodes in the
-    # model answer.
-    def test_msh_files(self, curr_file):
-
-        assert mesh_file_test(curr_file),"%s does not match the model answer" % (ntpath.basename(curr_file).rstrip())
-
-
-# Compares given file with the model answer. Throws an AssertionError if the
-# files don't match
+# Compares given file with the model answer. Returns False if the files do not match
 def mesh_file_test(file_path) :
 
 	fname = ntpath.basename(file_path).rstrip()
 
 
 	#get filepath of the correct model answer
-	model_answer = MeshData(pwd +"/model_answers/" + fname)
+	model_answer = MeshData(pwd +"/../model_answers/" + fname)
 	tested_answer = MeshData(file_path)
 
 	#parse the file being tested and the model answer
