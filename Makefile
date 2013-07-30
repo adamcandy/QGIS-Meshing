@@ -25,6 +25,7 @@ installdev:
 
 .PHONY: test
 test: 
-	python $(testdir)/generator.py
+	#python $(testdir)/generator.py
+	python $(testdir)/modular_generator.py
 
 

@@ -183,7 +183,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 	def gradeToNCFlat( self ):
 		MeshOp.gradeToNCFlat(self)
 	def set_mevalcall( self ):
-		self.mEval = int(self.mval_num)
+		self.mEval = int(self.sarg.pop(0))
 	def write_meval( self ):
 		geoFile = open(str(self.geofilepath), 'a')
 		geoFile.write('\n//Code added by Mesh NetCDF to create uniform mesh.\n')
