@@ -18,6 +18,21 @@ test = pwd+"/output"
 data = pwd+"/support"
 
 
+def start() :
+
+	if not os.path.exists(test +"/annulus_LY"):
+	    os.makedirs(test +"/annulus_LY")
+
+	Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY.geo "+data+"/annulus.shp --mesh --mval 10")
+	Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY_metric.geo "+data+"/annulus.shp --mesh -m "+test+"/gaussian_bump.nc")
+	Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY_medium_metric.geo "+data+"/annulus.shp --mesh -m "+test+"/gaussian_bump_medium.nc")
+	Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY_coarse_metric.geo "+data+"/annulus.shp --mesh -m "+test+"/gaussian_bump_coarse.nc")
+
+	print "......................................................"
+	print '\033[1m' + " \nTesting: annulus, Bsplines = False Compounds = True\n " + '\033[0m'
+
+start()
+
 # used too pass arguments to the test function
 def pytest_generate_tests(metafunc):
     # called once per each test function
@@ -32,21 +47,12 @@ class TestClass:
     #parameters to the test function
     params = {
 
-    	'test_annulus_bn_geo' : [dict(curr_file=x) for x in glob.glob(pwd +"/output/annulus_LY/*.geo")],
-        'test_annulus_bn_msh': [dict(curr_file=x) for x in glob.glob(pwd +"/output/annulus_LY/*.msh")],
+    	'test_annulus_ly_geo' : [dict(curr_file=x) for x in glob.glob(pwd +"/output/annulus_LY/*.geo")],
+        'test_annulus_ly_msh': [dict(curr_file=x) for x in glob.glob(pwd +"/output/annulus_LY/*.msh")],
     }
 
 
-    def test_annulus_bn_geo(self, curr_file):
-
-		if not os.path.exists("mkdir "+test +"/annulus_LY"):
-		    os.makedirs("mkdir "+test +"/annulus_LY")
-
-		Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY.geo "+data+"/annulus.shp --mesh --mval 10")
-		Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY_metric.geo "+data+"/annulus.shp --mesh -m "+test+"/gaussian_bump.nc")
-		Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY_medium_metric.geo "+data+"/annulus.shp --mesh -m "+test+"/gaussian_bump_medium.nc")
-		Modular_meshing("--line LY -g "+test+"/annulus_LY/test_annulus_LY_coarse_metric.geo "+data+"/annulus.shp --mesh -m "+test+"/gaussian_bump_coarse.nc")
-
+    def test_annulus_ly_geo(self, curr_file):
 
 		assert geo_files_test(curr_file),"%s does not match the model answer" % (ntpath.basename(a).rstrip())
 
@@ -54,6 +60,6 @@ class TestClass:
 
     # Tests whether nodes of the file being are similar to the nodes in the
     # model answer. Throws an AssertionError if the files don't match
-    def test_annulus_bn_msh(self, curr_file):
+    def test_annulus_ly_msh(self, curr_file):
 
         assert mesh_file_test(curr_file),"%s does not match the model answer" % (ntpath.basename(curr_file).rstrip())

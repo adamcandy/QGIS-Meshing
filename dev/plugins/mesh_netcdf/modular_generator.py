@@ -1,10 +1,13 @@
 import os
 import glob
 import pytest
+import time
 
 pwd = os.path.dirname(os.path.realpath(__file__))
 test = pwd+"/../../tests/output"
 data = pwd+"/../../tests/support"
+
+start = time.time()
 
 print "\n......................................................."
 
@@ -17,54 +20,31 @@ os.system("grdmath "+data+"/gaussian_bump.nc 2 MUL = "+data+"/gaussian_bump_medi
 os.system("grdmath "+data+"/gaussian_bump.nc 4 MUL = "+data+"/gaussian_bump_coarse.nc")
 
 
-print "\n......................................................."
 
-print ". Testing: annulus, Bsplines = True Compounds = False ."
+print '\033[1m' + " \nGenerating tests: annulus, Bsplines = True Compounds = False\n " + '\033[0m'
 
-print ".......................................................\n"
+pytest.main([test+"/../annulus_bn.py", '-s'])
 
-pytest.main(test+"/../annulus_bn.py")
+print '\033[1m' + " \nGenerating tests: annulus, Bsplines = True Compounds = True\n " + '\033[0m'
 
-print "\n......................................................."
+pytest.main([test+"/../annulus_by.py", '-s'])
 
-print ". Testing: annulus, Bsplines = True Compounds = True  ."
+print '\033[1m' + " \nGenerating tests: annulus, Bsplines = False Compounds = True \n " + '\033[0m'
 
-print ".......................................................\n"
+pytest.main([test+"/../annulus_ly.py", '-s'])
 
-pytest.main(test+"/../annulus_by.py")
+print '\033[1m' + " \nGenerating tests: BSplines = True Compounds = False\n " + '\033[0m'
 
-print "\n......................................................."
+pytest.main([test+"/../bn.py", '-s'])
 
-print ". Testing: annulus, Bsplines = False Compounds = True ."
+print '\033[1m' + " \nGenerating tests: Testing: BSplines = False Compounds = True\n " + '\033[0m'
 
-print ".......................................................\n"
+pytest.main([test+"/../ly.py", '-s'])
 
-pytest.main(test+"/../annulus_ly.py")
+print '\033[1m' + " \nGenerating tests: BSplines = True Compounds = True\n " + '\033[0m'
 
+pytest.main([test+"/../by.py", '-s'])
 
-print "\n......................................................."
+end = time.time()
 
-print ".     Testing: BSplines = True Compounds = False      ."
-
-print ".......................................................\n"
-
-pytest.main(test+"/../bn.py")
-
-print "\n......................................................."
-
-print ".     Testing: BSplines = False Compounds = True      ."
-
-print ".......................................................\n"
-
-pytest.main(test+"/../ly.py")
-
-
-print "\n......................................................."
-
-print ".      Testing: BSplines = True Compounds = True      ."
-
-print ".......................................................\n"
-
-pytest.main(test+"/../by.py")
-
-print "\nFinished Testing\n"
+print '\033[1m' + " \nFinished testing in %.2f seconds\n "%(end - start) + '\033[0m'

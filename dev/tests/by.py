@@ -22,6 +22,22 @@ rtpmultdomain = data+"/ID0Layer.shp"
 idfile = data+"/a_idLayer.shp"
 
 
+def start() :
+
+	if not os.path.exists(test +"/BY"):
+	    os.makedirs(test +"/BY")
+
+	Modular_meshing("-l BY -g "+test+"/BY/testfileBY_0."+rtponedomain+" --mesh")
+	Modular_meshing("-l BY -g "+test+"/BY/testfileBY_1.geo --id "+idfile+" "+rtponedomain+" --mesh")
+	Modular_meshing("-l BY -g "+test+"/BY/testfileBY_2.geo "+rtpmultdomain+" --mesh")
+	Modular_meshing("-l BY -g "+test+"/BY/testfileBY_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
+
+	print "......................................................"
+	print '\033[1m' + " \nTesting: BSplines = True Compounds = True\n " + '\033[0m'
+
+start()
+
+
 # used too pass arguments to the test function
 def pytest_generate_tests(metafunc):
     # called once per each test function
@@ -36,20 +52,12 @@ class TestClass:
     #parameters to the test function
     params = {
 
-    	'test_annulus_bn_geo' : [dict(curr_file=x) for x in glob.glob(pwd +"/output/BY/*.geo")],
-        'test_annulus_bn_msh': [dict(curr_file=x) for x in glob.glob(pwd +"/output/BY/*.msh")],
+    	'test_by_geo' : [dict(curr_file=x) for x in glob.glob(pwd +"/output/BY/*.geo")],
+        'test_by_msh': [dict(curr_file=x) for x in glob.glob(pwd +"/output/BY/*.msh")],
     }
 
 
-    def test_annulus_bn_geo(self, curr_file):
-
-		if not os.path.exists("mkdir "+test +"/BY"):
-		    os.makedirs("mkdir "+test +"/BY")
-
-		Modular_meshing("-l BY -g "+test+"/BY/testfileBY_0."+rtponedomain+" --mesh")
-		Modular_meshing("-l BY -g "+test+"/BY/testfileBY_1.geo --id "+idfile+" "+rtponedomain+" --mesh")
-		Modular_meshing("-l BY -g "+test+"/BY/testfileBY_2.geo "+rtpmultdomain+" --mesh")
-		Modular_meshing("-l BY -g "+test+"/BY/testfileBY_3.geo --id "+idfile+" "+rtpmultdomain+"  --mesh")
+    def test_by_geo(self, curr_file):
 
 		assert geo_files_test(curr_file),"%s does not match the model answer" % (ntpath.basename(a).rstrip())
 
@@ -57,6 +65,6 @@ class TestClass:
 
     # Tests whether nodes of the file being are similar to the nodes in the
     # model answer. Throws an AssertionError if the files don't match
-    def test_annulus_bn_msh(self, curr_file):
+    def test_by_msh(self, curr_file):
 
         assert mesh_file_test(curr_file),"%s does not match the model answer" % (ntpath.basename(curr_file).rstrip())

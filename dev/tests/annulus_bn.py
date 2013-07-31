@@ -18,6 +18,18 @@ test = pwd+"/output"
 data = pwd+"/support"
 
 
+def start() :
+
+	if not os.path.exists(test +"/annulus_BN"):
+	    os.makedirs(test +"/annulus_BN")
+
+	Modular_meshing("--line BN -g "+test+"/annulus_BN/test_annulus_BN.geo "+data+"/annulus.shp --mesh --mval 10")
+
+	print "......................................................"
+	print '\033[1m' + " \nTesting: annulus, Bsplines = True Compounds = False\n " + '\033[0m'
+
+start()
+
 # used too pass arguments to the test function
 def pytest_generate_tests(metafunc):
     # called once per each test function
@@ -38,11 +50,6 @@ class TestClass:
 
 
     def test_annulus_bn_geo(self, curr_file):
-
-		if not os.path.exists("mkdir "+test +"/annulus_BN"):
-		    os.makedirs("mkdir "+test +"/annulus_BN")
-
-		Modular_meshing("--line BN -g "+test+"/annulus_BN/test_annulus_BN.geo "+data+"/annulus.shp --mesh --mval 10")
 
 		assert geo_files_test(curr_file),"%s does not match the model answer" % (ntpath.basename(a).rstrip())
 
