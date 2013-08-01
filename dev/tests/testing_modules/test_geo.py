@@ -26,7 +26,7 @@ def geo_files_test(file_path):
 # delete the merge line in the model answer and the test case if it is there
 # this depends on which user generated the model answer and the test cases
 def del_merge(fname, pwd, file_path):
-  ref  = open(pwd+"/../model_answers/"+fname,'r')
+  ref  = open(file_path.replace("output", "model_answers", 1),'r')
   test = open(file_path,'r')
   test_lines = test.readlines()
   ref_lines = ref.readlines()
@@ -34,7 +34,7 @@ def del_merge(fname, pwd, file_path):
   ref.close()
   test.close()
 
-  ref  = open(pwd+"/../model_answers/"+fname,'w')
+  ref  = open(file_path.replace("output", "model_answers", 1),'w')
   test = open(file_path,'w')
   for line in ref_lines:
     if line.split() == [] or line.split()[0] != "Merge":
@@ -48,7 +48,7 @@ def del_merge(fname, pwd, file_path):
 
 ##checks if the test file and the model answer are identical
 def diff_check(fname, pwd, file_path):
-  ref  = open(pwd+"/../model_answers/"+fname,'r')
+  ref  = open(file_path.replace("output", "model_answers", 1),'r')
   test = open(file_path,'r')
   diffcheck = diff_match_patch()
   diffs = diffcheck.diff_main(ref.read(), test.read())

@@ -16,7 +16,7 @@ def mesh_file_test(file_path) :
 
 
 	#get filepath of the correct model answer
-	model_answer = MeshData(pwd +"/../model_answers/" + fname)
+	model_answer = MeshData(file_path.replace("output", "model_answers", 1))
 	tested_answer = MeshData(file_path)
 
 	#parse the file being tested and the model answer

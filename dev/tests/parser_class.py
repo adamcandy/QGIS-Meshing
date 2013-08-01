@@ -31,6 +31,8 @@ class MeshData(object):
 		current_line = input_file.readline()
 
 		while current_line != "$EndNodes\n" :
+			if current_line == "" :
+				break
 
 			# split line into words
 			current_line_as_list = current_line.split()
@@ -47,6 +49,8 @@ class MeshData(object):
 
 		while current_line != "$EndElements\n" :
 			# add to list of elems as tuples
+			if current_line == "" :
+				break
 			current_line_as_list = current_line.split() # split into words
 			del(current_line_as_list[0])
 

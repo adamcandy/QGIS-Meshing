@@ -2,6 +2,7 @@ import os
 import glob
 import pytest
 import sys
+import ntpath
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/testing_modules/'))
 
