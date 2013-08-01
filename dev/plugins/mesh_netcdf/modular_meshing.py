@@ -1,19 +1,20 @@
 #! /bin/python
 
-'''  
+'''
 USAGE
 call using: python <filepath to mesh_terminal>/mesh_terminal [commands] <DomainFile> <IdFile> <MeshmetricFile>
 '''
- 
+
 import sys
 import shlex
-from scripts import define_id, export_geo  
+from scripts import define_id, export_geo
 from scripts.MeshOperations import MeshOp
 from scripts.PosFileConverter import *
 import os
 from scripts.flat_mesh_to_spherical import flat_mesh_spherical
+import subprocess
 
-class _baseCommands( object ): 
+class _baseCommands( object ):
 	def _usage( self ):
 		print '''
 		USAGE
@@ -44,7 +45,7 @@ class _baseCommands( object ):
 						BY for BSplines with compound lines enabled
 			--mval		:sets a math eval field
 		-e			:Shows all errors found after command.
-		''' 
+		'''
 
 class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 
@@ -93,7 +94,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 	'BN':'self.BSpline = True; self.Compound = False',
 	'BY':'self.BSpline = True; self.Compound = True',
 	}
-	
+
 #note compound lines are not being written are bsplines?
 
 #os.system("python "+pwd+"/mesh_terminal --line LY -g "+test+"/test_annulus_LY.geo "+data+"/annulus.shp --mesh --mval 10")
@@ -103,7 +104,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 		#self.sarg = arguments[1:]
 		self.read_sarg()
 
-		print self.sarg
+		#print self.sarg
 
 
 		if self.domainShapefileLayerFileName != None:
@@ -118,17 +119,31 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 				self.geoFileName = self.geofilepath
 				self.gradeToNCFlat()
 		if self.gmshcall:
-			os.system('gmsh -2 '+str(self.geofilepath))
+			#os.system('gmsh -2 '+str(self.geofilepath))
+
+			open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
+			with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
+				subprocess.Popen('gmsh ' +str(self.geofilepath) + ' -2', stderr=subprocess.STDOUT, stdout=log, shell=True)
+
 			meshpath = self.geofilepath[:-3] + 'msh'
 			if self.coord == 'L' or self.coord == 'S':
 				print "Projecting to Sphere..."
 				meshpath = flat_mesh_spherical(meshpath,self.coord == 'S')
 				print "Mesh Projected."
 			if self.gmshShow: #this is not currently working
-				os.system('gmsh '+str(meshpath))
+				#os.system('gmsh ' +str(meshpath))
+
+				open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
+				with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
+					subprocess.Popen('gmsh ' +str(meshpath), stderr=subprocess.STDOUT, stdout=log, shell=True)
 		else:
 			if self.gmshShow:
-				os.system('gmsh '+str(self.geofilepath))
+				#os.system('gmsh ' +str(self.geofilepath))
+				open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
+				with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
+					subprocess.Popen('gmsh ' +str(self.geofilepath), stderr=subprocess.STDOUT, stdout=log, shell=True)
+
+
 
 	def read_sarg( self):
 		while self.sarg:

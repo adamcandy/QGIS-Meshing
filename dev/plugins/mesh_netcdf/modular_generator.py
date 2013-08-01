@@ -9,6 +9,7 @@ data = pwd+"/../../tests/support"
 
 start = time.time()
 
+
 print "\n......................................................."
 
 print ".           Generating data: Gaussian bump            ."
@@ -23,27 +24,27 @@ os.system("grdmath "+data+"/gaussian_bump.nc 4 MUL = "+data+"/gaussian_bump_coar
 
 print '\033[1m' + " \nGenerating tests: annulus, Bsplines = True Compounds = False\n " + '\033[0m'
 
-pytest.main([test+"/../annulus_bn.py", '-s'])
+pytest.main([test+"/../annulus_bn.py"])
 
 print '\033[1m' + " \nGenerating tests: annulus, Bsplines = True Compounds = True\n " + '\033[0m'
 
-pytest.main([test+"/../annulus_by.py", '-s'])
+pytest.main([test+"/../annulus_by.py"])
 
 print '\033[1m' + " \nGenerating tests: annulus, Bsplines = False Compounds = True \n " + '\033[0m'
 
-pytest.main([test+"/../annulus_ly.py", '-s'])
+pytest.main([test+"/../annulus_ly.py"])
 
 print '\033[1m' + " \nGenerating tests: BSplines = True Compounds = False\n " + '\033[0m'
 
-pytest.main([test+"/../bn.py", '-s'])
+pytest.main([test+"/../bn.py"])
 
 print '\033[1m' + " \nGenerating tests: Testing: BSplines = False Compounds = True\n " + '\033[0m'
 
-pytest.main([test+"/../ly.py", '-s'])
+pytest.main([test+"/../ly.py"])
 
 print '\033[1m' + " \nGenerating tests: BSplines = True Compounds = True\n " + '\033[0m'
 
-pytest.main([test+"/../by.py", '-s'])
+pytest.main([test+"/../by.py"])
 
 end = time.time()
 
