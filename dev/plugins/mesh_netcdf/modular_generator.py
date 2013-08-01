@@ -48,4 +48,4 @@ pytest.main([test+"/../by.py"])
 
 end = time.time()
 
-print '\033[1m' + " \nFinished testing in %.2f seconds\n "%(end - start) + '\033[0m'
+print '\033[1m' + " \nFinished testing in %.2f seconds. \n\nFor gmsh output please see the output.log file located at: %s\n "%(end - start, pwd) + '\033[0m'
