@@ -34,3 +34,24 @@ C. Improve testing
     2. Coverage check
        Add additional required tests
 
+Todo (current)
+--------------
+As of 130806.
+
+- Ensure single task per test file (i.e. split up further)
+- Make test files as small and concise as possible (e.g. move common tasks out to modules)
+- Expand test names, e.g. LY.py -> lines_compund.py, BY.py -> bsplines_compound.py
+- Final summary of all tests (expected to be py.test inbuilt), list those that fail
+
+
+Extras
+------
+- Examine contents of tests - e.g. see what the tests are actually meshing
+
+Ideas
+-----
+- ? Visual output - e.g. a PDF of collated images of output meshes
+
+
+
+
