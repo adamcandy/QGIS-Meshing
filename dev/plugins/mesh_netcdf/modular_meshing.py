@@ -122,6 +122,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 			#os.system('gmsh -2 '+str(self.geofilepath))
 
 			open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
+
 			with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
 				subprocess.Popen('gmsh ' +str(self.geofilepath) + ' -2', stderr=subprocess.STDOUT, stdout=log, shell=True)
 
