@@ -133,6 +133,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 
 #os.system("python "+pwd+"/mesh_terminal --line LY -g "+test+"/test_annulus_LY.geo "+data+"/annulus.shp --mesh --mval 10")
 
+
   def __init__( self , commands):
     self.sarg = shlex.split(commands)
     #self.sarg = arguments[1:]
