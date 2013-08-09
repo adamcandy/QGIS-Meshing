@@ -96,7 +96,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
   'BY':'self.BSpline = True; self.Compound = True',
   }
 
-  def generate_mesh(infile, folder, verbose=False):
+  def generate_mesh(infile, folder, verbose=True):
     command = 'gmsh'
     commandfull = command + ' -v 1 -2 ' + str(infile)
     if verbose: print('Mesh generation, using ' + commandfull)
@@ -131,6 +131,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 
     #print self.sarg
 
+    print 'HERE'
 
     if self.domainShapefileLayerFileName != None:
       self.define_bounds(self.isIdLayer)
@@ -145,11 +146,11 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
         self.gradeToNCFlat()
     if self.gmshcall:
       #os.system('gmsh -2 '+str(self.geofilepath))
-      #open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
-      #with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
-      # subprocess.Popen('gmsh ' +str(self.geofilepath) + ' -2', stderr=subprocess.STDOUT, stdout=log, shell=True)
+      open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
+      with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
+       subprocess.Popen('gmsh ' +str(self.geofilepath) + ' -2', stderr=subprocess.STDOUT, stdout=log, shell=True)
 
-      self.generate_mesh(self.geofilepath, __file__)
+      #self.generate_mesh(self.geofilepath, __file__)
 
       meshpath = self.geofilepath[:-3] + 'msh'
       if self.coord == 'L' or self.coord == 'S':
@@ -158,19 +159,19 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
         print "Mesh Projected."
       if self.gmshShow: #this is not currently working
         #os.system('gmsh ' +str(meshpath))
-        #open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
-        #with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
-        # subprocess.Popen('gmsh ' +str(meshpath), stderr=subprocess.STDOUT, stdout=log, shell=True)
+        open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
+         subprocess.Popen('gmsh ' +str(meshpath), stderr=subprocess.STDOUT, stdout=log, shell=True)
 
-        self.generate_mesh(meshpath, __file__)
+        #self.generate_mesh(meshpath, __file__)
 
     else:
       if self.gmshShow:
         #os.system('gmsh ' +str(self.geofilepath))
-        #open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
-        #with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
-        # subprocess.Popen('gmsh ' +str(self.geofilepath), stderr=subprocess.STDOUT, stdout=log, shell=True)
-        self.generate_mesh(self.geofilepath, __file__)
+        open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
+         subprocess.Popen('gmsh ' +str(self.geofilepath), stderr=subprocess.STDOUT, stdout=log, shell=True)
+        #self.generate_mesh(self.geofilepath, __file__)
 
 
 
