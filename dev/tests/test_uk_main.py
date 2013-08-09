@@ -1,7 +1,7 @@
-import os, sys
+import os, sys, ntpath
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/testing_modules/'))
-from helper_module import generate_files, make_directory
+from file_generation import generate_files, make_directory
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/testing_modules/'))
 
@@ -12,11 +12,13 @@ from test_geo import geo_files_test
 test = os.path.dirname(os.path.realpath(__file__)) + "/output"
 support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
 
+test_uk_main_path = os.path.dirname(os.path.realpath(__file__)) + "/test_uk_main"
+
 
 ########################### APPLY YOUR CHANGES HERE: ##########################
 
 fname = "test_uk_main" # just the name, no forward or backslashes!
-command = 	"-l LY --mesh --id idfile.shp -m mesh_metric.nc --defid 1 domain.shp" # see modular_meshing.py for help
+command = 	"-l LY --mesh --id "+test_uk_main_path+"/idfile.shp -m "+test_uk_main_path+"/mesh_metric.nc --defid 1 "+test_uk_main_path+"/domain.shp" # see modular_meshing.py for help
 
 ###############################################################################
 
