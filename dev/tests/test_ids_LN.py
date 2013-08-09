@@ -15,8 +15,8 @@ support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
 
 ########################### APPLY YOUR CHANGES HERE: ##########################
 
-fname = "name_of_the_file" # just the name, no forward or backslashes!
-command = 	"command_for_generating_geo_and_msh_files" # see modular_meshing.py for help
+fname = "test_ids" # just the name, no forward or backslashes!
+command =	"-l LN --mesh --id idfile.shp domain.shp" # see modular_meshing.py for help
 
 ###############################################################################
 

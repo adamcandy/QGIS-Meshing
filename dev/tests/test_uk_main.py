@@ -16,7 +16,7 @@ support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
 ########################### APPLY YOUR CHANGES HERE: ##########################
 
 fname = "test_uk_main" # just the name, no forward or backslashes!
-command = 	"-l LY --mesh --id idfile.shp -m mesh_metric.py --defid 1 domain.shp" # see modular_meshing.py for help
+command = 	"-l LY --mesh --id idfile.shp -m mesh_metric.nc --defid 1 domain.shp" # see modular_meshing.py for help
 
 ###############################################################################
 
@@ -25,15 +25,15 @@ generate_files(fname, command)
 
 
 def test_annulus_bn_geo():
-	curr_file = os.path.dirname(os.path.realpath(__file__)) + "/output/" + fname + "/" + fname + ".geo"
+  curr_file = os.path.dirname(os.path.realpath(__file__)) + "/output/" + fname + "/" + fname + ".geo"
 
-	assert geo_files_test(curr_file),"%s does not match the model answer" % (ntpath.basename(curr_file).rstrip())
+  assert geo_files_test(curr_file),"%s does not match the model answer" % (ntpath.basename(curr_file).rstrip())
 
 
 def test_annulus_bn_msh():
-	curr_file = os.path.dirname(os.path.realpath(__file__)) + "/output/" + fname + "/" + fname + ".msh"
+  curr_file = os.path.dirname(os.path.realpath(__file__)) + "/output/" + fname + "/" + fname + ".msh"
 
-    assert mesh_file_test(curr_file),"%s does not match the model answer" % (ntpath.basename(curr_file).rstrip())
+  assert mesh_file_test(curr_file),"%s does not match the model answer" % (ntpath.basename(curr_file).rstrip())
 
 
 ############################# ADD MORE TESTS HERE: ############################
