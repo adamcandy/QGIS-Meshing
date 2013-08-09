@@ -113,7 +113,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
       process = subprocess.Popen(
         commandfull, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
       )
-      
+
       while True:
         out = process.stdout.read(1)
         if out == '' and process.poll() != None:
@@ -153,11 +153,11 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
         self.geoFileName = self.geofilepath
         self.gradeToNCFlat()
     if self.gmshcall:
-      #os.system('gmsh -2 '+str(self.geofilepath))
-      #open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
-      #with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
-      # subprocess.Popen('gmsh ' +str(self.geofilepath) + ' -2', stderr=subprocess.STDOUT, stdout=log, shell=True)
-      self.generate_mesh(self.geofilepath, __file__)
+      os.system('gmsh -2 '+str(self.geofilepath))
+      open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "w").close()
+      with open(os.path.dirname(os.path.realpath(__file__)) + "/output.log", "a") as log:
+		subprocess.Popen('gmsh ' +str(self.geofilepath) + ' -2', stderr=subprocess.STDOUT, stdout=log, shell=True)
+      #self.generate_mesh(self.geofilepath, __file__)
 
       meshpath = self.geofilepath[:-3] + 'msh'
       if self.coord == 'L' or self.coord == 'S':
