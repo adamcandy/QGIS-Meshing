@@ -189,7 +189,7 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
 					except:
 					#print 'Incorrect Terminal Commands'
 					#self._usage()
-						print 'Warning:  Incorrect Terminal Commands. Failiure at %s.' % carg
+						print 'Warning:  Incorrect Terminal Commands. Failure at %s.' % carg
 				else:
 					eval(self.commands[carg])
 
