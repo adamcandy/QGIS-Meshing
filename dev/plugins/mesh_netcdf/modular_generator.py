@@ -13,7 +13,7 @@ print ".           Generating data: Gaussian bump            ."
 
 print ".......................................................\n"
 
-os.system("python "+test+"/../gaussian_bump.py "+support_files+"/gaussian_bump.nc")
+os.system("python "+pwd+ "/../../tests/gaussian_bump.py "+support_files+"/gaussian_bump.nc")
 os.system("grdmath "+support_files+"/gaussian_bump.nc 2 MUL = "+support_files+"/gaussian_bump_medium.nc")
 os.system("grdmath "+support_files+"/gaussian_bump.nc 4 MUL = "+support_files+"/gaussian_bump_coarse.nc")
 
