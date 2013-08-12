@@ -17,8 +17,8 @@ test_uk_main_path = os.path.dirname(os.path.realpath(__file__)) + "/test_uk_main
 
 ########################### APPLY YOUR CHANGES HERE: ##########################
 
-fname = "test_uk_main" # just the name, no forward or backslashes!
-command = 	"-l LY --mesh --eval 0.14 "+test_uk_main_path+"/domain.shp" # see modular_meshing.py for help
+fname = "test_uk_main_eval" # just the name, no forward or backslashes!
+command = 	"-l LY --mesh --eval 0.14 -g "+test+"/test_uk_main/test_uk_main_eval.geo "+test_uk_main_path+"/domain.shp" # see modular_meshing.py for help
 
 ###############################################################################
 
