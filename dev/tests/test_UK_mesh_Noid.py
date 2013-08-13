@@ -12,13 +12,13 @@ from test_geo import geo_files_test
 test = os.path.dirname(os.path.realpath(__file__)) + "/output"
 support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
 
-test_UK_mesh_path = os.path.dirname(os.path.realpath(__file__)) + "/test_UK_mesh"
-t_uk_main_path = os.path.dirname(os.path.realpath(__file__)) + "/test_uk_main"
+test_uk_main_path = os.path.dirname(os.path.realpath(__file__)) + "/test_UK_mesh"
+
 
 ########################### APPLY YOUR CHANGES HERE: ##########################
 
-fname = "test_uk_main_10d" # just the name, no forward or backslashes!
-command = 	"-l LY --mesh -m -g "+test+"/test_uk_main/test_uk_main_10d.geo"+test_UK_mesh_path+"/constant_metric_10d.nc "+test_uk_main_path+"/domain.shp" # see modular_meshing.py for help
+fname = "test_UK_mesh_Noid" # just the name, no forward or backslashes!
+command = 	"-l LY --mesh -m -g "+test+"/test_uk_main/test_UK_mesh_Noid.geo "+test_uk_main_path+"/domain.shp" # see modular_meshing.py for help
 
 ###############################################################################
 
