@@ -1,4 +1,4 @@
-#! /bin/python
+#! /usr/bin/python
 
 ##########################################################################
 #  
@@ -76,7 +76,7 @@ class _baseCommands( object ):
 		-e			:Shows all errors found after command.
 		''' 
 
-class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
+class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.geometry_writer ):
 
 	domainShapefileLayerFileName = None
 	threshold = None
@@ -135,6 +135,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 			if self.geofilepath == None:
 				self.geofilepath = '%s_idBoundary.geo' % self.domainShapefileLayerFileName[:-4]
 			self.export_geo()
+			self.GeoWriter()
 			if self.mEval != None:
 				self.write_meval()
 			if self.postviewFileName != None:

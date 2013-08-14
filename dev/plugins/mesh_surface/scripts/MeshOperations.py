@@ -41,6 +41,7 @@ meshing algorithm in the background and opens the .msh in Gmsh.
 import subprocess
 from PosFileConverter import *
 from PyQt4 import QtCore, QtGui
+from bathy_to_field import create_fld_file
 
 class MeshOp( converter ):
 
@@ -49,7 +50,8 @@ class MeshOp( converter ):
 	Points and therefore needs to be triangulated. As each point is a mesh-size metric it can be used as the background 
 	field.
 	"""
-	def gradeToNCFlat(self):
+
+	def gradeToNCFlat_OLD(self):
 
 		f = open(str(self.geoFileName), 'a')
 
@@ -61,7 +63,25 @@ class MeshOp( converter ):
 		f.write('Background Field = 1;\n')
 		f.write('Mesh.CharacteristicLengthExtendFromBoundary = 0;\n')
                 f.write('Mesh.CharacteristicLengthFromPoints = 0;\n')
-		f.close()	
+		f.close()
+
+	def gradeToNCFlat(self):
+
+		f = open(str(self.geoFileName), 'a')
+
+		f.write('\n//Code added by Mesh Surface to merge the created PostView file and use it as mesh-size metric.\n')
+		#f.write('Merge "%s";\n' % str(self.postviewFileName))
+		f.write('Field[1] = Structured;\n')
+		f.write('Field[1].FileName = "%s";\n' % str(self.postviewFileName))
+		f.write('Field[1].TextFormat = 1;\n')
+		#f.write('Field[2] = LonLat;\n')
+		#f.write('Field[2].IField = 1;\n')
+		#f.write('Plugin(Triangulate).Run;\n')
+		f.write('Background Field = 1;\n')
+		#f.write('Mesh.CharacteristicLengthExtendFromBoundary = 0;\n')
+		#f.write('Mesh.CharacteristicLengthFromPoints = 0;\n')
+		f.close()
+	
 
 	"""
 	Currently not working. The code here doesn't produce any errors but the method it implements is incorrect. 
@@ -191,8 +211,11 @@ class MeshOp( converter ):
 		self.iface.addVectorLayer("/tmp/temp.shp","Mesh","ogr")
 
 
-	def writePosFile( self ):
+	def writePosFileOLD( self ):
 		converter.writePosFile(self)
+
+	def writePosFile( self ):
+		create_fld_file(self.singleNetCDFLayerFileName,self.postviewFileName)
 	
 	"""
 	Calls all of the functions required to produce the mesh.
