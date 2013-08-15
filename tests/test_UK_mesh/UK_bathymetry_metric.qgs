@@ -43,7 +43,7 @@
     <projectlayers layercount="3">
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>boundary_ID_polygons20130415140530868</id>
-            <datasource>./boundary_ID_polygons.shp</datasource>
+            <datasource>/home/avdis01/data/meshing/trunk/dev/tests/test_UK_mesh/boundary_ID_polygons.shp</datasource>
             <title></title>
             <abstract></abstract>
             <layername>boundary_ID_polygons</layername>
@@ -180,7 +180,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>filtered_combined_metric20130208170348124</id>
-            <datasource>./filtered_combined_metric.nc</datasource>
+            <datasource>/home/avdis01/data/meshing/trunk/dev/tests/test_UK_mesh/filtered_combined_metric.nc</datasource>
             <title></title>
             <abstract></abstract>
             <layername>filtered_combined_metric</layername>
