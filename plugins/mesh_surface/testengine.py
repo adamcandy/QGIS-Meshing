@@ -32,6 +32,7 @@
 ##########################################################################
 
 import os
+import sys
 import glob
 import pytest
 
@@ -50,13 +51,17 @@ def generate_support():
 testfiles = glob.glob(pwd + "/../../tests/*.py")
 
 # Limit to a single test for now - needs investigating
-testfiles = ['test_BSplines_3.py']
+testfiles = ['../../tests/test_BSplines_3.py']
 
 print 'Testing the following tests (' + str(len(testfiles)) + ' in total):'
 for testfile in testfiles:
   print '  ' + os.path.basename(testfile)
 
-pytest.main(testfiles)
+stat = pytest.main(testfiles)
+
+print 'Test engine completed with status:', stat
+
+sys.exit(stat)
 
 #pytest.main('../../tests/')
 
