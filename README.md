@@ -85,5 +85,5 @@ Current development
 
 Current development focus is on a test engine to ensure the plugins are robust.
 
-
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/10dce9baac92cce452bed9855a86ae97 "githalytics.com")](http://githalytics.com/adamcandy/qgis-plugins-meshing)
 
