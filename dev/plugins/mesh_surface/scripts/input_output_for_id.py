@@ -77,15 +77,15 @@ class ShapeData:
         shape = shapes[shapeNo]
         ID = records[shapeNo][0]
         points = shape.points
-        shapeParts = shape.parts
-        print shapeParts
+        shapeParts = shape.parts #this is acting as a pointer
         shapeList.append(PartNumber)
         if len(shapeParts) == 1 :
           pointsList.append(points)
           regionIDs.append(ID)
           PartNumber += 1
+          shapeParts.append(len(points)-1)#hopefully this won't break it
         else:
-          shapeParts.append(len(points)-1)
+          shapeParts.append(len(points)-1)#this is whats causing the difficulty - yes
           for i in range(len(shapeParts)-1):
             ptList = (points[shapeParts[i]:shapeParts[i+1]])
             phi = array(Polygon(ptList).bounds)*pi/180
@@ -100,7 +100,7 @@ class ShapeData:
         LLoopMap += shapeParts #this works as no of points = no of lines - assuming points not doubled up, may need -1
         ShapeMap += [shapeParts[-1]]#this should be again be fine given proviso of above
         RegionId += [ID]#this should be fine
-
+      
     except IOError:
       raise AssertionError()
 

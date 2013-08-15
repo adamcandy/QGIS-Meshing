@@ -216,11 +216,7 @@ class __split_compound_lines_for_multiple_regions:
           test = (self.values[self.itr1],self.values[self.itr2])#again possibly unnesicary
         except:
           return
-        print 'a'
-        print self.values[self.itr1]
-        print self.values[self.itr2]
         apre, a1l, apo, s1l, bpre, b1l, bpo = self.__check_for_intersection(self.values[self.itr1],self.values[self.itr2])
-        print s1l+apre+bpre+a1l+b1l+apo+bpo
         if s1l == []:
           continue
         try:#bad code+probably wrong, might now be unnesicary
@@ -325,34 +321,89 @@ def __write_compound_lines(compound_dict, geo):
   for i in range(len(compound_dict.keys())):
     geo.write("Compound Line(%i) = {%s};\n"%(compound_dict.keys()[i][0],str(compound_dict.values()[i])[1:-1]))
 
-def __define_mapping_from_intersection(mapping1,mapping2):
-  mp1_outr = np.outer(mapping1,np.ones_like(mapping2))
-  mp2_outr = np.outer(np.ones_like(mapping1),mapping2)
-  mp_result_outr = np.where(mp1_outr == mp2_outr, mp2_outr, 0)
-  return np.sum(mp_result_outr,axis=1)#check which axis it actually should be
-
 class geometry_writer( object ):#length missmatch
 
   def GeoWriter( self ):
-    self.__generate_geometies()
 
-  def __generate_geometies( self ):#may need to append end values to maps, note make sure everythis is arrays
-    #need to pass in self - could add a class instance
-    #sample for write purposes
     points = self.domainData.pointsList #note this isn't in correct format + what format is it?
     lines = np.array(self.Lines) #ids to lines, will be repeated, should corrispond to points by some formula
     boundIdMap = np.array(self.IdMap) #this maps lines to there respective Boundry segments
-    #boundIdMap[-1] = lines.size
-    lloopMap = np.array(self.domainData.LLoopMap + [len(self.Lines)-1]) #this maps lines to there respective line loops
-    #lloopMap[-1] = lines.size
+    lloopMap = np.array(self.domainData.LLoopMap)#+ [len(self.Lines)]) #this maps lines to there respective line loops
     boundIds = np.array(self.BoundryIds) #this is the boundry Ids mapped via boundIdMap
-    shapeMap = np.array(self.domainData.ShapeMap + [len(self.Lines)-1]) #this maps lines to there respective shapes
+    shapeMap = np.array(self.domainData.ShapeMap)# + [len(self.Lines)]) #this maps lines to there respective shapes
     regionIds = np.array(self.domainData.RegionId) #this is the region Ids Mapped via ShapeMap
   
-  #line = {Id:points}
-        #it is no longer intended that shapes is called like this
-  #shapes = {Id:(regId,(boundId),(boundIdMap),(lloopMap),(lines))}#are boundIds given to us like this?
-  
+    pointIds = self.__generatePoints(points)
+        
+    IntersectMap = self.__findIntersections(lines,shapeMap)
+     
+    CompoundMap = self.__generateCompound(boundIdMap,lloopMap,IntersectMap,lines.size)                  
+
+    LineLoopMap = self.__map_between_objects(CompoundMap,lloopMap)
+
+    PhysicalLineMap = self.__map_between_objects(CompoundMap,boundIdMap)
+    
+    PlaneSurfaceMap = np.array([0] + list(self.__map_between_objects(lloopMap,shapeMap)))
+
+    #start writing to file
+    f = open('new_method_test.geo','w')
+    
+    #write points
+    pointIds
+    prev_pointId = 0
+    for i in range(len(points)):#check repeats
+      if prev_pointId >= pointIds[i]:
+        print 'continue'
+        continue
+      f.write("Point(%i) = {%s,0};\n"%(pointIds[i], str(points[i])[1:-1]))#may give odd format and repeats
+      prev_pointId += 1
+      
+    #write lines  
+    Allocated = 0
+    LoopNo = 1
+    for i in range(len(lines)):#this is where care is needed
+      if i == lloopMap[LoopNo]:#check there shouldn't be a -1/+1
+        LoopNo += 1
+      if lines[i] <= Allocated:
+        continue
+      f.write("Line(%i) = {%s};\n" %( lines[i],str([pointIds[i + LoopNo - 1],pointIds[i + LoopNo]])[1:-1]))#error here to simple
+      Allocated += 1
+      
+    #write compounds
+    cLineNo = Allocated + 1
+    for i in range(CompoundMap.size-1):#almost certainly wrong
+      f.write("Compound Line(%i) = {%s};\n"%(cLineNo,str(list(lines[CompoundMap[i]:CompoundMap[i+1]]))[1:-1]))#watch this may lead to errors
+      cLineNo += 1
+  #hopefully just +1 errors here 
+  #write line loops  
+    for i in range(len(LineLoopMap)-1):#will suffer from above
+      f.write("Line Loop(%i) = {%s};\n" % (cLineNo,str(list(np.arange(CompoundMap.size)[LineLoopMap[i]:LineLoopMap[i+1]] + lines.size + 1))[1:-1]))#this is wrong
+      cLineNo += 1
+    
+  #write physical lines  
+    for i in range(PhysicalLineMap.size-1):
+      f.write("Physical Line(%i) = {%s};\n" % (boundIds[i],str(list(np.arange(CompoundMap.size)[PhysicalLineMap[i]:PhysicalLineMap[i+1]]+lines.size + 1))[1:-1]))
+
+    #write plane surfaces
+    for i in range(PlaneSurfaceMap.size-1):#only plain surfaces appear broken
+      f.write("Plane Surface(%i) = {%s};\n" % (i+1,str(list(np.arange(lloopMap.size)[PlaneSurfaceMap[i]:PlaneSurfaceMap[i+1]]+lines.size+CompoundMap.size))[1:-1]))
+      
+    #need to write physical surfaces - for now ignore multiregions
+    f.write("Physical Surface(0) = {1};")  
+      
+      
+    f.write('\nMesh.RemeshAlgorithm=1;')#remove at some point  
+      
+    f.close()
+    
+  def __define_mapping_from_intersection(self,mapping1,mapping2):
+    mp1_outr = np.outer(mapping1,np.ones_like(mapping2))
+    mp2_outr = np.outer(np.ones_like(mapping1),mapping2)
+    mp_result_outr = np.where(mp1_outr == mp2_outr, mp2_outr, 0)
+    return np.sum(mp_result_outr,axis=1)#check which axis it actually should be
+      
+      
+  def __generatePoints(self,points):
     pointIds = []
     Idno = 1
     Idmap = {}
@@ -363,17 +414,19 @@ class geometry_writer( object ):#length missmatch
         Idno += 1
       else:
         pointIds += [Idmap[tuple(points[i])]]
-        
-    #locating Intersections
+    return pointIds    
+          
+  def __findIntersections(self,lines,shapeMap):
     IntersectMap = []
     for s1_Id in range(len(shapeMap)-1):
       for s2_Id in range(len(shapeMap)-1):#not equal to s1_Id
         if s1_Id == s2_Id:
           continue
-          IntersectMap += [__define_mapping_from_intersection(lines[shapeMap[s1_Id]:shapeMap[s1_Id+1]],lines[shapeMap[s2_Id]:shapeMap[s2_Id+1]])]
+          IntersectMap += [self.__define_mapping_from_intersection(lines[shapeMap[s1_Id]:shapeMap[s1_Id+1]],lines[shapeMap[s2_Id]:shapeMap[s2_Id+1]])]
     IntersectMap = np.array(IntersectMap + [len(self.Lines)])
-    IntersectMap = np.array([0] + list(IntersectMap[np.nonzero(IntersectMap)]))
-     
+    return np.array([0] + list(IntersectMap[np.nonzero(IntersectMap)]))
+      
+  def __generateCompound(self,boundIdMap,lloopMap,IntersectMap,line_size):
     
     CompoundMap = []
     end = False
@@ -382,85 +435,24 @@ class geometry_writer( object ):#length missmatch
     IntersectNum = 0
     BoundIdNum = 0
 
-    while not end:#need to loop over shapes
+    while not end:
       n = np.min([boundIdMap[BoundIdNum],lloopMap[LLnum],IntersectMap[IntersectNum]])
       if IntersectMap[IntersectNum] in CompoundMap: continue
 
       if n == IntersectMap[IntersectNum]: IntersectNum += 1
       if n == lloopMap[LLnum]: LLnum += 1
       if n == boundIdMap[BoundIdNum]: BoundIdNum += 1
-
-      if (n == lines.size - 1): end = True
+      if (n == line_size): end = True
 
       CompoundMap += [n]
-    CompoundMap = np.array(CompoundMap)                    
-  #CompoundMap = dict(enumerate(IntersectMap))#is there any need for this to be a dictionary? - if so use dictionary construction
-    LineLoopMap = []
-    for ll_Id in lloopMap:
-      LineLoopMap += [np.sum(np.where(CompoundMap == ll_Id,1,0)*np.arange(CompoundMap.size))]
-    LineLoopMap = np.array(LineLoopMap)
-    #for s1_Id in range(len(shapeMap)-1):
-    #  for CompoundId in range(len(lenCompoundMap))[Allocated:]:
-    #    SingleLineLoop += [CompoundId]
-    #    if (shapes[shp_Id][3][LineLoopIndex] != CompoundMap[CompoundId]):
-    #      continue
-    #    Allocated += len(SingleLineLoop)
-    #    LineLoopMap[LineLoopIndex] = SingleLineLoop
-    #    LineLoopIndex += 1
-    #    break
-   
-    PhysicalLineMap = []
-    for bd_Id in boundIdMap:
-      PhysicalLineMap += [np.sum(np.where(CompoundMap == bd_Id,1,0)*np.arange(CompoundMap.size))]
-    PhysicalLineMap = np.array(PhysicalLineMap)
-         
-    PlaneSurfaceMap = []
-    for reg_Id in shapeMap:
-      PlaneSurfaceMap += [np.sum(np.where(lloopMap == reg_Id,1,0)*np.arange(lloopMap.size))]
-    PlaneSurfaceMap = np.array(PlaneSurfaceMap)
-    
-    #start writing to file
-    f = open('new_method_test.geo','w')
-    
-    #write points
-    pointIds
-    prev_pointId = 0
-    for i in range(len(points)):#check repeats
-      if prev_pointId >= pointIds[i]:
-        continue
-      f.write("Point(%i) = {%s,0};\n"%(pointIds[i], str(points[i])[1:-1]))#may give odd format and repeats
+    return np.array(CompoundMap) 
       
-    #write lines  
-    Allocated = 0
-    LoopNo = 1
-    for i in range(len(lines)):#this is where care is needed
-      if i == lloopMap[LoopNo] + 1:#check there shouldn't be a -1
-        LoopNo += 1
-      if lines[i] <= Allocated:
-        continue
-      f.write("Line(%i) = {%s};\n" %( lines[i],str([pointIds[i + LoopNo - 1],pointIds[i + LoopNo]])[1:-1]))#error here to simple
-      Allocated += 1
-      
-    #write compounds
-    cLineNo = Allocated + 1
-    for i in range(CompoundMap.size-1):#almost certainly wrong
-      f.write("Compound Line(%i) = {%s};\n"%(cLineNo,str(list(lines[CompoundMap[i]:CompoundMap[i+1]+1]))[1:-1]))#this should be fine
-      cLineNo += 1
-  #hopefully just +1 errors here 
-  #write line loops  
-    for i in range(len(LineLoopMap)-1):#will suffer from above
-      f.write("Line Loop(%i) = {%s};\n" % (cLineNo,str(list(np.arange(CompoundMap.size)[LineLoopMap[i]:LineLoopMap[i+1]] + lines.size + 1))[1:-1]))#this is wrong
-      cLineNo += 1
+  def __map_between_objects(self,ComponentObjects,LineMap):
+    ObjectMap = []
+    for line_Id in LineMap:
+      ObjectMap += [np.sum(np.where(ComponentObjects == line_Id,1,0)*np.arange(ComponentObjects.size))]
+    return np.array(ObjectMap)
     
-  #write physical lines  
-    for i in range(PhysicalLineMap.size-1):
-      f.write("Physical Line(%i) = {%s};\n" % (boundIds[i],str(list(np.arange(CompoundMap.size)[PhysicalLineMap[i]:PhysicalLineMap[i+1]+1]+lines.size + 1))[1:-1]))
-
-    #write plane surfaces
-    for i in range(PlaneSurfaceMap.size-1):
-      f.write("Plane Surface(%i) = {%s};\n" % (i+1,str(list(np.arange(lloopMap.size)[PlaneSurfaceMap[i]:PlaneSurfaceMap[i+1]]+lines.size+CompoundMap.size))[1:-1]))
-      
-    f.close()
 """
 This method writes the geo and physical ids using the helper emthods defined above.
 This method makes sure there are no duplicate lines or points in the geo. The lines 
@@ -586,9 +578,7 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
       compound_line_list_b = map(list,line_loop_dict.keys())
       if len(shapes_index)>1:
         compound_line_list = __split_compound_lines_for_multiple_regions(copy.copy(compound_line_list_b)).values
-      print compound_line_list
       compound_line_dict, line_num = __split_compound_lines_for_line_ids(compound_line_list,line_dict,line_num)#note currently incompatible with line id's
-      print compound_line_dict
       compound_line_dict = dict(zip(compound_line_dict.keys(),__list_abs(compound_line_dict.values())))
       __write_compound_lines(compound_line_dict,geo)
       print 'compounds written'
@@ -598,7 +588,6 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
       unzip(compound_line_dict.keys()),\
       'map(lambda x, nset = nset: nset.intersect1d(x,self.Globals[1][k]).size != 0, self.Globals[0])',\
       Globals = (compound_line_dict.values(),__list_abs(line_loop_dict.keys()))).new_list#possiblity reordering occuring here, can keys be reorder at all (or do it post creating dictionary)
-      print 'l', line_loop_line
       line_loop_dict = dict(enumerate(line_loop_line.values(), line_num))#note too many when there is complete intersection, may not matter too much, note this is fine res ordering
       for key in line_loop_dict.keys():#these might not be correct/or possibly the compound lines
         geo.write("Line Loop(%i) = {%s};\n" % (key,str(list(line_loop_dict[key]))[1:-1]))
@@ -618,7 +607,6 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
       for i in range(len(mnval)):
         for j in range(len(xval)):
           if mnval[i] in xval[j]:
-            print i, [xkeys[j]]
             xkeys2 += [xkeys[j]]
             del xval[j]
             del xkeys[j]

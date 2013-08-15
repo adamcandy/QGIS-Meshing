@@ -89,7 +89,7 @@ class assignIDs():#are lines and islands still seperate? they shouldn't be.
   def DefineIdMap(self):#check the ordering of this is correct, may be defined with an obscure pointlist, this is lines
     Idflat = np.array([Id for part in self.boundaryIDList for Id in part])
     self.IdMap = np.where(Idflat != np.roll(Idflat,-1),1,0)*np.arange(Idflat.size)
-    self.IdMap = [0] + list(self.IdMap[np.nonzero(self.IdMap)]) + [Idflat.size+1]#not sure if this should be +1 or not
+    self.IdMap = [0] + list(self.IdMap[np.nonzero(self.IdMap)]) + [Idflat.size]#not sure if this should be +1 or not
     self.BoundryIds = Idflat[self.IdMap[:-1]]
 
   def SetLineMap(self):
