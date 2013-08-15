@@ -21,7 +21,7 @@ class _baseCommands( object ):
     USAGE
     call using: python <filepath to mesh_terminal>/mesh_terminal [COMMANDS] <DomainFile> <IdFile> <Meshmetric>
 
-    enables mesh_netcdf functionality in terminal. Including both geofile,
+    enables mesh_surface functionality in terminal. Including both geofile,
     shapefile and meshfile manipulation with the option of mesh metrics based
     on netcdf files.
 
