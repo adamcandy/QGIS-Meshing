@@ -45,18 +45,15 @@ outputdir = ./tests/output/
 
 .PHONY: install uninstall installdev test clean
 
-install:
-	install -d $(DESTDIR)$(plugindir)
-	cp -a $(foreach FILE, $(PACKAGEFILES), release/$(FILE)) $(DESTDIR)$(plugindir)
-	chmod a+rX -R $(foreach FILE, $(PACKAGEFILES), release/$(FILE)) $(DESTDIR)$(plugindir)
-
 uninstall:
 	rm -rf $(foreach FILE, $(PACKAGEFILES), $(DESTDIR)$(plugindir)/$(FILE))
 
-installdev:
+install:
 	install -d $(localplugindir)
 	cp -a $(foreach FILE, $(DEVPACKAGEFILES), plugins/$(FILE)) $(localplugindir)
 	chmod u+rX -R $(foreach FILE, $(DEVPACKAGEFILES), plugins/$(FILE)) $(localplugindir)
+
+installdev: install
 
 clean:
 	@$(ECHO) "  CLEAN"
