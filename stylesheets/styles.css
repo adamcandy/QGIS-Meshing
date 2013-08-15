@@ -199,10 +199,6 @@ footer {
     width:auto;
   }
   
-  .bar {
-    padding-right:320px;
-  }
-  
   section {
     border:1px solid #e5e5e5;
     border-width:1px 0;
@@ -214,24 +210,11 @@ footer {
     display:inline;
   }
   
-  .bar ul {
-    position:absolute;
-    right:50px;
-    top:52px;
-  }
 }
 
 @media print, screen and (max-width: 720px) {
   body {
     word-wrap:break-word;
-  }
-  
-  .bar {
-    padding:0;
-  }
-  
-  .bar ul, .bar p.view {
-    position:static;
   }
   
   pre, code {
@@ -242,10 +225,6 @@ footer {
 @media print, screen and (max-width: 480px) {
   body {
     padding:15px;
-  }
-  
-  .bar ul {
-    display:none;
   }
 }
 
