@@ -216,11 +216,11 @@ class __split_compound_lines_for_multiple_regions:
 					test = (self.values[self.itr1],self.values[self.itr2])#again possibly unnesicary
 				except:
 					return
-				print 'a'
-				print self.values[self.itr1]
-				print self.values[self.itr2]
+#				print 'a'
+#				print self.values[self.itr1]
+#				print self.values[self.itr2]
 				apre, a1l, apo, s1l, bpre, b1l, bpo = self.__check_for_intersection(self.values[self.itr1],self.values[self.itr2])
-				print s1l+apre+bpre+a1l+b1l+apo+bpo
+#				print s1l+apre+bpre+a1l+b1l+apo+bpo
 				if s1l == []:
 					continue
 				try:#bad code+probably wrong, might now be unnesicary
@@ -449,9 +449,9 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 			compound_line_list_b = map(list,line_loop_dict.keys())
 			if len(shapes_index)>1:
 				compound_line_list = __split_compound_lines_for_multiple_regions(copy.copy(compound_line_list_b)).values
-			print compound_line_list
+#			print compound_line_list
 			compound_line_dict, line_num = __split_compound_lines_for_line_ids(compound_line_list,line_dict,line_num)#note currently incompatible with line id's
-			print compound_line_dict
+#			print compound_line_dict
 			compound_line_dict = dict(zip(compound_line_dict.keys(),__list_abs(compound_line_dict.values())))
 			__write_compound_lines(compound_line_dict,geo)
 			print 'compounds written'
@@ -461,15 +461,15 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 			unzip(compound_line_dict.keys()),\
 			'map(lambda x, nset = nset: nset.intersect1d(x,self.Globals[1][k]).size != 0, self.Globals[0])',\
 			Globals = (compound_line_dict.values(),__list_abs(line_loop_dict.keys()))).new_list#possiblity reordering occuring here, can keys be reorder at all (or do it post creating dictionary)
-			print 'l', line_loop_line
+#			print 'l', line_loop_line
 			line_loop_dict = dict(enumerate(line_loop_line.values(), line_num))#note too many when there is complete intersection, may not matter too much, note this is fine res ordering
 			for key in line_loop_dict.keys():#these might not be correct/or possibly the compound lines
 				geo.write("Line Loop(%i) = {%s};\n" % (key,str(list(line_loop_dict[key]))[1:-1]))
 			print 'line loops written'
-			print line_loop_dict.keys()
-			print line_loop_dict.values()
-			print shapes_index
-			print region_id
+#			print line_loop_dict.keys()
+#			print line_loop_dict.values()
+#			print shapes_index
+#			print region_id
 			prev = [0]
 			xkeys = line_loop_dict.keys()
 			xkeys.reverse()#this isn't ordered correctly for some reason, where is this being ordered. note pre-lineloops is correct, its a dictionary, most likely resulting in the lack of order
@@ -481,11 +481,11 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 			mnval.reverse()
 			xkeys2 = []
 			#wrong order
-			print 'begin'
+#			print 'begin'
 			for i in range(len(mnval)):
 				for j in range(len(xval)):
 					if mnval[i] in xval[j]:
-						print i, [xkeys[j]]
+#						print i, [xkeys[j]]
 						xkeys2 += [xkeys[j]]
 						del xval[j]
 						del xkeys[j]
@@ -497,7 +497,7 @@ def write_geo_file(filepath,data, compound_line_enable, use_bspline):#there shou
 					#geo.write("Plane Surface(%i) = {%s};\n" % (surface_num,str(crnt)[1:-1]))
 					#continue
 				crnt = xkeys2[shapes_index[i]:shapes_index[i+1]]
-				print crnt
+#				print crnt
 				geo.write("Plane Surface(%i) = {%s};\n" % (surface_num,str(crnt)[1:-1]))
 				#prev = _flatten(map(list,line_loop_dict.values()[shapes_index[i]:shapes_index[i+1]]))
 				#prev_i = i
