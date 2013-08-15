@@ -41,7 +41,7 @@ meshing algorithm in the background and opens the .msh in Gmsh.
 import subprocess
 from PosFileConverter import *
 from PyQt4 import QtCore, QtGui
-from bathy_to_field import create_fld_file
+#from bathy_to_field import create_fld_file
 
 class MeshOp( converter ):
 
