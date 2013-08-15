@@ -51,7 +51,7 @@ and install with
 
 ### Development manual install
 
-Clone the Git repository and use the following:
+Clone the GitHub repository and use the following:
 
     make install
 
