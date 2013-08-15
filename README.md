@@ -20,7 +20,7 @@ This project contains four plugins for the generation of surface meshes in QGIS:
 #### ![Rasterise Polygons plugin](./extras/readme_data/ras_x64.png "Rasterise Polygons plugin") Rasterise Polygons plugin, and 
 #### ![Raster Calculator plugin](./extras/readme_data/rastercalc.png "Raster Calculator plugin") Raster Calculator plugin.
 
-Outline web page: [http://adamcandy.github.io/qgis-plugins-meshing/](http://adamcandy.github.io/qgis-plugins-meshing)
+Outline web page: [http://adamcandy.github.io/qgis-plugins-meshing](http://adamcandy.github.io/qgis-plugins-meshing)
 
 Installation
 ------------
