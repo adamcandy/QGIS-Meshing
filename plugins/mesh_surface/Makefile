@@ -1,4 +1,3 @@
-
 ##########################################################################
 #  
 #  QGIS-meshing plugins.
@@ -30,7 +29,7 @@
 #  
 ##########################################################################
 
-# Makefile for Define Boundary Ids plugin 
+# Makefile for Mesh Surface plugin 
 UI_FILES = ui_mesh_surface.py
 
 RESOURCE_FILES = resources.py
@@ -49,6 +48,6 @@ clean:
 	rm -f $(UI_FILES) $(RESOURCE_FILES)
 
 test:
-	./tests
+	@python testengine.py 
 
 .PHONY: test
