@@ -1,7 +1,7 @@
-Meshing of Geophysical Domains - The QGIS meshing plugins
+![QGIS meshing plugins](./extras/readme_data/meshing_icon_M_withQGIS_100x.png "QGIS meshing plugins") QGIS meshing plugins
 =========================================================
 
-![QGIS meshing plugins](./extras/readme_data/meshing_icon_M_withQGIS_100x.png "QGIS meshing plugins") QGIS plugins for meshing geophysical domains.
+QGIS plugins for meshing geophysical domains.
 
 Build Status
 ------------
@@ -13,12 +13,12 @@ Outline
 
 ![UK meshed](./extras/readme_data/uk.gif "UK meshed")
 
-This project contains four plugins for the generation of surface meshes in QGIS.
+This project contains four plugins for the generation of surface meshes in QGIS:
 
-![Mesh surface plugin](./extras/readme_data/meshing_icon_M2_64x.png "Mesh surface plugin") Mesh surface plugin,
-![Boundary identification plugin](./extras/readme_data/id_x64.png?raw=true "Boundary identification plugin") Boundary identification plugin,
-![Rasterise Polygons plugin](./extras/readme_data/ras_x100.png "Rasterise Polygons plugin") Rasterise Polygons plugin, and 
-![Raster Calculator plugin](./extras/readme_data/rastercalc.png "Raster Calculator plugin") Raster Calculator plugin.
+#### ![Mesh surface plugin](./extras/readme_data/meshing_icon_M2_64x.png "Mesh surface plugin") Mesh surface plugin,
+#### ![Boundary identification plugin](./extras/readme_data/id_x64.png?raw=true "Boundary identification plugin") Boundary identification plugin,
+#### ![Rasterise Polygons plugin](./extras/readme_data/ras_x100.png "Rasterise Polygons plugin") Rasterise Polygons plugin, and 
+#### ![Raster Calculator plugin](./extras/readme_data/rastercalc.png "Raster Calculator plugin") Raster Calculator plugin.
 
 
 Installation
