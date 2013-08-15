@@ -49,8 +49,8 @@ def generate_support():
 
 testfiles = glob.glob(pwd + "/../../tests/*.py")
 
-# Limit to first for now - needs investigating
-testfiles = [testfiles[0]]
+# Limit to a single test for now - needs investigating
+testfiles = ['test_BSplines_3.py']
 
 print 'Testing the following tests (' + str(len(testfiles)) + ' in total):'
 for testfile in testfiles:
