@@ -43,17 +43,22 @@ PACKAGEFILES = mesh_surface  meshing_raster_calc  rasterise_polygons Polygonizer
 testdir = ./plugins/mesh_netcdf/
 outputdir = ./tests/output/
 
-.PHONY: install uninstall installdev test clean
+.PHONY: install uninstall installlocal installdev test clean
 
 uninstall:
 	rm -rf $(foreach FILE, $(PACKAGEFILES), $(DESTDIR)$(plugindir)/$(FILE))
 
 install:
+	install -d $(DESTDIR)$(plugindir)
+	cp -a $(foreach FILE, $(PACKAGEFILES), plugins/$(FILE)) $(DESTDIR)$(plugindir)
+	chmod a+rX -R $(foreach FILE, $(PACKAGEFILES), plugins/$(FILE)) $(DESTDIR)$(plugindir)
+
+installlocal:
 	install -d $(localplugindir)
 	cp -a $(foreach FILE, $(DEVPACKAGEFILES), plugins/$(FILE)) $(localplugindir)
 	chmod u+rX -R $(foreach FILE, $(DEVPACKAGEFILES), plugins/$(FILE)) $(localplugindir)
 
-installdev: install
+installdev: installlocal
 
 clean:
 	@$(ECHO) "  CLEAN"
