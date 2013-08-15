@@ -34,19 +34,29 @@
 import os
 import glob
 import pytest
-import time
 
 pwd = os.path.dirname(os.path.realpath(__file__))
-test = pwd + "/../../tests/output"
-support_files = pwd+"/../../tests/support"
+root = pwd + '/../../tests/'
+support = root + 'support/'
+script = root + 'support_files/'
 
-print "  Generating data files"
 
-os.system("python "+pwd+ "/../../tests/gaussian_bump.py "+support_files+"/gaussian_bump.nc")
-os.system("grdmath "+support_files+"/gaussian_bump.nc 2 MUL = "+support_files+"/gaussian_bump_medium.nc")
-os.system("grdmath "+support_files+"/gaussian_bump.nc 4 MUL = "+support_files+"/gaussian_bump_coarse.nc")
+def generate_support():
+  print "  Generating data files"
+  os.system("python " + script + 'gaussian_bump.py ' + support + '/gaussian_bump.nc')
+  os.system("grdmath " + support + "/gaussian_bump.nc 2 MUL = " + support + "/gaussian_bump_medium.nc")
+  os.system("grdmath " + support + "/gaussian_bump.nc 4 MUL = " + support + "/gaussian_bump_coarse.nc")
 
 testfiles = glob.glob(pwd + "/../../tests/*.py")
 
+# Limit to first for now - needs investigating
+testfiles = [testfiles[0]]
+
+print 'Testing the following tests (' + str(len(testfiles)) + ' in total):'
+for testfile in testfiles:
+  print '  ' + os.path.basename(testfile)
+
 pytest.main(testfiles)
+
+#pytest.main('../../tests/')
 
