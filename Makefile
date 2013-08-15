@@ -6,8 +6,8 @@ localplugindir = ${HOME}/.qgis/python/plugins/
 DEVPACKAGEFILES = mesh_surface  meshing_raster_calc  rasterise_polygons boundary_identification
 PACKAGEFILES = mesh_surface  meshing_raster_calc  rasterise_polygons Polygonizer QuickMultiAttributeEdit
 
-testdir = ./dev/plugins/mesh_netcdf/
-outputdir = ./dev/tests/output/
+testdir = ./plugins/mesh_netcdf/
+outputdir = ./tests/output/
 
 .PHONY: install uninstall installdev test clean
 
@@ -21,8 +21,8 @@ uninstall:
 
 installdev:
 	install -d $(localplugindir)
-	cp -a $(foreach FILE, $(DEVPACKAGEFILES), dev/plugins/$(FILE)) $(localplugindir)
-	chmod u+rX -R $(foreach FILE, $(DEVPACKAGEFILES), dev/plugins/$(FILE)) $(localplugindir)
+	cp -a $(foreach FILE, $(DEVPACKAGEFILES), plugins/$(FILE)) $(localplugindir)
+	chmod u+rX -R $(foreach FILE, $(DEVPACKAGEFILES), plugins/$(FILE)) $(localplugindir)
 
 clean:
 	rm -rf $(outputdir)
