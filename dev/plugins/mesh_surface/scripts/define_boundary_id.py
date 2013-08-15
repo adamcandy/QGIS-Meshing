@@ -63,13 +63,14 @@ class assignIDs():#are lines and islands still seperate? they shouldn't be.
   def generateIds(self, part):
     localIdList = []
     for j in range(len(self.domainData.points[part]) - 1):
+      line = LineString([tuple(self.domainData.points[part][j]), tuple(self.domainData.points[part][j + 1])])
+      self.Lines += [list(line.coords)] 
       if not self.idShapeFile:
         localIdList.append(self.defID)
-        line = LineString([tuple(self.domainData.points[part][j]), tuple(self.domainData.points[part][j + 1])])
-        self.Lines += [list(line.coords)] 
         continue
       self.methodIDPolygons(localIdList, part, j)
-    self.boundaryIDList.append(localIdList)
+    self.boundaryIDList += localIdList
+    
 
 
   def methodIDPolygons(self, localIdList, part, j):#this assigns id to every line, therefore best to add method to the end of assignIDsMethod
@@ -82,15 +83,25 @@ class assignIDs():#are lines and islands still seperate? they shouldn't be.
         localIdList.append(self.boundaryData.records[-(n+1)][0])
         done = True
         break
-      if not done:
-        localIdList.append(self.defID)
-    self.Lines += [list(line.coords)]
+    if not done:
+      localIdList.append(self.defID)
    
   def DefineIdMap(self):#check the ordering of this is correct, may be defined with an obscure pointlist, this is lines
-    Idflat = np.array([Id for part in self.boundaryIDList for Id in part])
-    self.IdMap = np.where(Idflat != np.roll(Idflat,-1),1,0)*np.arange(Idflat.size)
-    self.IdMap = [0] + list(self.IdMap[np.nonzero(self.IdMap)]) + [Idflat.size]#not sure if this should be +1 or not
-    self.BoundryIds = Idflat[self.IdMap[:-1]]
+    self.IdMap = []
+    self.BoundryIds = []
+    n = 0
+    for i in range(len(self.boundaryIDList)):
+      if (n == 0):
+        self.IdMap += [i]
+        n = 1
+        continue
+      if not (self.boundaryIDList[i] == self.boundaryIDList[i-1]):
+        self.IdMap += [i]
+        n=0
+    self.IdMap += [len(self.boundaryIDList)]
+        
+    for i in range(len(self.IdMap)-1):
+      self.BoundryIds += [self.boundaryIDList[self.IdMap[i]]]
 
   def SetLineMap(self):
     lineIds = []

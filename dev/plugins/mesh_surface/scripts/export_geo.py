@@ -340,7 +340,7 @@ class geometry_writer( object ):#length missmatch
     CompoundMap = self.__generateCompound(boundIdMap,lloopMap,IntersectMap,lines.size)                  
 
     LineLoopMap = self.__map_between_objects(CompoundMap,lloopMap)
-
+    
     PhysicalLineMap = self.__map_between_objects(CompoundMap,boundIdMap)
     
     PlaneSurfaceMap = np.array([0] + list(self.__map_between_objects(lloopMap,shapeMap)))
@@ -353,7 +353,6 @@ class geometry_writer( object ):#length missmatch
     prev_pointId = 0
     for i in range(len(points)):#check repeats
       if prev_pointId >= pointIds[i]:
-        print 'continue'
         continue
       f.write("Point(%i) = {%s,0};\n"%(pointIds[i], str(points[i])[1:-1]))#may give odd format and repeats
       prev_pointId += 1
@@ -380,9 +379,26 @@ class geometry_writer( object ):#length missmatch
       f.write("Line Loop(%i) = {%s};\n" % (cLineNo,str(list(np.arange(CompoundMap.size)[LineLoopMap[i]:LineLoopMap[i+1]] + lines.size + 1))[1:-1]))#this is wrong
       cLineNo += 1
     
-  #write physical lines  
-    for i in range(PhysicalLineMap.size-1):
-      f.write("Physical Line(%i) = {%s};\n" % (boundIds[i],str(list(np.arange(CompoundMap.size)[PhysicalLineMap[i]:PhysicalLineMap[i+1]]+lines.size + 1))[1:-1]))
+  #write physical lines
+
+    #boundIds[i]
+    IdsAllocated = []
+    cId = boundIds[0]
+
+    while True:#probably bad coding check efficientcy at some point
+      CompoundsWithId = []
+      for i in range(PhysicalLineMap.size-1):#errors here - input probably correct
+        if boundIds[i] != cId:
+          continue
+        CompoundsWithId += list(np.arange(CompoundMap.size)[PhysicalLineMap[i]:PhysicalLineMap[i+1]]+lines.size + 1)
+      f.write("Physical Line(%i) = {%s};\n" % (cId,str(CompoundsWithId)[1:-1]))
+      IdsAllocated += [cId]
+      for i in range(PhysicalLineMap.size-1):
+        if not (boundIds[i] in IdsAllocated):
+          cId = boundIds[i]
+          break
+      if cId in IdsAllocated:
+        break
 
     #write plane surfaces
     for i in range(PlaneSurfaceMap.size-1):#only plain surfaces appear broken
@@ -390,8 +406,7 @@ class geometry_writer( object ):#length missmatch
       
     #need to write physical surfaces - for now ignore multiregions
     f.write("Physical Surface(0) = {1};")  
-      
-      
+       
     f.write('\nMesh.RemeshAlgorithm=1;')#remove at some point  
       
     f.close()
@@ -434,7 +449,7 @@ class geometry_writer( object ):#length missmatch
     LLnum = 0
     IntersectNum = 0
     BoundIdNum = 0
-
+    print boundIdMap
     while not end:
       n = np.min([boundIdMap[BoundIdNum],lloopMap[LLnum],IntersectMap[IntersectNum]])
       if IntersectMap[IntersectNum] in CompoundMap: continue

@@ -134,7 +134,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 			self.data = [self.domainData.regionIDs,self.domainData.shapes,self.boundaryIDList,self.domainData.points]
 			if self.geofilepath == None:
 				self.geofilepath = '%s_idBoundary.geo' % self.domainShapefileLayerFileName[:-4]
-			self.export_geo()
+			#self.export_geo()
 			self.GeoWriter()
 			if self.mEval != None:
 				self.write_meval()
