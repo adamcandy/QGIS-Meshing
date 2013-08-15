@@ -3,8 +3,8 @@
 
 QGIS plugins for meshing geophysical domains.
 
-Build Status
-------------
+Test engine status
+------------------
 
 [![Build Status](https://travis-ci.org/adamcandy/qgis-plugins-meshing.png?branch=master)](https://travis-ci.org/adamcandy/qgis-plugins-meshing)
 
@@ -17,7 +17,7 @@ This project contains four plugins for the generation of surface meshes in QGIS:
 
 #### ![Mesh surface plugin](./extras/readme_data/meshing_icon_M2_64x.png "Mesh surface plugin") Mesh surface plugin,
 #### ![Boundary identification plugin](./extras/readme_data/id_x64.png?raw=true "Boundary identification plugin") Boundary identification plugin,
-#### ![Rasterise Polygons plugin](./extras/readme_data/ras_x100.png "Rasterise Polygons plugin") Rasterise Polygons plugin, and 
+#### ![Rasterise Polygons plugin](./extras/readme_data/ras_x64.png "Rasterise Polygons plugin") Rasterise Polygons plugin, and 
 #### ![Raster Calculator plugin](./extras/readme_data/rastercalc.png "Raster Calculator plugin") Raster Calculator plugin.
 
 
