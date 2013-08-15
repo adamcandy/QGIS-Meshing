@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>QGIS Meshing Plugins by adamcandy</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>QGIS Meshing Plugins</h1>
+        <p>QGIS plugins for meshing geophysical domains</p>
+
+        <p class="view"><a href="https://github.com/adamcandy/qgis-plugins-meshing">View the Project on GitHub <small>adamcandy/qgis-plugins-meshing</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/adamcandy/qgis-plugins-meshing/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/adamcandy/qgis-plugins-meshing/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/adamcandy/qgis-plugins-meshing">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="-qgis-meshing-plugins" class="anchor" href="#-qgis-meshing-plugins"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/meshing_icon_M_withQGIS_100x.png" alt="QGIS meshing plugins" title="QGIS meshing plugins"> QGIS meshing plugins</h1>
+
+<p>QGIS plugins for meshing geophysical domains.</p>
+
+<h2>
+<a name="test-engine-status" class="anchor" href="#test-engine-status"><span class="octicon octicon-link"></span></a>Test engine status</h2>
+
+<p><a href="https://travis-ci.org/adamcandy/qgis-plugins-meshing"><img src="https://travis-ci.org/adamcandy/qgis-plugins-meshing.png?branch=master" alt="Build Status"></a></p>
+
+<h2>
+<a name="outline" class="anchor" href="#outline"><span class="octicon octicon-link"></span></a>Outline</h2>
+
+<p><img src="./extras/readme_data/uk.gif" alt="UK meshed" title="UK meshed"></p>
+
+<p>This project contains four plugins for the generation of surface meshes in QGIS:</p>
+
+<h4>
+<a name="-mesh-surface-plugin" class="anchor" href="#-mesh-surface-plugin"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/meshing_icon_M2_64x.png" alt="Mesh surface plugin" title="Mesh surface plugin"> Mesh surface plugin,</h4>
+
+<h4>
+<a name="-boundary-identification-plugin" class="anchor" href="#-boundary-identification-plugin"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/id_x64.png?raw=true" alt="Boundary identification plugin" title="Boundary identification plugin"> Boundary identification plugin,</h4>
+
+<h4>
+<a name="-rasterise-polygons-plugin-and" class="anchor" href="#-rasterise-polygons-plugin-and"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/ras_x64.png" alt="Rasterise Polygons plugin" title="Rasterise Polygons plugin"> Rasterise Polygons plugin, and</h4>
+
+<h4>
+<a name="-raster-calculator-plugin" class="anchor" href="#-raster-calculator-plugin"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/rastercalc.png" alt="Raster Calculator plugin" title="Raster Calculator plugin"> Raster Calculator plugin.</h4>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a name="ubuntu-package" class="anchor" href="#ubuntu-package"><span class="octicon octicon-link"></span></a>Ubuntu package</h3>
+
+<p>For anyone who would like to experiment with the plugins, please download the qgis-plugins-meshing Ubuntu package which is available in the following PPA:</p>
+
+<pre><code>ppa:meshing/release
+</code></pre>
+
+<p>(which depends on packages in ppa:ubuntugis/ppa)</p>
+
+<p>Commands required:</p>
+
+<pre><code>sudo add-apt-repository ppa:ubuntugis/ppa
+sudo add-apt-repository ppa:meshing/release
+sudo apt-get update
+sudo apt-get install qgis-plugins-meshing
+</code></pre>
+
+<p>If the final command fails, please download the package manually from</p>
+
+<pre><code>http://amcg.ese.ic.ac.uk/~asc/public/qgis-plugins-meshing_1.9_all.deb
+</code></pre>
+
+<p>and install with</p>
+
+<pre><code>sudo dpkg -i qgis-plugins-meshing_1.9_all.deb
+</code></pre>
+
+<p>(there is a fix for Precise, which is currently being processed by Launchpad)</p>
+
+<h3>
+<a name="development-manual-install" class="anchor" href="#development-manual-install"><span class="octicon octicon-link"></span></a>Development manual install</h3>
+
+<p>Clone the GitHub repository and use the following:</p>
+
+<pre><code>make install
+</code></pre>
+
+<p>This will install the plugins for all users (and requires superpowers).
+For a single-user install, use the following:</p>
+
+<pre><code>make installlocal
+</code></pre>
+
+<h2>
+<a name="manual" class="anchor" href="#manual"><span class="octicon octicon-link"></span></a>Manual</h2>
+
+<p>Further information on the dependencies can be found in the manual at:
+<a href="http://amcg.ese.ic.ac.uk/%7Easc/public/meshing_manual.pdf">http://amcg.ese.ic.ac.uk/~asc/public/meshing_manual.pdf</a></p>
+
+<h2>
+<a name="resources-for-developers" class="anchor" href="#resources-for-developers"><span class="octicon octicon-link"></span></a>Resources for developers</h2>
+
+<p>The plugins are written in Python, each being a <a href="http://docs.python.org/2/tutorial/modules.html#packages">Python package</a>.
+A guide to developing Python plugins for QGIS is available <a href="http://www.qgis.org/pyqgis-cookbook/plugins.html#plugins">here</a>.
+The <a href="http://www.qgis.org/pyqgis-cookbook/">PyQGIS Developer Cookbook</a> is also a useful resource.</p>
+
+<h2>
+<a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h2>
+
+<p>The plugin developers can be contacted via <a href="http://www3.imperial.ac.uk/people/adam.candy">Adam Candy</a>.</p>
+
+<h2>
+<a name="current-development" class="anchor" href="#current-development"><span class="octicon octicon-link"></span></a>Current development</h2>
+
+<p>Current development focus is on a test engine to ensure the plugins are robust.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/adamcandy">adamcandy</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-43219125-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
