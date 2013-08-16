@@ -62,8 +62,9 @@ class assignIDs():#are lines and islands still seperate? they shouldn't be.
 
   def generateIds(self, part):
     localIdList = []
-    for j in range(len(self.domainData.points[part]) - 1):
-      line = LineString([tuple(self.domainData.points[part][j]), tuple(self.domainData.points[part][j + 1])])
+    linelist = self.domainData.points[part] 
+    for j in range(len(linelist) - 1):
+      line = LineString([tuple(linelist[j]), tuple(linelist[j + 1])])
       self.Lines += [list(line.coords)] 
       if not self.idShapeFile:
         localIdList.append(self.defID)

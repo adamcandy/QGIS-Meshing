@@ -38,7 +38,7 @@ to allow it to be used in fluidity
 import shapefile
 from shapely.geometry import MultiLineString, Polygon
 import sys
-from numpy import pi, cos, sin, array
+from numpy import pi, cos, sin, array, arange
 
 __islandField = "Island"
 __boundaryField = "Boundary"
@@ -77,7 +77,10 @@ class ShapeData:
         shape = shapes[shapeNo]
         ID = records[shapeNo][0]
         points = shape.points
-        shapeParts = shape.parts #this is acting as a pointer
+        shapeParts = shape.parts #could do loopcorrect on this instead
+        #loopcorrect = range(len(shapeParts))
+        #for i in loopcorrect:
+        #  shapeParts[i] -= i
         shapeList.append(PartNumber)
         if len(shapeParts) == 1 :
           pointsList.append(points)
@@ -108,13 +111,21 @@ class ShapeData:
     #will change the output of this
     self.points = pointsList
     self.pointsList = [point for part in pointsList for point in part]
+
+    #conflicts = 0
+    #for i in range(len(self.pointsList) - 1):
+    #  i -= conflicts
+    #  if self.pointsList[i] == self.pointsList[i+1]:
+    #    del self.pointsList[i+1]
+    #    conflicts += 1
+
+
     self.records = records
     self.regionIDs = regionIDs
     self.shapes = shapeList
     self.RegionId = RegionId
     self.LLoopMap = LLoopMap
     self.ShapeMap = ShapeMap
-
 
   def __saveShapeFile(self, boundaryIds, bounds, filename):
     """

@@ -324,6 +324,14 @@ def __write_compound_lines(compound_dict, geo):
 class geometry_writer( object ):
 
   def GeoWriter( self ):
+    """Calls geofile writing methods
+
+    Passed data from define_ids and writes
+    mapping between geofile objects and
+    their components. Uses these mappings
+    to write the geofile
+
+    """
 
     print "Writing geo file"
     points = self.domainData.pointsList                    # : list of point ordered on shapes and parts
@@ -339,6 +347,13 @@ class geometry_writer( object ):
     # generating mappings from objects to their components
     if self.Compound: self.IntersectMap = self.__findIntersections(lines,shapeMap)
 
+    #loopcorrect = np.arange(lloopMap.size)#possibly +1
+
+    #boundIdMap[-1] -= loopcorrect[-1]
+    #lloopMap -= loopcorrect
+    #shapeMap[-1] = loopcorrect[-1]
+
+
     if self.Compound: self.CompoundMap = self.__generateCompound(boundIdMap,lloopMap,self.IntersectMap,lines.size)
 
     if self.Compound: self.LineLoopMap = self.__map_between_objects(self.CompoundMap,lloopMap)
@@ -353,6 +368,7 @@ class geometry_writer( object ):
     self.__write_method(points,lines,lloopMap,boundIds,regionIds)
   
   def __define_mapping_from_intersection(self,mapping1,mapping2):
+    """Finds section of two arrays which are equal"""
     mp1_outr = np.outer(mapping1,np.ones_like(mapping2))
     mp2_outr = np.outer(np.ones_like(mapping1),mapping2)
     mp_result_outr = np.where(mp1_outr == mp2_outr, mp2_outr, 0)
@@ -360,6 +376,7 @@ class geometry_writer( object ):
       
       
   def __generatePoints(self,points):
+    """Identifies each point with an Id based on coordinates"""
     pointIds = []
     Idno = 1
     Idmap = {}
@@ -373,6 +390,7 @@ class geometry_writer( object ):
     return pointIds    
           
   def __findIntersections(self,lines,shapeMap):
+    """Determines which lines are shared by multiple shapes"""
     IntersectMap = []
     for s1_Id in range(len(shapeMap)-1):
       for s2_Id in range(len(shapeMap)-1):
@@ -383,7 +401,13 @@ class geometry_writer( object ):
     return np.array([0] + list(IntersectMap[np.nonzero(IntersectMap)]))
       
   def __generateCompound(self,boundIdMap,lloopMap,IntersectMap,line_size):
-    
+    """Generates mapping between compounds and lines
+
+    Splits list of lines into the minimum
+    number of segments such that no section
+    is split by one of the intersect maps     
+
+    """
     CompoundMap = []
     end = False
     Id = 1
@@ -410,6 +434,8 @@ class geometry_writer( object ):
     
 
   def __write_method(self,points,lines,lloopMap,boundIds,regionIds):
+
+    #loopcorrect = np.arange(lloopMap.size)
   
     #start writing to file
     self.geofile_inst = open(self.geofilepath,'w')
@@ -423,6 +449,7 @@ class geometry_writer( object ):
       prev_pointId += 1
 
     #write lines  
+    repeatList = []
     Allocated = 0
     LoopNo = 1
     for i in range(len(lines)):
@@ -430,37 +457,50 @@ class geometry_writer( object ):
         LoopNo += 1
       if lines[i] <= Allocated:
         continue
+      if self.pointIds[i + LoopNo - 1] == self.pointIds[i + LoopNo]:
+        repeatList += [lines[i]]
+        continue
       self.geofile_inst.write("Line(%i) = {%s};\n" %( lines[i],str([self.pointIds[i + LoopNo - 1],self.pointIds[i + LoopNo]])[1:-1]))
       Allocated += 1
     print 'lines written'
 
+
+    #print repeatList
+
     #write compounds
-      cLineNo = Allocated + 1
+    cLineNo = Allocated + 1 + len(repeatList)
     if self.Compound:
-      cLineNo = self.__write_line_objects(cLineNo,self.CompoundMap,"Compound Line(%i) = {%s};\n",lines,0)
+      cLineNo = self.__write_line_objects(cLineNo,self.CompoundMap,"Compound Line(%i) = {%s};\n",lines,0,repeatList)
       print 'compound lines written'    
 
     #write line loops
-    if self.Compound: NoOfComponents = self.CompoundMap.size;ComponentIdStart = lines.size + 1
-    else: NoOfComponents = lines.size;ComponentIdStart = 1
-    cLineNo = self.__write_line_objects(cLineNo,self.LineLoopMap,"Line Loop(%i) = {%s};\n",np.arange(NoOfComponents),ComponentIdStart)
+    if self.Compound: Components = np.arange(self.CompoundMap.size);ComponentIdStart = lines.size + 1;llrepeatList = []
+    else: Components = lines;ComponentIdStart = 0;llrepeatList = repeatList
+    cLineNo = self.__write_line_objects(cLineNo,self.LineLoopMap,"Line Loop(%i) = {%s};\n",Components,ComponentIdStart,llrepeatList)
     print 'line loops written'      
   
     #write physical lines
-    if self.Compound: NoOfComponents = self.CompoundMap.size;ComponentIdStart = lines.size + 1
-    else: NoOfComponents = lines.size;ComponentIdStart = 1
-    self.__write_physical_objects(boundIds,self.PhysicalLineMap,"Physical Line(%i) = {%s};\n",NoOfComponents,ComponentIdStart)
+    if self.Compound: Components = np.arange(self.CompoundMap.size);ComponentIdStart = lines.size + 1
+    else: 
+      Components = lines;ComponentIdStart = 0
+      mask = np.ones_like(Components)
+      for iD in repeatList:
+        mask = np.where(Components==iD,0,mask)
+      mask = mask*np.arange(mask.size)
+      mask = np.array([0]+list(mask[np.nonzero(mask)]))
+      Components = lines[mask]
+    self.__write_physical_objects(boundIds,self.PhysicalLineMap,"Physical Line(%i) = {%s};\n",Components,ComponentIdStart)
     print 'physical lines written'    
 
     #write plane surfaces
     cLineNo = 1
     if self.Compound: ComponentIdStart = lines.size + self.CompoundMap.size
     else: ComponentIdStart = lines.size + 1
-    self.__write_line_objects(cLineNo,self.PlaneSurfaceMap,"Plane Surface(%i) = {%s};\n",np.arange(lloopMap.size),ComponentIdStart)
+    self.__write_line_objects(cLineNo,self.PlaneSurfaceMap,"Plane Surface(%i) = {%s};\n",np.arange(lloopMap.size),ComponentIdStart,[])
     print 'plane surfaces written'  
 
     #write physical surfaces
-    self.__write_physical_objects(regionIds,self.PlaneSurfaceMap,"Physical Surface(%i) = {%s};\n",1,1)
+    self.__write_physical_objects(regionIds,self.PlaneSurfaceMap,"Physical Surface(%i) = {%s};\n",np.arange(1),1)
     print 'physical surfaces written'
 
     self.geofile_inst.write('\nMesh.RemeshAlgorithm=1;')
@@ -468,14 +508,20 @@ class geometry_writer( object ):
     self.geofile_inst.close()
     print "geo file written : " + self.geofilepath
 
-  def __write_line_objects(self,cLineNo,ObjectMap,ObjectString,Components,ComponentIdStart):
+  def __write_line_objects(self,cLineNo,ObjectMap,ObjectString,Components,ComponentIdStart,repeatList):
     for i in range(len(ObjectMap)-1):
-      self.geofile_inst.write(ObjectString % (cLineNo,str(list(Components[ObjectMap[i]:ObjectMap[i+1]] + ComponentIdStart))[1:-1]))
+      basear = Components[ObjectMap[i]:ObjectMap[i+1]]
+      mask = np.ones_like(basear)
+      for iD in repeatList:
+        mask = np.where(basear==iD,0,mask)
+      mask = mask*np.arange(mask.size)
+      mask = np.array([0]+list(mask[np.nonzero(mask)]))
+      self.geofile_inst.write(ObjectString % (cLineNo,str(list(basear[mask]  + ComponentIdStart))[1:-1]))
       cLineNo += 1
     return cLineNo
 
 
-  def __write_physical_objects(self,IdValues,ObjectMap,ObjectString,NoOfComponents,ComponentIdStart):
+  def __write_physical_objects(self,IdValues,ObjectMap,ObjectString,Components,ComponentIdStart):
 
     IdsAllocated = []
     cId = IdValues[0]
@@ -486,7 +532,7 @@ class geometry_writer( object ):
       for i in range(ObjectMap.size-1):
         if IdValues[i] != cId:
           continue
-        WithId += list(np.arange(NoOfComponents)[ObjectMap[i]:ObjectMap[i+1]]+ComponentIdStart)
+        WithId += list(Components[ObjectMap[i]:ObjectMap[i+1]]+ComponentIdStart)
       self.geofile_inst.write(ObjectString  % (cId,str(WithId)[1:-1]))
       IdsAllocated += [cId]
 
