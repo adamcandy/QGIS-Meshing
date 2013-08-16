@@ -325,26 +325,31 @@ class geometry_writer( object ):
 
   def GeoWriter( self ):
 
-    points = self.domainData.pointsList                    #: list of point ordered on shapes and parts
-    lines = np.array(self.Lines)                           #: ids to lines, will be repeated
-    boundIdMap = np.array(self.IdMap)                      #: this maps lines to there respective Boundry segments
-    lloopMap = np.array(self.domainData.LLoopMap)          #: this maps lines to there respective line loops
-    boundIds = np.array(self.BoundryIds)                   #: this is the boundry Ids mapped via boundIdMap
-    shapeMap = np.array(self.domainData.ShapeMap)          #: this maps lines to there respective shapes
-    regionIds = np.array(self.domainData.RegionId)         #: this is the region Ids Mapped via ShapeMap
+    print "Writing geo file"
+    points = self.domainData.pointsList                    # : list of point ordered on shapes and parts
+    lines = np.array(self.Lines)                           # : ids to lines, will be repeated
+    boundIdMap = np.array(self.IdMap)                      # : this maps lines to there respective Boundry segments
+    lloopMap = np.array(self.domainData.LLoopMap)          # : this maps lines to there respective line loops
+    boundIds = np.array(self.BoundryIds)                   # : this is the boundry Ids mapped via boundIdMap
+    shapeMap = np.array(self.domainData.ShapeMap)          # : this maps lines to there respective shapes
+    regionIds = np.array(self.domainData.RegionId)         # : this is the region Ids Mapped via ShapeMap
   
     self.pointIds = self.__generatePoints(points)
-        
-    self.IntersectMap = self.__findIntersections(lines,shapeMap)
 
-    self.CompoundMap = self.__generateCompound(boundIdMap,lloopMap,self.IntersectMap,lines.size)
+    # generating mappings from objects to their components
+    if self.Compound: self.IntersectMap = self.__findIntersections(lines,shapeMap)
 
-    self.LineLoopMap = self.__map_between_objects(self.CompoundMap,lloopMap)
-    
-    self.PhysicalLineMap = self.__map_between_objects(self.CompoundMap,boundIdMap)
-    
+    if self.Compound: self.CompoundMap = self.__generateCompound(boundIdMap,lloopMap,self.IntersectMap,lines.size)
+
+    if self.Compound: self.LineLoopMap = self.__map_between_objects(self.CompoundMap,lloopMap)
+    else: self.LineLoopMap = lloopMap #may work    
+
+    if self.Compound: self.PhysicalLineMap = self.__map_between_objects(self.CompoundMap,boundIdMap)
+    else: self.PhysicalLineMap = boundIdMap #watch out for repeats    
+
     self.PlaneSurfaceMap = np.array([0] + list(self.__map_between_objects(lloopMap,shapeMap)))
 
+    # writing to the geofile
     self.__write_method(points,lines,lloopMap,boundIds,regionIds)
   
   def __define_mapping_from_intersection(self,mapping1,mapping2):
@@ -385,7 +390,6 @@ class geometry_writer( object ):
     LLnum = 0
     IntersectNum = 0
     BoundIdNum = 0
-    print boundIdMap
     while not end:
       n = np.min([boundIdMap[BoundIdNum],lloopMap[LLnum],IntersectMap[IntersectNum]])
       if IntersectMap[IntersectNum] in CompoundMap: continue
@@ -406,7 +410,7 @@ class geometry_writer( object ):
     
 
   def __write_method(self,points,lines,lloopMap,boundIds,regionIds):
-  '''doc'''
+  
     #start writing to file
     self.geofile_inst = open(self.geofilepath,'w')
 
@@ -428,27 +432,41 @@ class geometry_writer( object ):
         continue
       self.geofile_inst.write("Line(%i) = {%s};\n" %( lines[i],str([self.pointIds[i + LoopNo - 1],self.pointIds[i + LoopNo]])[1:-1]))
       Allocated += 1
+    print 'lines written'
 
     #write compounds
-    cLineNo = Allocated + 1
-    cLineNo = self.__write_line_objects(cLineNo,self.CompoundMap,"Compound Line(%i) = {%s};\n",lines,0)#need to put the string back in
-    
-    #write line loops  
-    cLineNo = self.__write_line_objects(cLineNo,self.LineLoopMap,"Line Loop(%i) = {%s};\n",np.arange(self.CompoundMap.size),lines.size + 1)
+      cLineNo = Allocated + 1
+    if self.Compound:
+      cLineNo = self.__write_line_objects(cLineNo,self.CompoundMap,"Compound Line(%i) = {%s};\n",lines,0)
+      print 'compound lines written'    
 
+    #write line loops
+    if self.Compound: NoOfComponents = self.CompoundMap.size;ComponentIdStart = lines.size + 1
+    else: NoOfComponents = lines.size;ComponentIdStart = 1
+    cLineNo = self.__write_line_objects(cLineNo,self.LineLoopMap,"Line Loop(%i) = {%s};\n",np.arange(NoOfComponents),ComponentIdStart)
+    print 'line loops written'      
+  
     #write physical lines
-    self.__write_physical_objects(boundIds,self.PhysicalLineMap,"Physical Line(%i) = {%s};\n",self.CompoundMap.size,lines.size + 1)
+    if self.Compound: NoOfComponents = self.CompoundMap.size;ComponentIdStart = lines.size + 1
+    else: NoOfComponents = lines.size;ComponentIdStart = 1
+    self.__write_physical_objects(boundIds,self.PhysicalLineMap,"Physical Line(%i) = {%s};\n",NoOfComponents,ComponentIdStart)
+    print 'physical lines written'    
 
     #write plane surfaces
     cLineNo = 1
-    self.__write_line_objects(cLineNo,self.PlaneSurfaceMap,"Plane Surface(%i) = {%s};\n",np.arange(lloopMap.size),lines.size+self.CompoundMap.size)
+    if self.Compound: ComponentIdStart = lines.size + self.CompoundMap.size
+    else: ComponentIdStart = lines.size + 1
+    self.__write_line_objects(cLineNo,self.PlaneSurfaceMap,"Plane Surface(%i) = {%s};\n",np.arange(lloopMap.size),ComponentIdStart)
+    print 'plane surfaces written'  
 
     #write physical surfaces
     self.__write_physical_objects(regionIds,self.PlaneSurfaceMap,"Physical Surface(%i) = {%s};\n",1,1)
+    print 'physical surfaces written'
 
     self.geofile_inst.write('\nMesh.RemeshAlgorithm=1;')
 
     self.geofile_inst.close()
+    print "geo file written : " + self.geofilepath
 
   def __write_line_objects(self,cLineNo,ObjectMap,ObjectString,Components,ComponentIdStart):
     for i in range(len(ObjectMap)-1):
