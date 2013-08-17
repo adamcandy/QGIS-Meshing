@@ -89,4 +89,11 @@ Current development focus is on a test engine to ensure the plugins are robust.
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/dde9c46de8dc0b328e6b67c9e53b7a1d "githalytics.com")](http://githalytics.com/adamcandy/QGIS-Meshing)
 
+License
+-------
+
+The QGIS-Meshing plugins free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, version 2.1 of the License.
+
+Copyright (C) 2012-2013 Imperial College London and others.
+See the AUTHORS file in the main source directory for a full list of copyright holders.
 
