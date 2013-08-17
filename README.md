@@ -83,7 +83,7 @@ Development
 
 Contributions to the plugins are very welcome.
 
-* Please fork the main repository (e.g. with this [link](https://github.com/adamcandy/QGIS-Meshing/fork).
+* Please fork the main repository (e.g. with this [link](https://github.com/adamcandy/QGIS-Meshing/fork)).
 
 * Branch from the master (ideally prefixed 'dev') and make the code changes, ensuring all tests pass.
 
@@ -109,8 +109,6 @@ Current development
 
 Current development focus is on a test engine to ensure the plugins are robust.
 
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/dde9c46de8dc0b328e6b67c9e53b7a1d "githalytics.com")](http://githalytics.com/adamcandy/QGIS-Meshing)
-
 License
 -------
 
@@ -119,3 +117,4 @@ The QGIS-Meshing plugins free software; you can redistribute it and/or modify it
 Copyright (C) 2012-2013 Imperial College London and others.
 See the AUTHORS file in the main source directory for a full list of copyright holders.
 
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/dde9c46de8dc0b328e6b67c9e53b7a1d "githalytics.com")](http://githalytics.com/adamcandy/QGIS-Meshing)
