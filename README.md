@@ -93,6 +93,10 @@ The changes will be tested by a buildbot in a sterile environment to check tests
 With a green light, the changes will be merged in.
 Thanks!
 
+### Current development
+
+Current development focus is on a test engine to ensure the plugins are robust.
+
 ### Resources for developers
 
 The plugins are written in Python, each being a [Python package](http://docs.python.org/2/tutorial/modules.html#packages).
@@ -104,10 +108,6 @@ Contact
 
 The plugin developers can be contacted via the maintainer [Adam Candy](http://www3.imperial.ac.uk/people/adam.candy).
 
-Current development
--------------------
-
-Current development focus is on a test engine to ensure the plugins are robust.
 
 License
 -------
