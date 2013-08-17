@@ -6,7 +6,7 @@ QGIS plugins for meshing geophysical domains.
 Test engine status
 ------------------
 
-[![Build Status](https://travis-ci.org/adamcandy/qgis-plugins-meshing.png?branch=master)](https://travis-ci.org/adamcandy/qgis-plugins-meshing)
+[![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=master)](https://travis-ci.org/adamcandy/QGIS-Meshing)
 
 Outline
 -------
@@ -20,7 +20,7 @@ This project contains four plugins for the generation of surface meshes in QGIS:
 #### ![Rasterise Polygons plugin](./extras/readme_data/ras_x64.png "Rasterise Polygons plugin") Rasterise Polygons plugin, and 
 #### ![Raster Calculator plugin](./extras/readme_data/rastercalc.png "Raster Calculator plugin") Raster Calculator plugin.
 
-Outline web page: [http://adamcandy.github.io/qgis-plugins-meshing](http://adamcandy.github.io/qgis-plugins-meshing)
+Outline web page: [http://adamcandy.github.io/QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
 
 Installation
 ------------
@@ -85,5 +85,6 @@ Current development
 
 Current development focus is on a test engine to ensure the plugins are robust.
 
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/10dce9baac92cce452bed9855a86ae97 "githalytics.com")](http://githalytics.com/adamcandy/qgis-plugins-meshing)
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/dde9c46de8dc0b328e6b67c9e53b7a1d "githalytics.com")](http://githalytics.com/adamcandy/QGIS-Meshing)
+
 
