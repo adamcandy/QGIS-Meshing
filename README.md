@@ -13,6 +13,8 @@ Test engine status
 Outline
 -------
 
+Outline web page: [http://adamcandy.github.io/QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
+
 ![UK meshed](./extras/readme_data/uk.gif "UK meshed")
 
 This project contains four plugins for the generation of surface meshes in QGIS:
@@ -21,8 +23,6 @@ This project contains four plugins for the generation of surface meshes in QGIS:
 #### ![Boundary identification plugin](./extras/readme_data/id_x64.png?raw=true "Boundary identification plugin") Boundary identification plugin,
 #### ![Rasterise Polygons plugin](./extras/readme_data/ras_x64.png "Rasterise Polygons plugin") Rasterise Polygons plugin, and 
 #### ![Raster Calculator plugin](./extras/readme_data/rastercalc.png "Raster Calculator plugin") Raster Calculator plugin.
-
-Outline web page: [http://adamcandy.github.io/QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
 
 Installation
 ------------
