@@ -115,22 +115,42 @@ For a single-user install, use the following:</p>
 <p>Further information on the dependencies can be found in the manual at:
 <a href="http://amcg.ese.ic.ac.uk/%7Easc/public/meshing_manual.pdf">http://amcg.ese.ic.ac.uk/~asc/public/meshing_manual.pdf</a></p>
 
-<h2>
-<a name="resources-for-developers" class="anchor" href="#resources-for-developers"><span class="octicon octicon-link"></span></a>Resources for developers</h2>
+<h2>Testing</h2>
+Test the plugins with the following command executed in the root folder of the repository
+<pre><code>make test
+</code></pre>
 
+<h2>Development</h2>
+<h3>Contributing</h3>
+Contributions to the plugins are very welcome. Get involved!
+<ul>
+  <li>
+    Please fork the main repository (e.g. with this link).
+  </li>
+  <li>
+    Branch from the master (ideally prefixed 'dev') and make the code changes, ensuring all tests pass.
+  </li>
+  <li>
+    Create a pull request back.
+  </li>
+</ul>
+The changes will be tested by a buildbot in a sterile environment to check tests pass and code integrity in maintained. With a green light, the changes will be merged in. Thanks!
+
+
+<h3>Current development</h3>
+
+<p>Current development focus is on a test engine to ensure the plugins are robust.</p>
+
+<h3>Resources for developers</h3>
 <p>The plugins are written in Python, each being a <a href="http://docs.python.org/2/tutorial/modules.html#packages">Python package</a>.
 A guide to developing Python plugins for QGIS is available <a href="http://www.qgis.org/pyqgis-cookbook/plugins.html#plugins">here</a>.
 The <a href="http://www.qgis.org/pyqgis-cookbook/">PyQGIS Developer Cookbook</a> is also a useful resource.</p>
 
+
 <h2>
 <a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h2>
 
-<p>The plugin developers can be contacted via <a href="http://www3.imperial.ac.uk/people/adam.candy">Adam Candy</a>.</p>
-
-<h2>
-<a name="current-development" class="anchor" href="#current-development"><span class="octicon octicon-link"></span></a>Current development</h2>
-
-<p>Current development focus is on a test engine to ensure the plugins are robust.</p>
+<p>The plugin developers can be contacted via the maintainer <a href="http://www3.imperial.ac.uk/people/adam.candy">Adam Candy</a>.</p>
 
 <h2>License</h2>
 
