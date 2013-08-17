@@ -81,7 +81,7 @@ Development
 
 ### Contributing
 
-Contributions to the plugins are very welcome.
+Contributions to the plugins are very welcome.  Get involved!
 
 * Please fork the main repository (e.g. with this [link](https://github.com/adamcandy/QGIS-Meshing/fork)).
 
