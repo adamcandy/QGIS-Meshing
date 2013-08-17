@@ -6,7 +6,9 @@ QGIS plugins for meshing geophysical domains.
 Test engine status
 ------------------
 
-[![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=master)](https://travis-ci.org/adamcandy/QGIS-Meshing)
+[![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=master)](https://travis-ci.org/adamcandy/QGIS-Meshing) Release
+
+[![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev)](https://travis-ci.org/adamcandy/QGIS-Meshing) Development
 
 Outline
 -------
