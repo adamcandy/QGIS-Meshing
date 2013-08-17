@@ -69,8 +69,31 @@ Manual
 Further information on the dependencies can be found in the manual at:
 [http://amcg.ese.ic.ac.uk/~asc/public/meshing_manual.pdf](http://amcg.ese.ic.ac.uk/~asc/public/meshing_manual.pdf)
 
-Resources for developers
-------------------------
+Testing
+-------
+
+Test the plugins with the following command executed in the root folder of the repository
+
+    make test
+
+Development
+-----------
+
+### Contributing
+
+Contributions to the plugins are very welcome.
+
+* Please fork the main repository (e.g. with this [link](https://github.com/adamcandy/QGIS-Meshing/fork).
+
+* Branch from the master (ideally prefixed 'dev') and make the code changes, ensuring all tests pass.
+
+* Create a pull request back.
+
+The changes will be tested by a buildbot in a sterile environment to check tests pass and code integrity in maintained.
+With a green light, the changes will be merged in.
+Thanks!
+
+### Resources for developers
 
 The plugins are written in Python, each being a [Python package](http://docs.python.org/2/tutorial/modules.html#packages).
 A guide to developing Python plugins for QGIS is available [here](http://www.qgis.org/pyqgis-cookbook/plugins.html#plugins).
@@ -79,8 +102,7 @@ The [PyQGIS Developer Cookbook](http://www.qgis.org/pyqgis-cookbook/) is also a 
 Contact
 -------
 
-The plugin developers can be contacted via [Adam Candy](http://www3.imperial.ac.uk/people/adam.candy).
-
+The plugin developers can be contacted via the maintainer [Adam Candy](http://www3.imperial.ac.uk/people/adam.candy).
 
 Current development
 -------------------
