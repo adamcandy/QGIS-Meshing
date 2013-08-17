@@ -19,3 +19,4 @@ before_install:
  #- sudo apt-get install -qq qgis
 #install:
 script: make test
+
