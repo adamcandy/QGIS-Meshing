@@ -13,7 +13,7 @@ Test engine status
 Outline
 -------
 
-Outline web page: [http://adamcandy.github.io/QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
+Outline web page: [http://adamcandy.github.io/QGIS-Meshing](QGIS-Meshing)
 
 ![UK meshed](./extras/readme_data/uk.gif "UK meshed")
 
@@ -106,7 +106,7 @@ The [PyQGIS Developer Cookbook](http://www.qgis.org/pyqgis-cookbook/) is also a 
 Contact
 -------
 
-The plugin developers can be contacted via the maintainer [Adam Candy](http://www3.imperial.ac.uk/people/adam.candy).
+The plugin developers can be contacted via the maintainer [Adam Candy](http://www3.imperial.ac.uk/people/adam.candy), GitHub user <a href="https://github.com/adamcandy">adamcandy</a>.
 
 
 License
