@@ -13,7 +13,7 @@ Test engine status
 Outline
 -------
 
-Outline web page: [QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
+Outline web page: [http://adamcandy.github.io/QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
 
 ![UK meshed](./extras/readme_data/uk.gif "UK meshed")
 
