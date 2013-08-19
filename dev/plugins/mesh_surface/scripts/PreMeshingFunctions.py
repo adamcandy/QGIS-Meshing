@@ -94,9 +94,7 @@ class PreMesh(DefineDomain):
 		self.define_bounds(self.dlg.ui.grpDefID.isChecked())
 
 		# Write the Geo.
-		data = [self.domainData.regionIDs,self.domainData.shapes,self.boundaryIDList,self.domainData.points]
-		write_geo_file(self.domainSavePath,data, self.dlg.ui.compoundCheckBox.isChecked(), self.dlg.ui.bSplineRadioButton.isChecked())
-		
+		self.GeoWriter()
 
 	"""
 	Retrieve the information from the drop-down boxes.

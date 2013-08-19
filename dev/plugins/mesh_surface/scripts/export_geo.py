@@ -41,12 +41,20 @@ to enable compound lines.
 """
 
 #import for message box to display error
-from PyQt4.QtGui import QMessageBox
+#from PyQt4.QtGui import QMessageBox
 import numpy as np
-import numpy.lib.arraysetops as nset
-import copy
 
 class geometry_writer( object ):
+  """Class storing all methods associated with writing geofiles
+  
+  Note : Map refered to in documentation is not pythons map()
+  but a list containing indices which provide a set of slices
+  to another list
+
+  """
+
+
+
 
   def GeoWriter( self ):
     """Calls geofile writing methods
@@ -72,20 +80,13 @@ class geometry_writer( object ):
     # generating mappings from objects to their components
     if self.Compound: self.IntersectMap = self.__findIntersections(lines,shapeMap)
 
-    #loopcorrect = np.arange(lloopMap.size)#possibly +1
-
-    #boundIdMap[-1] -= loopcorrect[-1]
-    #lloopMap -= loopcorrect
-    #shapeMap[-1] = loopcorrect[-1]
-
-
     if self.Compound: self.CompoundMap = self.__generateCompound(boundIdMap,lloopMap,self.IntersectMap,lines.size)
 
     if self.Compound: self.LineLoopMap = self.__map_between_objects(self.CompoundMap,lloopMap)
     else: self.LineLoopMap = lloopMap #may work    
 
     if self.Compound: self.PhysicalLineMap = self.__map_between_objects(self.CompoundMap,boundIdMap)
-    else: self.PhysicalLineMap = boundIdMap #watch out for repeats    
+    else: self.PhysicalLineMap = boundIdMap
 
     self.PlaneSurfaceMap = np.array([0] + list(self.__map_between_objects(lloopMap,shapeMap)))
 
@@ -93,7 +94,7 @@ class geometry_writer( object ):
     self.__write_method(points,lines,lloopMap,boundIds,regionIds)
   
   def __define_mapping_from_intersection(self,mapping1,mapping2):
-    """Finds section of two arrays which are equal"""
+    """Finds sections of two arrays which are equal"""
     mp1_outr = np.outer(mapping1,np.ones_like(mapping2))
     mp2_outr = np.outer(np.ones_like(mapping1),mapping2)
     mp_result_outr = np.where(mp1_outr == mp2_outr, mp2_outr, 0)
@@ -126,11 +127,11 @@ class geometry_writer( object ):
     return np.array([0] + list(IntersectMap[np.nonzero(IntersectMap)]))
       
   def __generateCompound(self,boundIdMap,lloopMap,IntersectMap,line_size):
-    """Generates mapping between compounds and lines
+    """Generates Mapping between compounds and lines
 
     Splits list of lines into the minimum
     number of segments such that no section
-    is split by one of the intersect maps     
+    is split by one of the intersect Maps     
 
     """
     CompoundMap = []
@@ -152,6 +153,14 @@ class geometry_writer( object ):
     return np.array(CompoundMap) 
       
   def __map_between_objects(self,ComponentObjects,LineMap):
+    """Generates a Mapping between Maps
+    
+    Generates a new Map which slices 
+    ComponentObjects such that each slice
+    corrisponds to the subsets of one
+    member of LineMap
+    
+    """
     ObjectMap = []
     for line_Id in LineMap:
       ObjectMap += [np.sum(np.where(ComponentObjects == line_Id,1,0)*np.arange(ComponentObjects.size))]
@@ -160,7 +169,7 @@ class geometry_writer( object ):
 
   def __write_method(self,points,lines,lloopMap,boundIds,regionIds):
 
-    #loopcorrect = np.arange(lloopMap.size)
+    """calls the methods which write to the geofile"""
   
     #start writing to file
     self.geofile_inst = open(self.geofilepath,'w')
@@ -234,6 +243,7 @@ class geometry_writer( object ):
     print "geo file written : " + self.geofilepath
 
   def __write_line_objects(self,cLineNo,ObjectMap,ObjectString,Components,ComponentIdStart,repeatList):
+    """writes the gmsh objects which are not physical"""
     for i in range(len(ObjectMap)-1):
       basear = Components[ObjectMap[i]:ObjectMap[i+1]]
       mask = np.ones_like(basear)
@@ -247,7 +257,7 @@ class geometry_writer( object ):
 
 
   def __write_physical_objects(self,IdValues,ObjectMap,ObjectString,Components,ComponentIdStart):
-
+    """writes the gmsh objects which are physical"""
     IdsAllocated = []
     cId = IdValues[0]
 
