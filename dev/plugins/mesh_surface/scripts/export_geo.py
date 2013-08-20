@@ -198,9 +198,6 @@ class geometry_writer( object ):
       Allocated += 1
     print 'lines written'
 
-
-    #print repeatList
-
     #write compounds
     cLineNo = Allocated + 1 + len(repeatList)
     if self.Compound:
