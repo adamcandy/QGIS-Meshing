@@ -204,13 +204,14 @@ class geometry_writer( object ):
     #write compounds
     cLineNo = Allocated + 1 + len(repeatList)
     if self.Compound:
-      cLineNo = self.__write_line_objects(cLineNo,self.CompoundMap,"Compound Line(%i) = {%s};\n",lines,0,repeatList)
+      cLineNo, llrepeatList = self.__write_line_objects(cLineNo,self.CompoundMap,"Compound Line(%i) = {%s};\n",lines,0,repeatList)
       print 'compound lines written'    
 
     #write line loops
-    if self.Compound: Components = np.arange(self.CompoundMap.size);ComponentIdStart = lines.size + 1;llrepeatList = []
+    if self.Compound: Components = np.arange(self.CompoundMap.size);ComponentIdStart = lines.size + 1;
     else: Components = lines;ComponentIdStart = 0;llrepeatList = repeatList
-    cLineNo = self.__write_line_objects(cLineNo,self.LineLoopMap,"Line Loop(%i) = {%s};\n",Components,ComponentIdStart,llrepeatList)
+    
+    cLineNo, planrepeatList = self.__write_line_objects(cLineNo,self.LineLoopMap,"Line Loop(%i) = {%s};\n",Components,ComponentIdStart,llrepeatList)
     print 'line loops written'      
   
     #write physical lines
@@ -230,7 +231,7 @@ class geometry_writer( object ):
     cLineNo = 1
     if self.Compound: ComponentIdStart = lines.size + self.CompoundMap.size
     else: ComponentIdStart = lines.size + 1
-    self.__write_line_objects(cLineNo,self.PlaneSurfaceMap,"Plane Surface(%i) = {%s};\n",np.arange(lloopMap.size),ComponentIdStart,[])
+    self.__write_line_objects(cLineNo,self.PlaneSurfaceMap,"Plane Surface(%i) = {%s};\n",np.arange(lloopMap.size),ComponentIdStart,planrepeatList)
     print 'plane surfaces written'  
 
     #write physical surfaces
@@ -244,16 +245,30 @@ class geometry_writer( object ):
 
   def __write_line_objects(self,cLineNo,ObjectMap,ObjectString,Components,ComponentIdStart,repeatList):
     """writes the gmsh objects which are not physical"""
+    ObjectrepeatList = []
+
     for i in range(len(ObjectMap)-1):
       basear = Components[ObjectMap[i]:ObjectMap[i+1]]
+
       mask = np.ones_like(basear)
       for iD in repeatList:
-        mask = np.where(basear==iD,0,mask)
-      mask = mask*np.arange(mask.size)
-      mask = np.array([0]+list(mask[np.nonzero(mask)]))
-      self.geofile_inst.write(ObjectString % (cLineNo,str(list(basear[mask]  + ComponentIdStart))[1:-1]))
+        mask = np.where(basear==(iD-ComponentIdStart),0,mask)
+      validindex = mask*np.arange(mask.size)
+      
+      validindex = validindex[np.nonzero(validindex)]
+      
+      if mask[0] == 1:
+        validindex = np.array([0]+list(validindex))
+      
+      try:
+        basear[validindex][0]
+      except:
+        ObjectrepeatList += [cLineNo]
+        cLineNo += 1
+        continue      
+      self.geofile_inst.write(ObjectString % (cLineNo,str(list(basear[validindex]  + ComponentIdStart))[1:-1]))
       cLineNo += 1
-    return cLineNo
+    return cLineNo, ObjectrepeatList
 
 
   def __write_physical_objects(self,IdValues,ObjectMap,ObjectString,Components,ComponentIdStart):
