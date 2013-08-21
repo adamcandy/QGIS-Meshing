@@ -68,12 +68,17 @@ def create_field(netcdf_file):
     endlat = reader.fnc.variables['y_range'][1]
     endlon = reader.fnc.variables['x_range'][1]
 
+    nLat = int((endlon - startlon)/spacelon)
+    nLon = int((endlat - startlat)/spacelat)
+
     #degrees:
     pos_string = str(startlon)+" "+str(startlat)+" 0\n"
     pos_string += "%.8f" % spacelon+" "+ "%.8f" % spacelat+" 1\n"
-    pos_string += str(int((endlon - startlon)/spacelon))+" "+str(int((endlat - startlat)/spacelat))+" 1\n"
+    pos_string += str(nLat)+" "+str(nLon)+" 1\n"
 
     print field.flatten()
+    field.shape = [nLon,nLat]
+    field = fliplr(transpose(field))
     pos_string += '\n'.join(map(str,abs(field.flatten()))) + '\n'
 
     return pos_string
