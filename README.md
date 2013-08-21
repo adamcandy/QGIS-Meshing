@@ -6,10 +6,14 @@ QGIS plugins for meshing geophysical domains.
 Test engine status
 ------------------
 
-[![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=master)](https://travis-ci.org/adamcandy/QGIS-Meshing)
+[![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=master)](https://travis-ci.org/adamcandy/QGIS-Meshing) Release
+
+[![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev)](https://travis-ci.org/adamcandy/QGIS-Meshing) Development
 
 Outline
 -------
+
+Outline web page: [http://adamcandy.github.io/QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
 
 ![UK meshed](./extras/readme_data/uk.gif "UK meshed")
 
@@ -19,8 +23,6 @@ This project contains four plugins for the generation of surface meshes in QGIS:
 #### ![Boundary identification plugin](./extras/readme_data/id_x64.png?raw=true "Boundary identification plugin") Boundary identification plugin,
 #### ![Rasterise Polygons plugin](./extras/readme_data/ras_x64.png "Rasterise Polygons plugin") Rasterise Polygons plugin, and 
 #### ![Raster Calculator plugin](./extras/readme_data/rastercalc.png "Raster Calculator plugin") Raster Calculator plugin.
-
-Outline web page: [http://adamcandy.github.io/QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
 
 Installation
 ------------
@@ -67,8 +69,35 @@ Manual
 Further information on the dependencies can be found in the manual at:
 [http://amcg.ese.ic.ac.uk/~asc/public/meshing_manual.pdf](http://amcg.ese.ic.ac.uk/~asc/public/meshing_manual.pdf)
 
-Resources for developers
-------------------------
+Testing
+-------
+
+Test the plugins with the following command executed in the root folder of the repository
+
+    make test
+
+Development
+-----------
+
+### Contributing
+
+Contributions to the plugins are very welcome.  Get involved!
+
+* Please fork the main repository (e.g. with this [link](https://github.com/adamcandy/QGIS-Meshing/fork)).
+
+* Branch from the master (ideally prefixed 'dev') and make the code changes, ensuring all tests pass.
+
+* Create a pull request back.
+
+The changes will be tested by a buildbot in a sterile environment to check tests pass and code integrity in maintained.
+With a green light, the changes will be merged in.
+Thanks!
+
+### Current development
+
+Current development focus is on a test engine to ensure the plugins are robust.
+
+### Resources for developers
 
 The plugins are written in Python, each being a [Python package](http://docs.python.org/2/tutorial/modules.html#packages).
 A guide to developing Python plugins for QGIS is available [here](http://www.qgis.org/pyqgis-cookbook/plugins.html#plugins).
@@ -77,14 +106,16 @@ The [PyQGIS Developer Cookbook](http://www.qgis.org/pyqgis-cookbook/) is also a 
 Contact
 -------
 
-The plugin developers can be contacted via [Adam Candy](http://www3.imperial.ac.uk/people/adam.candy).
+The plugin developers can be contacted via the maintainer [Adam Candy](http://www3.imperial.ac.uk/people/adam.candy), GitHub user <a href="https://github.com/adamcandy">adamcandy</a>.
 
 
-Current development
--------------------
+License
+-------
 
-Current development focus is on a test engine to ensure the plugins are robust.
+The QGIS-Meshing plugins free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, version 2.1 of the License.
 
+Copyright (C) 2012-2013 Imperial College London and others.
+See the AUTHORS file in the main source directory for a full list of copyright holders.
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/adamcandy/qgis-meshing/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/dde9c46de8dc0b328e6b67c9e53b7a1d "githalytics.com")](http://githalytics.com/adamcandy/QGIS-Meshing)
-
-
