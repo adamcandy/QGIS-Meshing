@@ -42,6 +42,7 @@ from scripts.MeshOperations import MeshOp
 from scripts.PosFileConverter import *
 import os
 from scripts.flat_mesh_to_spherical import flat_mesh_spherical
+import scripts.bathy_to_field as btyf
 
 class _baseCommands( object ):
 	def _usage( self ):
@@ -181,7 +182,8 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 	def get_metric( self ):
 		self.singleNetCDFLayerFileName = self.sarg.pop(0)
 		self.postviewFileName = self.singleNetCDFLayerFileName[:-2]+'pos'
-		converter.writePosFile(self)
+		#converter.writePosFile(self)
+                btyf.create_fld_file(self.singleNetCDFLayerFileName,"bathy.fld")
 	def get_id( self ):
 		self.idFilePath = self.sarg.pop(0)
 		self.isIdLayer = True
@@ -208,7 +210,12 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 	def set_lineType( self ):
 		exec(self.lineType[self.sarg.pop(0)])
 	def gradeToNCFlat( self ):
-		MeshOp.gradeToNCFlat(self)
+		geoFile = open(str(self.geofilepath), 'a')
+                geoFile.write('\nField[1] = Structured;\n')
+                geoFile.write('Field[1].FileName = "bathy.fld";\n')
+                geoFile.write('Field[1].TextFormat = 1;\n')
+                geoFile.write("Background Field = 1;\n")
+                geoFile.close()  
 	def set_mevalcall( self ):
 		self.mEval = float(self.sarg.pop(0))
 	def write_meval( self ):
