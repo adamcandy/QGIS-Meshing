@@ -95,7 +95,13 @@ Thanks!
 
 ### Current development
 
+Milestones for the project can be viewed at [Milestones](https://github.com/adamcandy/QGIS-Meshing/issues/milestones).
+
 Current development focus is on a test engine to ensure the plugins are robust.
+
+### Issue tracker
+
+Issues and bugs found with the project can be viewed and edited at [Issues](https://github.com/adamcandy/QGIS-Meshing/issues?state=open).
 
 ### Resources for developers
 
