@@ -1,0 +1,15 @@
+<VRTDataset rasterXSize="220" rasterYSize="170">
+  <GeoTransform> -1.2000000000000000e+01,  5.0000000000000003e-02,  0.0000000000000000e+00,  5.7000000000000000e+01,  0.0000000000000000e+00, -5.0000000000000003e-02</GeoTransform>
+  <VRTRasterBand dataType="Float32" band="1">
+    <NoDataValue>nan</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/home/sml110/UROP/QGIS/mosaic/wider2.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="220" RasterYSize="170" DataType="Float32" BlockXSize="220" BlockYSize="9" />
+      <SrcRect xOff="0" yOff="0" xSize="220" ySize="170" />
+      <DstRect xOff="0" yOff="0" xSize="220" ySize="170" />
+      <NODATA>nan</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+</VRTDataset>

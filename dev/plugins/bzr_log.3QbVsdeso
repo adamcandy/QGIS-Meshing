@@ -1,0 +1,11 @@
+Updated MeshNetCDF2 so that it creates working geo files without the duplication of lines error. Using .nc files seems to work OK as a mesh metric.
+
+-------------- This line and the following will be ignored --------------
+
+modified:
+  QGis Plugins/MeshNetCDF2/export_plane.py
+  QGis Plugins/MeshNetCDF2/input_output_for_id.py
+unknown:
+  n.txt
+  shorelines.geo
+  wider_area_bathymetry_filtered_subsampled.nc

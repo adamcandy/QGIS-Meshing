@@ -1,4 +1,3 @@
-class Error(Exception):
 
 ##########################################################################
 #  
@@ -31,6 +30,7 @@ class Error(Exception):
 #  
 ##########################################################################
 
+class Error(Exception):
 	pass
 
 class UnsuportedRasterVariableError(Error):
