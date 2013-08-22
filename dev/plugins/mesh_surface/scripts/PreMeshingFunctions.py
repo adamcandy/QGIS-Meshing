@@ -108,7 +108,7 @@ class PreMesh(DefineDomain):
 				self.singleNetCDFLayerFileName = '%s.nc' % self.singleNetCDFLayerFileName
 		else:
 			self.getNetCDFDropDownOptions()
-		self.postviewFileName = '%s_meshing_posfile.pos' % self.singleNetCDFLayerFileName[:-3]
+		self.fieldFileName = '%s_meshing_fieldfile.fld' % self.singleNetCDFLayerFileName[:-3]
 		if self.dlg.ui.chooseGeoFileRadioButton.isChecked():
 			self.geoFileName = self.dlg.ui.chooseGeoFileLineEdit.text()
 		else:

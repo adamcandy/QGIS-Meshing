@@ -181,9 +181,8 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 
 	def get_metric( self ):
 		self.singleNetCDFLayerFileName = self.sarg.pop(0)
-		self.postviewFileName = self.singleNetCDFLayerFileName[:-2]+'pos'
-		#converter.writePosFile(self)
-                btyf.create_fld_file(self.singleNetCDFLayerFileName,"bathy.fld")
+		self.fieldFileName = self.singleNetCDFLayerFileName[:-2]+'fld'
+                btyf.create_fld_file(self.singleNetCDFLayerFileName,self.fieldFileName)
 	def get_id( self ):
 		self.idFilePath = self.sarg.pop(0)
 		self.isIdLayer = True
@@ -212,7 +211,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 	def gradeToNCFlat( self ):
 		geoFile = open(str(self.geofilepath), 'a')
                 geoFile.write('\nField[1] = Structured;\n')
-                geoFile.write('Field[1].FileName = "bathy.fld";\n')
+                geoFile.write('Field[1].FileName = %s;\n' % self.fieldFileName)
                 geoFile.write('Field[1].TextFormat = 1;\n')
                 geoFile.write("Background Field = 1;\n")
                 geoFile.close()  
