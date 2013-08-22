@@ -139,7 +139,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 			self.GeoWriter()
 			if self.mEval != None:
 				self.write_meval()
-			if self.postviewFileName != None:
+			if self.fieldFileName != None:
 				self.geoFileName = self.geofilepath
 				self.gradeToNCFlat()
 		if self.gmshcall:
@@ -211,7 +211,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 	def gradeToNCFlat( self ):
 		geoFile = open(str(self.geofilepath), 'a')
                 geoFile.write('\nField[1] = Structured;\n')
-                geoFile.write('Field[1].FileName = %s;\n' % self.fieldFileName)
+                geoFile.write('Field[1].FileName = "%s";\n' % self.fieldFileName)
                 geoFile.write('Field[1].TextFormat = 1;\n')
                 geoFile.write("Background Field = 1;\n")
                 geoFile.close()  
