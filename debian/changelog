@@ -1,3 +1,15 @@
+qgis-plugins-meshing (2.0.2)  precise; urgency=low
+
+  * Test engine passes 
+  
+ -- Adam Candy <adam.candy@imperial.ac.uk>  Fri, 16 Aug 2013 00:20:01 +0100
+
+qgis-plugins-meshing (2.0.1)  precise; urgency=low
+
+  * Restructure of code layout, and introduction of a test engine with regression exercises.
+  
+ -- Adam Candy <adam.candy@imperial.ac.uk>  Thu, 15 Aug 2013 22:40:01 +0100
+
 qgis-plugins-meshing (1.9.1)  precise; urgency=low
 
   * Compound line fix, fix missing island bug, example files added, and a new layout for the raster calc.
