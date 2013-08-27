@@ -2,7 +2,7 @@
 
 body {
   padding:4px;
-  font:16px Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font:16px/1.1 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#222;
   font-weight:300;
 }
