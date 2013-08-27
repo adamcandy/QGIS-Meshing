@@ -85,7 +85,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 	isIdLayer = False
 	geofilepath = None
 	singleNetCDFLayerFileName = None
-	postviewFileName = None
+	fieldFileName = None
 	compound_line_enable = False
 	gmshcall = False
 	gmshShow = False
