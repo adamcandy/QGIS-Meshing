@@ -87,7 +87,7 @@ Development
 
 Contributions to the plugins are very welcome.  Get involved!
 
-Development follows the model described at [http://nvie.com/git-model](http://nvie.com/git-model), with the main development branch named 'dev' and tested development branches prefixed with 'dev-'.
+Development follows the model described at [nvie.com/git-model](http://nvie.com/git-model), with the main development branch named 'dev' and tested development branches prefixed with 'dev-'.
 
 * Please fork the main repository (e.g. with this [link](https://github.com/adamcandy/QGIS-Meshing/fork)).
 
