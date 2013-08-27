@@ -1,8 +1,4 @@
-<<<<<<< HEAD:dev/plugins/mesh_surface/mesh_surface
-#! /usr/bin/python
-=======
 #!/usr/bin/env python
->>>>>>> master:plugins/mesh_surface/mesh_surface
 
 ##########################################################################
 #  
