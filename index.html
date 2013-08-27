@@ -13,24 +13,22 @@
     <![endif]-->
   </head>
   <body>
+<div class=header>
+  <div>
+  <div class='icon'>
+    <img class='icon' src="./extras/readme_data/meshing_icon_M_withQGIS_100x.png" alt="QGIS meshing plugins" title="QGIS meshing plugins">
+  </div>
+  <div class='title'>
+    <h1>QGIS meshing plugins</h1>
+  </div>
+  </div>
+</div>
+<div class=full>
+</div>
     <div class="wrapper">
-        <h1>
-<a name="-qgis-meshing-plugins" class="anchor" href="#-qgis-meshing-plugins"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/meshing_icon_M_withQGIS_100x.png" alt="QGIS meshing plugins" title="QGIS meshing plugins"> QGIS meshing plugins</h1>
-
 <p>QGIS plugins for meshing geophysical domains.</p>
+<p><img src="./extras/readme_data/uk.gif" alt="UK meshed" title="UK meshed"></p>
 
-<h2>
-<a name="test-engine-status" class="anchor" href="#test-engine-status"><span class="octicon octicon-link"></span></a>Test engine status</h2>
-
-<p>
-  <a href="https://travis-ci.org/adamcandy/QGIS-Meshing"><img src="https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=master" alt="Build Status Release"></a>
-  Release
-</p>
-
-<p>
-  <a href="https://travis-ci.org/adamcandy/QGIS-Meshing"><img src="https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev" alt="Build Status Development"></a>
-  Development    
-</p>
 
 <p class="view">
   View the project on GitHub: 
@@ -41,26 +39,50 @@
         <li><a href="https://github.com/adamcandy/QGIS-Meshing/tarball/master">Download <strong>TAR Ball</strong></a></li>
         <li><a href="https://github.com/adamcandy/QGIS-Meshing">View On <strong>GitHub</strong></a></li>
       </ul>
-</div>
+  </div>
+</p>
 
 <h2>
-<a name="outline" class="anchor" href="#outline"><span class="octicon octicon-link"></span></a>Outline</h2>
+<a name="test-engine-status" class="anchor" href="#test-engine-status"><span class="octicon octicon-link"></span></a>Test engine status</h2>
 
-<p><img src="./extras/readme_data/uk.gif" alt="UK meshed" title="UK meshed"></p>
+<table>
+  <tr>
+  <td><a href="https://travis-ci.org/adamcandy/QGIS-Meshing"><img src="https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=master" alt="Build Status Release"></a></td>
+  <td>Release</td>
+  </tr>
+  <tr>
+  <td><a href="https://travis-ci.org/adamcandy/QGIS-Meshing"><img src="https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev" alt="Build Status Development"></a></td>
+  <td>Development</td>    
+  </tr>
+  <tr>
+  <td><a href="https://travis-ci.org/adamcandy/QGIS-Meshing"><img src="https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev-compound" alt="Build Status Development Compound"></a></td>
+  <td>Development (Compound Lines and Boundary IDs)</td>
+  </tr>
+</table>
+
+<h2>Outline</h2>
+
 
 <p>This project contains four plugins for the generation of surface meshes in QGIS:</p>
 
-<h4>
-<a name="-mesh-surface-plugin" class="anchor" href="#-mesh-surface-plugin"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/meshing_icon_M2_64x.png" alt="Mesh surface plugin" title="Mesh surface plugin"> Mesh surface plugin,</h4>
+<div id='pluginlist'>
+<span class='plugin'>
+<a name="-mesh-surface-plugin" class="anchor" href="#-mesh-surface-plugin"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/meshing_icon_M2_64x.png" alt="Mesh surface plugin" title="Mesh surface plugin"> Mesh surface plugin,</span>
+<br>
 
-<h4>
-<a name="-boundary-identification-plugin" class="anchor" href="#-boundary-identification-plugin"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/id_x64.png?raw=true" alt="Boundary identification plugin" title="Boundary identification plugin"> Boundary identification plugin,</h4>
+<span class='plugin'>
+<a name="-boundary-identification-plugin" class="anchor" href="#-boundary-identification-plugin"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/id_x64.png?raw=true" alt="Boundary identification plugin" title="Boundary identification plugin"> Boundary identification plugin,</span>
+<br>
 
-<h4>
-<a name="-rasterise-polygons-plugin-and" class="anchor" href="#-rasterise-polygons-plugin-and"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/ras_x64.png" alt="Rasterise Polygons plugin" title="Rasterise Polygons plugin"> Rasterise Polygons plugin, and</h4>
+<span class='plugin'>
+<a name="-rasterise-polygons-plugin-and" class="anchor" href="#-rasterise-polygons-plugin-and"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/ras_x64.png" alt="Rasterise Polygons plugin" title="Rasterise Polygons plugin"> Rasterise Polygons plugin, and</span>
+<br>
 
-<h4>
-<a name="-raster-calculator-plugin" class="anchor" href="#-raster-calculator-plugin"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/rastercalc.png" alt="Raster Calculator plugin" title="Raster Calculator plugin"> Raster Calculator plugin.</h4>
+<span class='plugin'>
+<a name="-raster-calculator-plugin" class="anchor" href="#-raster-calculator-plugin"><span class="octicon octicon-link"></span></a><img src="./extras/readme_data/rastercalc.png" alt="Raster Calculator plugin" title="Raster Calculator plugin"> Raster Calculator plugin.</span>
+</div>
+
+
 
 <h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
@@ -117,9 +139,10 @@ For a single-user install, use the following:</p>
 
 <h2>Testing</h2>
 <p>Test the plugins with the following command executed in the root folder of the repository</p>
-
 <pre><code>make test
 </code></pre>
+<p>A buildbot has been setup to continuously tests new commits, see <a href="https://travis-ci.org/adamcandy/QGIS-Meshing">QGIS-Meshing buildbot</a>.</p>
+
 
 <h2>Development</h2>
 <div>

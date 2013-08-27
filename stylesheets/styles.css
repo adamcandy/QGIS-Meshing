@@ -1,8 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700);
 
 body {
-  padding:50px;
-  font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding:4px;
+  font:16px Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#222;
   font-weight:300;
 }
@@ -13,28 +13,77 @@ img {
 
 h1, h2, h3, h4, h5, h6 {
   color:#222;
-  margin:0 0 20px;
+  margin:10 0 20px;
 }
 
 p, ul, ol, table, pre, dl {
-  margin:0 0 20px;
+  margin:0 0 10px 0px;
 }
 
 h1, h2, h3 {
   line-height:1.1;
+
 }
 
 h1 {
-  font-size:56px;
+  font-size:72px;
 
 }
 
+.header {
+  width: 100%;
+  margin: 0 50px;
+  vertical-align: middle;
+}
+
+.full {
+  clear: both;
+}
+
+.title {
+  margin: 0;
+  padding: 0px 0px 0 20px;
+  display: block;
+  float: left;
+  vertical-align: middle;
+  line-height:1;
+}
+
+#pluginlist {
+  padding-left: 10px;
+}
+
+#pluginlist h4 {
+  margin: 0 0 12px 0;;
+  padding: 0;
+}
+
+h1.title {
+  color:#222;
+  margin:0px;
+  line-height:1;
+  padding:0;
+}
+
+.icon {
+  padding: 16px 0 0 0;
+  display: block;
+  float: left;
+  vertical-align: middle;
+}
 h2 {
   color:#393939;
+  font-size: 24px:;
 }
 
 h3, h4, h5, h6 {
   color:#494949;
+}
+
+.plugin {
+  font-size: 24px;
+  text-decoration:none;
+
 }
 
 a {
@@ -51,8 +100,7 @@ a small {
 }
 
 .wrapper {
-  width:860px;
-  margin:0 auto;
+  margin:0 200px;
 }
 
 blockquote {
@@ -63,7 +111,7 @@ blockquote {
 }
 
 code, pre {
-  font-family:Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
+  font-family:monospace, Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
   color:#333;
   font-size:12px;
 }
