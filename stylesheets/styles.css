@@ -257,6 +257,25 @@ footer {
   .bar a small {
     display:inline;
   }
+
+  .header {
+    width: 100%;
+    margin: 0 0px;
+    vertical-align: middle;
+  }
+
+  .full {
+    clear: both;
+  }
+
+  .title {
+    margin: 0;
+    padding: 0px 0px 0 5px;
+    display: block;
+    float: left;
+    vertical-align: middle;
+    line-height:1;
+  }
   
 }
 
