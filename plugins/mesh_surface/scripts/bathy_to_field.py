@@ -83,8 +83,8 @@ def create_field(netcdf_file):
       endx0 = x0[0,-1]
       endx1 = x1[-1,0]
 
-      nx0 = x0.shape[0]
-      nx1 = x1.shape[1]
+      nx0 = x0.shape[1]
+      nx1 = x1.shape[0]
       
 
     #degrees:
@@ -92,8 +92,13 @@ def create_field(netcdf_file):
     pos_string += "%.8f" % spacex0+" "+ "%.8f" % spacex1+" 1\n"
     pos_string += str(nx0)+" "+str(nx1) + " 1\n"
 
-    field.shape = [nx0,nx1]
-    field = fliplr(transpose(field))
+    if reader.typ == 'xr':
+      field.shape = [nx1,nx0]
+      #field = fliplr(field)
+      field = fliplr(transpose(field))
+    else:
+      field = transpose(field)
+    
     pos_string += '\n'.join(map(str,abs(field.flatten()))) + '\n'
 
     return pos_string
