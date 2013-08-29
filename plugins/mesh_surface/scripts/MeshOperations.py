@@ -69,7 +69,7 @@ class MeshOp( converter ):
 
 		f = open(str(self.geoFileName), 'a')
                 f.write('\nField[1] = Structured;\n')
-                f.write('Field[1].FileName = %s;\n' % self.fieldFileName)
+                f.write('Field[1].FileName = "%s";\n' % self.fieldFileName)
                 f.write('Field[1].TextFormat = 1;\n')
                 f.write("Background Field = 1;\n")
                 f.close()
