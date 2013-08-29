@@ -17,5 +17,5 @@ def generate_files(fname, command) :
 
 	make_directory(fname)
 
-	Modular_meshing(command)
+	os.system("python "+pwd+"/../../plugins/mesh_surface/mesh_surface "+command)
 
