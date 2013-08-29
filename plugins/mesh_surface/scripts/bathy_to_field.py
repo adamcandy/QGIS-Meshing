@@ -53,31 +53,46 @@ def create_field(netcdf_file):
     reader = NcReader()
     reader.ncFile = netcdf_file
     reader.ReadFunc()
-
-    x0 = list(reader.x0) 
-    x1 = list(reader.x1)
+    
+    x0 = array(reader.x0)
+    x1 = array(reader.x1)
     field = array(reader.phi)
     #issue with list length - as is over flat of domain
+    if reader.typ == 'xr':
+      spacex1 = reader.fnc.variables['spacing'][1]
+      spacex0 = reader.fnc.variables['spacing'][0]
 
-    spacelat = reader.fnc.variables['spacing'][1]
-    spacelon = reader.fnc.variables['spacing'][0]
+      startx1 = reader.fnc.variables['y_range'][0]
+      startx0 = reader.fnc.variables['x_range'][0]
 
-    startlat = reader.fnc.variables['y_range'][0]
-    startlon = reader.fnc.variables['x_range'][0]
+      endx1 = reader.fnc.variables['y_range'][1]
+      endx0 = reader.fnc.variables['x_range'][1]
 
-    endlat = reader.fnc.variables['y_range'][1]
-    endlon = reader.fnc.variables['x_range'][1]
+      nx0 = int((endx0 - startx0)/spacex0)
+      nx1 = int((endx1 - startx1)/spacex1)
 
-    nLat = int((endlon - startlon)/spacelon)
-    nLon = int((endlat - startlat)/spacelat)
+    elif reader.typ == 'll' or reader.typ == 'xy':
+      #raw: x0,x1
+      
+      spacex0 = x0[0,1] - x0[0,0]
+      spacex1 = x1[1,0] - x1[0,0]
+
+      startx0 = x0[0,0]
+      startx1 = x1[0,0]
+   
+      endx0 = x0[0,-1]
+      endx1 = x1[-1,0]
+
+      nx0 = x0.shape[0]
+      nx1 = x1.shape[1]
+      
 
     #degrees:
-    pos_string = str(startlon)+" "+str(startlat)+" 0\n"
-    pos_string += "%.8f" % spacelon+" "+ "%.8f" % spacelat+" 1\n"
-    pos_string += str(nLat)+" "+str(nLon)+" 1\n"
+    pos_string = str(startx0)+" "+str(startx1)+" 0\n"
+    pos_string += "%.8f" % spacex0+" "+ "%.8f" % spacex1+" 1\n"
+    pos_string += str(nx0)+" "+str(nx1) + " 1\n"
 
-    print field.flatten()
-    field.shape = [nLon,nLat]
+    field.shape = [nx0,nx1]
     field = fliplr(transpose(field))
     pos_string += '\n'.join(map(str,abs(field.flatten()))) + '\n'
 
