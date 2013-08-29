@@ -59,7 +59,8 @@ class NcReader( object ):
     self.x0 = np.outer(np.ones_like(lat),lon)
     self.x1 = np.outer(lat, np.ones_like(lon))
     self.phi = field
-
+    
+    self.typ = 'll'
 
   # X/Y range.
   def _read_nc_xyrange( self ): #still does not seem to be working
@@ -76,7 +77,7 @@ class NcReader( object ):
     self.x1 = np.outer(yList, np.ones_like(xList)).transpose().flatten()
     self.phi = field
     
-
+    self.typ = 'xr'
   # X-Y.
   def _read_nc_xy( self ):
     x = self.fnc.variables['x'][:]
@@ -87,6 +88,8 @@ class NcReader( object ):
     self.x0 = np.outer(np.ones_like(y),x)
     self.x1 = np.outer(y, np.ones_like(x))
     self.phi = field
+
+    self.typ = 'xy'
 
   def _read_nc_pam(self):
     # f.open(self.ncFile + '.aux.xml')
@@ -100,6 +103,8 @@ class NcReader( object ):
     self.x1 = np.outer(yList, np.ones_like(xList)).transpose().flatten()
     self.phi = field
  
+    self.typ = 'pam'
+
   def ReadFunc( self ):
     self.fnc = NetCDF.NetCDFFile(str(self.ncFile), 'r')
     self.variables = self.fnc.variables.keys()
