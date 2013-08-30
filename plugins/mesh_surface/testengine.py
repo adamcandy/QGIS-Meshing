@@ -51,7 +51,7 @@ def generate_support():
 testfiles = glob.glob(pwd + "/../../tests/*.py")
 
 # Limit to a single test for now - needs investigating
-testfiles = ['../../tests/test_BSplines_3.py']
+testfiles = ['../../tests/test_UK_mesh_Noid.py']
 
 print 'Testing the following tests (' + str(len(testfiles)) + ' in total):'
 for testfile in testfiles:

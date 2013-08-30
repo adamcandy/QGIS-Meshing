@@ -4,10 +4,10 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../../plugins/mesh
 from modular_meshing import Modular_meshing
 
 
+pwd = os.path.dirname(os.path.realpath(__file__))
 
 def make_directory(fname) :
 
-	pwd = os.path.dirname(os.path.realpath(__file__))
 
 	if not os.path.exists(pwd +"/../output/" + fname):
 	    os.makedirs(pwd +"/../output/" + fname)
