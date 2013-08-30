@@ -1,7 +1,7 @@
 import os, sys
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../../plugins/mesh_netcdf/'))
-from modular_meshing import Modular_meshing
+#from modular_meshing import Modular_meshing
 
 
 pwd = os.path.dirname(os.path.realpath(__file__))

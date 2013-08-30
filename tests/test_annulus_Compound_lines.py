@@ -14,7 +14,7 @@ support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
 
 
 fname = "test_annulus_Compound_lines"
-command = 	"--line LY -g "+test+"/test_annulus_Compound_lines/test_annulus_Compound_lines.geo "+support_file_path+"/annulus.shp --mesh --mval 10"
+command = 	"-e --line LY -g "+test+"/test_annulus_Compound_lines/test_annulus_Compound_lines.geo "+support_file_path+"/annulus.shp --mesh --mval 10"
 
 
 generate_files(fname, command)

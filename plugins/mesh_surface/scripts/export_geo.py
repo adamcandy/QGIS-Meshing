@@ -43,15 +43,15 @@ to enable compound lines.
 #import for message box to display error
 #from PyQt4.QtGui import QMessageBox
 import numpy as np
-import pyproj
+#import pyproj
 
-def gmshStereoProj(pointCoords):
-    """Apply Gmsh's stereographic steroegraphic projection to points in longitude-latitude"""
-    projection = pyproj.Proj('+proj=stere +lat_0=90 +lon_0=0 +ellps=sphere +a=6.37101e+06 +es=0.0')
-    eta,ksi = projection(pointCoords[0],pointCoords[1], inverse=False)
-    ksi = ksi/6.37101e+06
-    eta = -eta/6.37101e+06
-    return ksi,eta
+#def gmshStereoProj(pointCoords):
+#    """Apply Gmsh's stereographic steroegraphic projection to points in longitude-latitude"""
+#    projection = pyproj.Proj('+proj=stere +lat_0=90 +lon_0=0 +ellps=sphere +a=6.37101e+06 +es=0.0')
+#    eta,ksi = projection(pointCoords[0],pointCoords[1], inverse=False)
+#    ksi = ksi/6.37101e+06
+#    eta = -eta/6.37101e+06
+#    return ksi,eta
 
 class geometry_writer( object ):
   """Class storing all methods associated with writing geofiles

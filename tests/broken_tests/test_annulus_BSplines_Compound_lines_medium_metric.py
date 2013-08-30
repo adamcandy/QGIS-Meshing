@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, ntpath
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/testing_modules/'))
 from file_generation import generate_files, make_directory
