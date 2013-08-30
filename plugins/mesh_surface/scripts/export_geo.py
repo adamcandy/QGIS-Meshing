@@ -43,6 +43,15 @@ to enable compound lines.
 #import for message box to display error
 #from PyQt4.QtGui import QMessageBox
 import numpy as np
+import pyproj
+
+def gmshStereoProj(pointCoords):
+    """Apply Gmsh's stereographic steroegraphic projection to points in longitude-latitude"""
+    projection = pyproj.Proj('+proj=stere +lat_0=90 +lon_0=0 +ellps=sphere +a=6.37101e+06 +es=0.0')
+    eta,ksi = projection(pointCoords[0],pointCoords[1], inverse=False)
+    ksi = ksi/6.37101e+06
+    eta = -eta/6.37101e+06
+    return ksi,eta
 
 class geometry_writer( object ):
   """Class storing all methods associated with writing geofiles
@@ -52,9 +61,6 @@ class geometry_writer( object ):
   to another list
 
   """
-
-
-
 
   def GeoWriter( self ):
     """Calls geofile writing methods
@@ -78,15 +84,25 @@ class geometry_writer( object ):
     self.pointIds = self.__generatePoints(points)
 
     # generating mappings from objects to their components
-    if self.Compound: self.IntersectMap = self.__findIntersections(lines,shapeMap)
+    if self.Compound or self.BSpline: self.IntersectMap = self.__findIntersections(lines,shapeMap)
 
-    if self.Compound: self.CompoundMap = self.__generateCompound(boundIdMap,lloopMap,self.IntersectMap,lines.size)
+    if self.BSpline: self.BSplineMap = self.__generateCompound(boundIdMap,lloopMap,self.IntersectMap,lines.size)
+      #linecorrect = np.arange(self.BSplineMapLines.size)
+      #self.BSplineMap = self.BSplineMapLines + linecorrect
+      #for i in lloopMap[1:-1]:
+      #  self.BSplineMap = np.where(self.BSplineMapLines >= i, self.BSplineMap-1,self.BSplineMap)
+      #self.__generatePoints_for_BSplines()  
+ 
+    if self.Compound and not self.BSpline: self.CompoundMap = self.__generateCompound(boundIdMap,lloopMap,self.IntersectMap,lines.size)
+    elif self.Compound and self.BSpline: self.CompoundMap = np.arange(self.BSplineMap.size) #may need +1
 
-    if self.Compound: self.LineLoopMap = self.__map_between_objects(self.CompoundMap,lloopMap)
-    else: self.LineLoopMap = lloopMap #may work    
+    if self.Compound and not self.BSpline: self.LineLoopMap = self.__map_between_objects(self.CompoundMap,lloopMap)
+    elif self.BSpline: self.LineLoopMap = self.__map_between_objects(self.BSplineMap,lloopMap) 
+    else: self.LineLoopMap = lloopMap    
 
-    if self.Compound: self.PhysicalLineMap = self.__map_between_objects(self.CompoundMap,boundIdMap)
-    else: self.PhysicalLineMap = boundIdMap
+    if self.Compound and not self.BSpline: self.PhysicalLineMap = self.__map_between_objects(self.CompoundMap,boundIdMap)
+    elif self.BSpline: self.PhysicalLineMap = self.__map_between_objects(self.BSplineMap,boundIdMap)
+    else:  self.PhysicalLineMap = boundIdMap
 
     self.PlaneSurfaceMap = np.array([0] + list(self.__map_between_objects(lloopMap,shapeMap)))
 
@@ -114,7 +130,7 @@ class geometry_writer( object ):
       else:
         pointIds += [Idmap[tuple(points[i])]]
     return pointIds    
-          
+
   def __findIntersections(self,lines,shapeMap):
     """Determines which lines are shared by multiple shapes"""
     IntersectMap = []
@@ -126,7 +142,7 @@ class geometry_writer( object ):
     IntersectMap = np.array(IntersectMap + [len(lines)])
     return np.array([0] + list(IntersectMap[np.nonzero(IntersectMap)]))
       
-  def __generateCompound(self,boundIdMap,lloopMap,IntersectMap,line_size):
+  def __generateCompound(self,boundIdMap,lloopMap,IntersectMap,line_size):#fudged names here
     """Generates Mapping between compounds and lines
 
     Splits list of lines into the minimum
@@ -151,6 +167,56 @@ class geometry_writer( object ):
 
       CompoundMap += [n]
     return np.array(CompoundMap) 
+
+  #def __generatePoints_for_BSplines(self):
+  #  corrected_ids = [self.pointIds[0]]
+  #  for i in range(len(self.pointIds)-1):
+  #    if self.pointIds[i+1] != corrected_ids[-1]:
+  #      corrected_ids += [self.pointIds[i+1]]
+  #  corrected_ids = np.array(corrected_ids)
+  #  nBSpline = 1
+  #  noadded = 0
+  #  for i in range(corrected_ids.size):#note not compatible with multiple regions
+  #    if i == (self.BSplineMapLines[nBSpline] + noadded):
+  #       nBSpline += 1
+  #       if not corrected_ids[i] in corrected_ids[:i]:
+  #         corrected_ids = np.array(list(corrected_ids[:i+1]) + [corrected_ids[i]] + list(corrected_ids[i+1:]))
+  #         noadded += 1
+    #print list(corrected_ids)
+    #print self.BSplineMap[0]
+    #print self.BSplineMap[1]
+  #  for i in range(self.BSplineMap.size-1):
+  #    print self.BSplineMap[i],self.BSplineMap[i+1],corrected_ids[self.BSplineMap[i]:self.BSplineMap[i+1]]
+  #  self.BSplinePointMap = corrected_ids
+
+
+
+    #    print i
+    #print self.BSplineMapLines
+    #print self.BSplineMap
+    #BSplinePointMap = []
+    #nBSpline = 1
+    #loopStartBSpline = 0
+    #for i in range(len(corrected_ids)):
+    #  if nBSpline == len(self.BSplineMap):
+    #    endSpline = len(self.BSplineMap)
+    #  else:
+    #    endSpline = self.BSplineMap[nBSpline]
+    #  if i == endSpline-2:
+    #    print corrected_ids[self.BSplineMap[loopStartBSpline]]
+    #    print corrected_ids[i]
+    #print self.LineLoopMap
+    #irint self.LineLoopMap
+    #    if corrected_ids[i] != corrected_ids[self.BSplineMap[loopStartBSpline]]:
+    #      print 'wrong!'
+    #      BSplinePointMap += [corrected_ids[i]]
+    #    else:
+    #      loopStartBSpline = nBSpline
+    #      nBSpline += 1
+          #continue
+    #    nBSpline += 1
+    #  BSplinePointMap += [corrected_ids[i]]
+    #self.BSplinePointMap = BSplinePointMap
       
   def __map_between_objects(self,ComponentObjects,LineMap):
     """Generates a Mapping between Maps
@@ -174,45 +240,72 @@ class geometry_writer( object ):
     #start writing to file
     self.geofile_inst = open(self.geofilepath,'w')
 
+    pIdStart = 0
+    if self.coord == 'S': pIdStart = self.__write_PolarSphere(pIdStart)
+
     #write points
-    prev_pointId = 0
+    prev_pointId = pIdStart
     for i in range(len(points)):
-      if prev_pointId >= self.pointIds[i]:
+      if prev_pointId >= (self.pointIds[i]+pIdStart):
         continue
-      self.geofile_inst.write("Point(%i) = {%s,0};\n"%(self.pointIds[i], str(points[i])[1:-1]))
+      pointcoords = points[i]
+      if self.coord == 'S': #If "spherical" convert into gmsh's flavor of stereographic projection
+         pointcoords = gmshStereoProj(pointcoords)
+      self.geofile_inst.write("Point(%i) = {%s,0};\n"%(self.pointIds[i]+pIdStart, str(pointcoords)[1:-1]))
       prev_pointId += 1
 
-    #write lines  
+    #write lines
+    if self.BSpline: self.LineMap = {}
     repeatList = []
     Allocated = 0
     LoopNo = 1
     for i in range(len(lines)):
+      #if self.BSpline: LineMap += [self.pointIds[i]+pIdStart]
       if i == lloopMap[LoopNo]:
         LoopNo += 1
+      if self.BSpline: self.LineMap[lines[i]]=[self.pointIds[i + LoopNo - 1]+pIdStart,self.pointIds[i + LoopNo]+pIdStart]
+      #LineMap += [self.pointIds[i + LoopNo - 1]+pIdStart]
       if lines[i] <= Allocated:
         continue
+      
+      #if self.BSpline: LineMap += [self.pointIds[i + LoopNo - 1]+pIdStart]
       if self.pointIds[i + LoopNo - 1] == self.pointIds[i + LoopNo]:
-        repeatList += [lines[i]]
+        if self.BSpline: repeatList += [self.pointIds[i + LoopNo - 1]+pIdStart]
+        else: repeatList += [lines[i]]
         continue
-      self.geofile_inst.write("Line(%i) = {%s};\n" %( lines[i],str([self.pointIds[i + LoopNo - 1],self.pointIds[i + LoopNo]])[1:-1]))
+      if self.BSpline: continue#self.LineMap[lines[i]]=[self.pointIds[i + LoopNo - 1]+pIdStart,self.pointIds[i + LoopNo]+pIdStart]; continue
+      else:
+        self.geofile_inst.write("Line(%i) = {%s};\n" %( lines[i],str([self.pointIds[i + LoopNo - 1]+pIdStart,self.pointIds[i + LoopNo]+pIdStart])[1:-1]))
+      
       Allocated += 1
-    print 'lines written'
-
+    #if self.BSpline: LineMap += [self.pointIds[lloopMap[-2]]+pIdStart]
+    cLineNo = 1
+    if not self.BSpline: cLineNo += Allocated + len(repeatList)
+    #write BSplines
+    if self.BSpline:
+      cLineNo, clrepeatList = self.__write_BSplines(cLineNo,lines,pIdStart,repeatList)
+      #cLineNo, clrepeatList = self.__write_line_objects(cLineNo,self.BSplineMap,"BSpline(%i) = {%s};\n",np.array(self.BSplinePointMap),pIdStart,[])
+      print 'bsplines written'
+        
     #write compounds
-    cLineNo = Allocated + 1 + len(repeatList)
-    if self.Compound:
+    if self.Compound and not self.BSpline:
       cLineNo, llrepeatList = self.__write_line_objects(cLineNo,self.CompoundMap,"Compound Line(%i) = {%s};\n",lines,0,repeatList)
+      print 'compound lines written'
+    elif self.Compound:
+      cLineNo, llrepeatList = self.__write_line_objects(cLineNo,self.CompoundMap,"Compound Line(%i) = {%s};\n",np.arange(self.BSplineMap.size),1,clrepeatList)
       print 'compound lines written'    
-
     #write line loops
-    if self.Compound: Components = np.arange(self.CompoundMap.size);ComponentIdStart = lines.size + 1;
+    if self.Compound and not self.BSpline: Components = np.arange(self.CompoundMap.size);ComponentIdStart = lines.size + 1;
+    elif self.Compound:  Components = np.arange(self.BSplineMap.size);ComponentIdStart = self.BSplineMap.size;
+    elif self.BSpline: Components = np.arange(self.BSplineMap.size);ComponentIdStart =  1;llrepeatList = clrepeatList;
     else: Components = lines;ComponentIdStart = 0;llrepeatList = repeatList
-    
     cLineNo, planrepeatList = self.__write_line_objects(cLineNo,self.LineLoopMap,"Line Loop(%i) = {%s};\n",Components,ComponentIdStart,llrepeatList)
     print 'line loops written'      
   
     #write physical lines
-    if self.Compound: Components = np.arange(self.CompoundMap.size);ComponentIdStart = lines.size + 1
+    if self.Compound and not self.BSpline: Components = np.arange(self.CompoundMap.size);ComponentIdStart = lines.size + 1;
+    elif self.Compound:  Components = np.arange(self.BSplineMap.size);ComponentIdStart = self.BSplineMap.size;
+    elif self.BSpline: Components = np.arange(self.BSplineMap.size);ComponentIdStart = 1;
     else: 
       Components = lines;ComponentIdStart = 0
       mask = np.ones_like(Components)
@@ -226,7 +319,9 @@ class geometry_writer( object ):
 
     #write plane surfaces
     cLineNo = 1
-    if self.Compound: ComponentIdStart = lines.size + self.CompoundMap.size
+    if self.Compound and not self.BSpline: Components = ComponentIdStart = lines.size + self.CompoundMap.size;
+    elif self.Compound: ComponentIdStart = self.BSplineMap.size + self.CompoundMap.size -1;
+    elif self.BSpline: ComponentIdStart = self.BSplineMap.size
     else: ComponentIdStart = lines.size + 1
     self.__write_line_objects(cLineNo,self.PlaneSurfaceMap,"Plane Surface(%i) = {%s};\n",np.arange(lloopMap.size),ComponentIdStart,planrepeatList)
     print 'plane surfaces written'  
@@ -240,13 +335,58 @@ class geometry_writer( object ):
     self.geofile_inst.close()
     print "geo file written : " + self.geofilepath
 
+  def __write_PolarSphere(self,pIdStart):
+    self.geofile_inst.write("Point(%i) = {0,0,0};\n" % (pIdStart+1)) 
+    self.geofile_inst.write("Point(%i) = {0,0,6.37101e+06};\n" % (pIdStart+2))
+    self.geofile_inst.write("PolarSphere(1) = {%i,%i};\n\n" % (pIdStart+1,pIdStart+2))
+
+    pIdStart += 2
+    return pIdStart
+
+  def __write_BSplines(self,cLineNo,Components,ComponentIdStart,repeatList):    
+    ObjectrepeatList = []
+    for i in range(len(self.BSplineMap)-1):
+      #print 'a'
+      basear = Components[self.BSplineMap[i]:self.BSplineMap[i+1]+1]
+      #print basear
+      mask = np.ones_like(basear)
+      for iD in repeatList:
+        mask = np.where(basear==(iD-ComponentIdStart),0,mask)
+      validindex = mask*np.arange(mask.size)
+
+      validindex = validindex[np.nonzero(validindex)]
+
+      if mask[0] == 1:
+        validindex = np.array([0]+list(validindex))
+      #print validindex
+      #print type(basear)
+      #print type(validindex)
+      #print basear[validindex]
+      try:
+        basear[validindex][0]
+      except:
+        ObjectrepeatList += [cLineNo]
+        cLineNo += 1
+        continue
+      #basear[validindex]
+      points_in_bspline = [0]
+      for i in basear[validindex]:
+        if not self.LineMap[i][0] == points_in_bspline[-1]:
+          points_in_bspline += [self.LineMap[i][0]]
+      points_in_bspline = np.array(points_in_bspline[1:])
+      self.geofile_inst.write("BSpline(%i) = {%s};\n" % (cLineNo,str(list(points_in_bspline + ComponentIdStart))[1:-1]))
+      cLineNo += 1
+    return cLineNo, ObjectrepeatList
+
+
   def __write_line_objects(self,cLineNo,ObjectMap,ObjectString,Components,ComponentIdStart,repeatList):
     """writes the gmsh objects which are not physical"""
     ObjectrepeatList = []
 
     for i in range(len(ObjectMap)-1):
+      #print 'a'
       basear = Components[ObjectMap[i]:ObjectMap[i+1]]
-
+      #print basear
       mask = np.ones_like(basear)
       for iD in repeatList:
         mask = np.where(basear==(iD-ComponentIdStart),0,mask)
@@ -256,7 +396,10 @@ class geometry_writer( object ):
       
       if mask[0] == 1:
         validindex = np.array([0]+list(validindex))
-      
+      #print validindex
+      #print type(basear)
+      #print type(validindex)
+      #print basear[validindex]
       try:
         basear[validindex][0]
       except:
