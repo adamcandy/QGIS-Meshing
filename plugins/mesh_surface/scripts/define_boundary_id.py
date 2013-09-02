@@ -36,60 +36,97 @@
 
 # Second function, connectLines joins sequential lines if they share the same ID number.
 
+#construct line list here and flatten above list <- this may be all thats needed - though may need to change input output
 import shapefile
 from shapely.geometry import *
+import numpy as np
+
+#the island irregularity was removed so should just be able to output lines, though may need to ensure duplication + point mapping
+class assignIDs():#are lines and islands still seperate? they shouldn't be.
+  def assignIDsMethod(self, idShapeFile):
+
+  # Generate a list of Shapely polygons from the coordinates of the boundary-ID polygons.
+    self.boundaryIDList = []  
+    self.idShapeFile = idShapeFile
+    self.IDPolygons = []
+    self.Lines = []
+    if idShapeFile:
+      for j in range(len(self.boundaryData.points)):
+        self.IDPolygons.append(Polygon([self.boundaryData.points[j][i] for i in range(len(self.boundaryData.points[j]))]))
+
+  # Break into component lines and see which intersect the boundary polygons.
+    for i in range(len(self.domainData.points)):
+      self.generateIds(i)
+    self.DefineIdMap()
+    self.SetLineMap()
+
+  def generateIds(self, part):
+    localIdList = []
+    linelist = self.domainData.points[part] 
+    for j in range(len(linelist) - 1):
+      line = LineString([tuple(linelist[j]), tuple(linelist[j + 1])])
+      self.Lines += [list(line.coords)] 
+      if not self.idShapeFile:
+        localIdList.append(self.defID)
+        continue
+      self.methodIDPolygons(localIdList, part, j)
+    self.boundaryIDList += localIdList
+    
 
 
-class assignIDs():
-	def assignIDsMethod(self, idShapeFile):
+  def methodIDPolygons(self, localIdList, part, j):#this assigns id to every line, therefore best to add method to the end of assignIDsMethod
 
-		# Generate a list of Shapely polygons from the coordinates of the boundary-ID polygons.
-		self.boundaryIDList = []		
-		self.idShapeFile = idShapeFile
-		self.IDPolygons = []
-		if idShapeFile:
-			for j in range(len(self.boundaryData.points)):
-				self.IDPolygons.append(Polygon([self.boundaryData.points[j][i] for i in range(len(self.boundaryData.points[j]))]))
+  # Want to make a shapely line from sequential points.
+    line = LineString([tuple(self.domainData.points[part][j]), tuple(self.domainData.points[part][j + 1])])#single line
+    done = False
+    for n in range(len(self.IDPolygons)):#map over polygons
+      if line.intersects(self.IDPolygons[-(n+1)]):
+        localIdList.append(self.boundaryData.records[-(n+1)][0])
+        done = True
+        break
+    if not done:
+      localIdList.append(self.defID)
+   
+  def DefineIdMap(self):#check the ordering of this is correct, may be defined with an obscure pointlist, this is lines
+    self.IdMap = []
+    self.BoundryIds = []
+    n = 0
+    for i in range(len(self.boundaryIDList)):
+      if (n == 0):
+        self.IdMap += [i]
+        n = 1
+        continue
+      if not (self.boundaryIDList[i] == self.boundaryIDList[i-1]):
+        self.IdMap += [i]
+        n=0
+    self.IdMap += [len(self.boundaryIDList)]
+        
+    for i in range(len(self.IdMap)-1):
+      self.BoundryIds += [self.boundaryIDList[self.IdMap[i]]]
 
-		# Break into component lines and see which intersect the boundary polygons.
-		for i in range(len(self.domainData.points)):
-				self.generateIds(i)
-		
+  def SetLineMap(self):
+    lineIds = []
+    Idno = 1
+    Idmap = {}
+    for i in range(len(self.Lines)):
+      if not (self.Lines[i] in self.Lines[:i]):
+        lineIds += [Idno]
+        Idmap[tuple(self.Lines[i])] = Idno
+        Idno += 1
+      else:
+        lineIds += [Idmap[tuple(self.Lines[i])]]
+    self.Lines = lineIds
+          
 
-	def generateIds(self, part):
-		localIdList = []
-		for j in range(len(self.domainData.points[part]) - 1):
-			if not self.idShapeFile:
-				localIdList.append(self.defID)
-				continue
-			self.methodIDPolygons(localIdList, part, j)
-		self.boundaryIDList.append(localIdList)
+def connectLines (bounds):#this isn't called anywhere
+ 
+ lineLists = []
+ for points in bounds:
+  localLines = []
+  for i in range(len(points)-1):
+   point1 = points[i]
+   point2 = points[i+1]
+   localLines.append((point1, point2))
+  lineLists.append(localLines)
 
-
-	def methodIDPolygons(self, localIdList, part, j):
-
-		# Want to make a shapely line from sequential points.
-		line = LineString([tuple(self.domainData.points[part][j]), tuple(self.domainData.points[part][j + 1])])
-		done = False
-		for n in range(len(self.IDPolygons)):
-			if line.intersects(self.IDPolygons[-(n+1)]):
-				localIdList.append(self.boundaryData.records[-(n+1)][0])
-				done = True
-				break
-		if not done:
-			localIdList.append(self.defID)
-
-
-
-def connectLines (bounds):
-	
-	lineLists = []
-	for points in bounds:
-		localLines = []
-		for i in range(len(points)-1):
-			point1 = points[i]
-			point2 = points[i+1]
-			localLines.append((point1, point2))
-		lineLists.append(localLines)
-
-	return lineLists
+ return lineLists

@@ -44,15 +44,17 @@ script = root + 'support_files/'
 
 def generate_support():
   print "  Generating data files"
-  os.system("python " + script + 'gaussian_bump.py ' + support + '/gaussian_bump.nc')
-  os.system("grdmath " + support + "/gaussian_bump.nc 2 MUL = " + support + "/gaussian_bump_medium.nc")
-  os.system("grdmath " + support + "/gaussian_bump.nc 4 MUL = " + support + "/gaussian_bump_coarse.nc")
+ # os.system("module load gmt")
+  #os.system("python " + script + 'gaussian_bump.py ' + support + '/gaussian_bump.nc')
+  #os.system("grdmath " + support + "/gaussian_bump.nc 2 MUL = " + support + "/gaussian_bump_medium.nc")
+  #os.system("grdmath " + support + "/gaussian_bump.nc 4 MUL = " + support + "/gaussian_bump_coarse.nc")
 
 testfiles = glob.glob(pwd + "/../../tests/*.py")
 
 # Limit to a single test for now - needs investigating
-testfiles = ['../../tests/test_BSplines_3.py']
-
+testfiles = ['../../tests/test_UK_mesh_Noid.py','../../tests/test_annulus_Compound_lines.py','../../tests/test_annulus_Compound_lines_metric.py',
+             '../../tests/test_annulus_Compound_lines_medium_metric.py','../../tests/test_annulus_Compound_lines_coarse_metric.py','../../tests/test_ids_LN.py']
+#../../tests/test_ids_LN.py
 print 'Testing the following tests (' + str(len(testfiles)) + ' in total):'
 for testfile in testfiles:
   print '  ' + os.path.basename(testfile)
