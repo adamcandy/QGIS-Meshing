@@ -3,6 +3,10 @@
 
 QGIS plugins for meshing geophysical domains.
 
+![UK meshed](./extras/readme_data/uk.gif "UK meshed")
+
+Outline web page: [QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
+
 Test engine status
 ------------------
 
@@ -10,12 +14,10 @@ Test engine status
 
 [![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev)](https://travis-ci.org/adamcandy/QGIS-Meshing) Development
 
+[![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev-compound)](https://travis-ci.org/adamcandy/QGIS-Meshing) Development (Compound Lines and Boundary IDs)
+
 Outline
 -------
-
-Outline web page: [http://adamcandy.github.io/QGIS-Meshing](http://adamcandy.github.io/QGIS-Meshing)
-
-![UK meshed](./extras/readme_data/uk.gif "UK meshed")
 
 This project contains four plugins for the generation of surface meshes in QGIS:
 
@@ -76,12 +78,16 @@ Test the plugins with the following command executed in the root folder of the r
 
     make test
 
+A buildbot has been setup to continuously tests new commits, see [QGIS-Meshing buildbot](https://travis-ci.org/adamcandy/QGIS-Meshing).
+
 Development
 -----------
 
 ### Contributing
 
 Contributions to the plugins are very welcome.  Get involved!
+
+Development follows the model described at [nvie.com/git-model](http://nvie.com/git-model), with the main development branch named 'dev' and tested development branches prefixed with 'dev-'.
 
 * Please fork the main repository (e.g. with this [link](https://github.com/adamcandy/QGIS-Meshing/fork)).
 

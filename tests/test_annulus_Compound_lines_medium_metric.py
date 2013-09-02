@@ -14,7 +14,7 @@ support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
 
 
 fname = "test_annulus_Compound_lines_medium_metric"
-command = 	"--line LY -g "+test+"/test_annulus_Compound_lines_medium_metric/test_annulus_Compound_lines_medium_metric.geo "+support_file_path+"/annulus.shp --mesh -m "+test+"/gaussian_bump_medium.nc"
+command = 	"-e --line LY -g "+test+"/test_annulus_Compound_lines_medium_metric/test_annulus_Compound_lines_medium_metric.geo "+support_file_path+"/annulus.shp --mesh -m "+support_file_path+"/gaussian_bump_medium.nc"
 
 generate_files(fname, command)
 

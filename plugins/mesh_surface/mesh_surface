@@ -42,6 +42,7 @@ from scripts.MeshOperations import MeshOp
 from scripts.PosFileConverter import *
 import os
 from scripts.flat_mesh_to_spherical import flat_mesh_spherical
+import scripts.bathy_to_field as btyf
 
 class _baseCommands( object ):
 	def _usage( self ):
@@ -76,7 +77,7 @@ class _baseCommands( object ):
 		-e			:Shows all errors found after command.
 		''' 
 
-class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
+class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.geometry_writer ):
 
 	domainShapefileLayerFileName = None
 	threshold = None
@@ -84,7 +85,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 	isIdLayer = False
 	geofilepath = None
 	singleNetCDFLayerFileName = None
-	postviewFileName = None
+	fieldFileName = None
 	compound_line_enable = False
 	gmshcall = False
 	gmshShow = False
@@ -134,16 +135,17 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 			self.data = [self.domainData.regionIDs,self.domainData.shapes,self.boundaryIDList,self.domainData.points]
 			if self.geofilepath == None:
 				self.geofilepath = '%s_idBoundary.geo' % self.domainShapefileLayerFileName[:-4]
-			self.export_geo()
+			#self.export_geo()
+			self.GeoWriter()
 			if self.mEval != None:
 				self.write_meval()
-			if self.postviewFileName != None:
+			if self.fieldFileName != None:
 				self.geoFileName = self.geofilepath
 				self.gradeToNCFlat()
 		if self.gmshcall:
 			os.system('gmsh -2 '+str(self.geofilepath))
 			meshpath = self.geofilepath[:-3] + 'msh'
-			if self.coord == 'L' or self.coord == 'S':
+			if self.coord == 'L':
 				print "Projecting to Sphere..."
 				meshpath = flat_mesh_spherical(meshpath,self.coord == 'S')
 				print "Mesh Projected."
@@ -179,8 +181,8 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 
 	def get_metric( self ):
 		self.singleNetCDFLayerFileName = self.sarg.pop(0)
-		self.postviewFileName = self.singleNetCDFLayerFileName[:-2]+'pos'
-		converter.writePosFile(self)
+		self.fieldFileName = self.singleNetCDFLayerFileName[:-2]+'fld'
+                btyf.create_fld_file(self.singleNetCDFLayerFileName,self.fieldFileName)
 	def get_id( self ):
 		self.idFilePath = self.sarg.pop(0)
 		self.isIdLayer = True
@@ -201,20 +203,25 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp ):
 	def define_bounds( self, isIdLayer ):
 		define_id.DefineDomain.define_bounds(self,isIdLayer)
 	def set_defid( self ):
-		defID = self.sarg.pop(0)
+		self.defID = int(self.sarg.pop(0))
 	def set_gmshShow( self ):
 		self.gmshShow = self.sarg.pop(0)
 	def set_lineType( self ):
 		exec(self.lineType[self.sarg.pop(0)])
-	def gradeToNCFlat( self ):
-		MeshOp.gradeToNCFlat(self)
+	#def gradeToNCFlat( self ):
+		#geoFile = open(str(self.geofilepath), 'a')
+                #geoFile.write('\nField[1] = Structured;\n')
+                #geoFile.write('Field[1].FileName = "%s";\n' % self.fieldFileName)
+                #geoFile.write('Field[1].TextFormat = 1;\n')
+                #geoFile.write("Background Field = 1;\n")
+                #geoFile.close()  
 	def set_mevalcall( self ):
-		self.mEval = int(self.sarg.pop(0))
+		self.mEval = float(self.sarg.pop(0))
 	def write_meval( self ):
 		geoFile = open(str(self.geofilepath), 'a')
 		geoFile.write('\n//Code added by Mesh Surface to create uniform mesh.\n')
 		geoFile.write("Field[1] = MathEval;\n")
-		geoFile.write('Field[1].F = "%i";\n' % (self.mEval))
+		geoFile.write('Field[1].F = "%f";\n' % (self.mEval))
 		geoFile.write("Background Field = 1;\n")
 		geoFile.write("Mesh.CharacteristicLengthExtendFromBoundary = 0;\n")
 		geoFile.close()

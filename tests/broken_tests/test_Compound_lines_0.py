@@ -13,11 +13,12 @@ test = os.path.dirname(os.path.realpath(__file__)) + "/output"
 support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
 
 
-fname = "test_Compound_lines_1"
-command = "-l LY -g "+test+"/test_Compound_lines_1/test_Compound_lines_1.geo --id "+support_file_path+"/a_idLayer.shp "+support_file_path+"/rtopo_shape_DN__2.shp --mesh"
+fname = "test_Compound_lines_0"
+command = "-e -l LY -g "+test+"/test_Compound_lines_0/test_Compound_lines_0.geo "+support_file_path+"/rtopo_shape_DN__2.shp --mesh"
 
 
 generate_files(fname, command)
+
 
 
 def test_annulus_bn_geo():

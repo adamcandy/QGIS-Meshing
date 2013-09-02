@@ -13,8 +13,8 @@ test = os.path.dirname(os.path.realpath(__file__)) + "/output"
 support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
 
 
-fname = "test_Compound_lines_2"
-command = "-l LY -g "+test+"/test_Compound_lines_2/test_Compound_lines_2.geo "+support_file_path+"/ID0Layer.shp --mesh"
+fname = "test_annulus_BSplines_Compound_lines_medium_metric"
+command = 	"--line BY -g "+test+"/test_annulus_BSplines_Compound_lines_medium_metric/test_annulus_BSplines_Compound_lines_medium_metric.geo "+support_file_path+"/annulus.shp --mesh -m "+support_file_path+"/gaussian_bump_medium.nc"
 
 
 generate_files(fname, command)
@@ -25,8 +25,6 @@ def test_annulus_bn_geo():
 	curr_file = os.path.dirname(os.path.realpath(__file__)) + "/output/" + fname + "/" + fname + ".geo"
 
 	assert geo_files_test(curr_file),"%s does not match the model answer" % (ntpath.basename(curr_file).rstrip())
-
-
 
 
 def test_annulus_bn_msh():

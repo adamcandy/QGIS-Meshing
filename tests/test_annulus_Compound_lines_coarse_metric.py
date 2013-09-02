@@ -8,13 +8,13 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/testing_modules/')
 from test_msh import mesh_file_test
 from test_geo import geo_files_test
 
-
-test = os.path.dirname(os.path.realpath(__file__)) + "/output"
-support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
+cwd = os.path.dirname(os.path.realpath(__file__))
+test = cwd + "/output"
+support_file_path = cwd + "/support"
 
 
 fname = "test_annulus_Compound_lines_coarse_metric"
-command =  "--line LY -g "+test+"/test_annulus_Compound_lines_coarse_metric/test_annulus_Compound_lines_coarse_metric.geo "+support_file_path+"/annulus.shp --mesh -m "+test+"/gaussian_bump_coarse.nc"
+command =  "-e --line LY -g "+test+"/test_annulus_Compound_lines_coarse_metric/test_annulus_Compound_lines_coarse_metric.geo "+support_file_path+"/annulus.shp --mesh -m "+support_file_path+"/gaussian_bump_coarse.nc"
 
 
 generate_files(fname, command)
