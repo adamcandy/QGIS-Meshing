@@ -37,10 +37,10 @@ def del_merge(fname, pwd, file_path):
   ref  = open(file_path.replace("output", "model_answers", 1),'w')
   test = open(file_path,'w')
   for line in ref_lines:
-    if line.split() == [] or line.split()[0] != "Merge":
+    if line.split() == [] or (line.split()[0] != "Merge" and line.split()[0] != "Field[1].FileName"):
       ref.write(line)
   for line in test_lines:
-    if line.split() == [] or line.split()[0] != "Merge":
+    if line.split() == [] or (line.split()[0] != "Merge" and line.split()[0] != "Field[1].FileName"):
       test.write(line)
   ref.close()
   test.close()
