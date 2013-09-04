@@ -43,6 +43,8 @@ PACKAGEFILES = mesh_surface  meshing_raster_calc  rasterise_polygons Polygonizer
 testdir = ./plugins/mesh_netcdf/
 outputdir = ./tests/output/
 
+
+
 .PHONY: install uninstall installlocal installdev test clean
 
 uninstall:
@@ -65,6 +67,7 @@ clean:
 	@rm -rf $(outputdir)
 
 test: clean
+	
 	@$(ECHO) "  TEST"
 	@$(MAKE) test_mesh_surface
 
