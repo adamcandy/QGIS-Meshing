@@ -145,20 +145,8 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 				self.geoFileName = self.geofilepath
 				self.gradeToNCFlat()
 		if self.gmshcall:
-
-			out = open(os.path.dirname(os.path.realpath(__file__)) + "/../../tests/output/gmsh_output.log", "a")
-			err = open(os.path.dirname(os.path.realpath(__file__)) + "/../../tests/output/errors.log", "a")
-			command = 'gmsh'
-			commandfull = command + ' -v 3 -2 ' + str(self.geofilepath)
-			process = subprocess.Popen(commandfull, shell=True, stdout=out, stderr=err)
-
-			process.wait()
-
-
-
 			#os.system('gmsh -2 '+str(self.geofilepath))
-
-			#self.generate_mesh(self.geofilepath, __file__)
+			self.generate_mesh()
 
 			meshpath = self.geofilepath[:-3] + 'msh'
 			if self.coord == 'L':
@@ -172,15 +160,18 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 		else:
 			if self.gmshShow:
 				#os.system('gmsh '+str(self.geofilepath))
-				#self.generate_mesh(self.geofilepath, __file__)
+				self.generate_mesh()
 
-				out = open(os.path.dirname(os.path.realpath(__file__)) + "/../../tests/output/gmsh_output.log", "a")
-				err = open(os.path.dirname(os.path.realpath(__file__)) + "/../../tests/output/errors.log", "a")
-				command = 'gmsh'
-				commandfull = command + ' -v 3 -2 ' + str(self.geofilepath)
-				process = subprocess.Popen(commandfull, shell=True, stdout=out, stderr=err)
 
-				process.wait()
+	def generate_mesh(self) :
+
+		out = open(os.path.dirname(os.path.realpath(__file__)) + "/../../tests/output/gmsh_output.log", "a")
+		err = open(os.path.dirname(os.path.realpath(__file__)) + "/../../tests/output/errors.log", "a")
+		command = 'gmsh'
+		commandfull = command + ' -v 3 -2 ' + str(self.geofilepath)
+		process = subprocess.Popen(commandfull, shell=True, stdout=out, stderr=err)
+
+		process.wait()
 
 
 	def read_sarg( self ):
