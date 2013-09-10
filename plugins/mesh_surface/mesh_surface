@@ -44,7 +44,6 @@ import os
 from scripts.flat_mesh_to_spherical import flat_mesh_spherical
 import scripts.bathy_to_field as btyf
 import subprocess
-from generate_mesh import generate_mesh
 
 class _baseCommands( object ):
 	def _usage( self ):
