@@ -14,7 +14,7 @@ support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
 
 
 fname = "test_BSplines_Compound_lines_0"
-command = 	"-l BY -g "+test+"/test_BSplines_Compound_lines_0/test_BSplines_Compound_lines_0."+support_file_path+"/rtopo_shape_DN__2.shp --mesh"
+command = 	"-l BY -g "+test+"/test_BSplines_Compound_lines_0/test_BSplines_Compound_lines_0.geo "+support_file_path+"/rtopo_shape_DN__2.shp --mesh"
 
 
 generate_files(fname, command)
