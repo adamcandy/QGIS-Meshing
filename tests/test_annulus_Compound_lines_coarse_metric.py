@@ -10,7 +10,7 @@ from test_geo import geo_files_test
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 test = cwd + "/output"
-support_file_path = cwd + "/support"
+support_file_path = cwd + "/support_files"
 
 
 fname = "test_annulus_Compound_lines_coarse_metric"

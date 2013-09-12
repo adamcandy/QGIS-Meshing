@@ -10,7 +10,7 @@ from test_geo import geo_files_test
 
 
 test = os.path.dirname(os.path.realpath(__file__)) + "/output"
-support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
+support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support_files"
 
 test_UK_mesh_path = os.path.dirname(os.path.realpath(__file__)) + "/test_UK_mesh"
 test_uk_main_path = os.path.dirname(os.path.realpath(__file__)) + "/test_uk_main"

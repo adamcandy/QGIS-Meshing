@@ -67,7 +67,7 @@ clean:
 	@rm -rf $(outputdir)
 
 test: clean
-	/usr/bin/modulecmd bash load gmt
+	
 	@$(ECHO) "  TEST"
 	@$(MAKE) test_mesh_surface
 

@@ -10,7 +10,7 @@ from test_geo import geo_files_test
 
 
 test = os.path.dirname(os.path.realpath(__file__)) + "/output"
-support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support"
+support_file_path = os.path.dirname(os.path.realpath(__file__)) + "/support_files"
 
 
 fname = "test_BSplines_Compound_lines_0"
