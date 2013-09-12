@@ -1,41 +1,41 @@
 #!/usr/bin/env python
 
 ##########################################################################
-#  
+#
 #  QGIS-meshing plugins.
-#  
+#
 #  Copyright (C) 2012-2013 Imperial College London and others.
-#  
+#
 #  Please see the AUTHORS file in the main source directory for a
 #  full list of copyright holders.
-#  
+#
 #  Dr Adam S. Candy, adam.candy@imperial.ac.uk
 #  Applied Modelling and Computation Group
 #  Department of Earth Science and Engineering
 #  Imperial College London
-#  
+#
 #  This library is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU Lesser General Public
 #  License as published by the Free Software Foundation,
 #  version 2.1 of the License.
-#  
+#
 #  This library is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 #  Lesser General Public License for more details.
-#  
+#
 #  You should have received a copy of the GNU Lesser General Public
 #  License along with this library; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 #  USA
-#  
+#
 ##########################################################################
 
 '''
 USAGE
 call using: python <filepath to mesh_terminal>/mesh_terminal [commands] <DomainFile> <IdFile> <MeshmetricFile>
 '''
- 
+
 import sys
 from scripts import define_id, export_geo
 from scripts.MeshOperations import MeshOp
@@ -43,6 +43,7 @@ from scripts.PosFileConverter import *
 import os
 from scripts.flat_mesh_to_spherical import flat_mesh_spherical
 import scripts.bathy_to_field as btyf
+import subprocess
 
 class _baseCommands( object ):
 	def _usage( self ):
@@ -75,7 +76,7 @@ class _baseCommands( object ):
 						BY for BSplines with compound lines enabled
 			--mval		:sets a math eval field
 		-e			:Shows all errors found after command.
-		''' 
+		'''
 
 class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.geometry_writer ):
 
@@ -124,7 +125,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 	'BN':'self.BSpline = True; self.Compound = False',
 	'BY':'self.BSpline = True; self.Compound = True',
 	}
-	
+
 #note compound lines are not being written are bsplines?
 
 	def __init__( self ):
@@ -143,17 +144,34 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 				self.geoFileName = self.geofilepath
 				self.gradeToNCFlat()
 		if self.gmshcall:
-			os.system('gmsh -2 '+str(self.geofilepath))
+			#os.system('gmsh -2 '+str(self.geofilepath))
+			self.generate_mesh()
+
 			meshpath = self.geofilepath[:-3] + 'msh'
 			if self.coord == 'L':
 				print "Projecting to Sphere..."
 				meshpath = flat_mesh_spherical(meshpath,self.coord == 'S')
 				print "Mesh Projected."
 			if self.gmshShow: #this is not currently working
-				os.system('gmsh '+str(meshpath))
+				#os.system('gmsh '+str(meshpath))
+				self.generate_mesh(meshpath, __file__)
+
 		else:
 			if self.gmshShow:
-				os.system('gmsh '+str(self.geofilepath))
+				#os.system('gmsh '+str(self.geofilepath))
+				self.generate_mesh()
+
+
+	def generate_mesh(self) :
+
+		out = open(os.path.dirname(os.path.realpath(__file__)) + "/../../tests/output/gmsh_output.log", "a")
+		err = open(os.path.dirname(os.path.realpath(__file__)) + "/../../tests/output/errors.log", "a")
+		command = 'gmsh'
+		commandfull = command + ' -v 3 -2 ' + str(self.geofilepath)
+		process = subprocess.Popen(commandfull, shell=True, stdout=out, stderr=err)
+
+		process.wait()
+
 
 	def read_sarg( self ):
 		carg = self.sarg.pop(0)
@@ -170,7 +188,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 				except:
 					#print 'Incorrect Terminal Commands'
 					#self._usage()
-					print 'Warning:  Incorrect Terminal Commands. Failiure at %s.' % carg
+					print 'Warning:  Incorrect Terminal Commands. Failure at %s.' % carg
 			else:
 				eval(self.commands[carg])
 			#else:
@@ -214,7 +232,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
                 #geoFile.write('Field[1].FileName = "%s";\n' % self.fieldFileName)
                 #geoFile.write('Field[1].TextFormat = 1;\n')
                 #geoFile.write("Background Field = 1;\n")
-                #geoFile.close()  
+                #geoFile.close()
 	def set_mevalcall( self ):
 		self.mEval = float(self.sarg.pop(0))
 	def write_meval( self ):

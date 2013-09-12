@@ -127,8 +127,3 @@ def  compare_sets(set1, set2):
 # checks whether two first argumets are withi 'amount' from each other.
 def close_to(first, second, amount) :
 	return abs(first - second) <= amount
-
-
-
-#hi = TestClass()
-#hi.test_msh_files("../../tests/testfileBN_0.msh")
