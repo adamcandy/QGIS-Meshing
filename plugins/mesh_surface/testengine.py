@@ -53,7 +53,10 @@ testfiles = glob.glob(pwd + "/../../tests/*.py")
 
 # Limit to a single test for now - needs investigating
 testfiles = ['../../tests/test_UK_mesh_Noid.py','../../tests/test_annulus_Compound_lines.py','../../tests/test_annulus_Compound_lines_metric.py',
-             '../../tests/test_annulus_Compound_lines_medium_metric.py','../../tests/test_annulus_Compound_lines_coarse_metric.py','../../tests/test_ids_LN.py']
+             '../../tests/test_annulus_Compound_lines_medium_metric.py','../../tests/test_annulus_Compound_lines_coarse_metric.py','../../tests/test_ids_LN.py',
+			 '../../tests/test_northsea.py','../../tests/test_northsea_trimmed.py']
+#'../../tests/test_northsea_noid.py'
+#testfiles = ['../../tests/test_northsea.py']
 #../../tests/test_ids_LN.py
 print 'Testing the following tests (' + str(len(testfiles)) + ' in total):'
 for testfile in testfiles:
