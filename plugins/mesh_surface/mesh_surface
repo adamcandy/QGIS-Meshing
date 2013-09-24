@@ -136,7 +136,6 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 			self.data = [self.domainData.regionIDs,self.domainData.shapes,self.boundaryIDList,self.domainData.points]
 			if self.geofilepath == None:
 				self.geofilepath = '%s_idBoundary.geo' % self.domainShapefileLayerFileName[:-4]
-			#self.export_geo()
 			self.GeoWriter()
 			if self.mEval != None:
 				self.write_meval()
@@ -144,7 +143,6 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 				self.geoFileName = self.geofilepath
 				self.gradeToNCFlat()
 		if self.gmshcall:
-			#os.system('gmsh -2 '+str(self.geofilepath))
 			self.generate_mesh()
 
 			meshpath = self.geofilepath[:-3] + 'msh'
@@ -153,15 +151,17 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 				meshpath = flat_mesh_spherical(meshpath,self.coord == 'S')
 				print "Mesh Projected."
 			if self.gmshShow: #this is not currently working
-				#os.system('gmsh '+str(meshpath))
 				self.generate_mesh(meshpath, __file__)
 
 		else:
 			if self.gmshShow:
-				#os.system('gmsh '+str(self.geofilepath))
 				self.generate_mesh()
 
 
+
+	#calls GMSH to perform mesh generation. Logs the GMSH output into
+	#gmsh_output.log and ay errors encountered to errors.log. Both files can
+	#be found in the output folder.
 	def generate_mesh(self) :
 
 		out = open(os.path.dirname(os.path.realpath(__file__)) + "/../../tests/output/gmsh_output.log", "a")
@@ -186,7 +186,6 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 				try:
 					eval(self.commands[carg])
 				except:
-					#print 'Incorrect Terminal Commands'
 					#self._usage()
 					print 'Warning:  Incorrect Terminal Commands. Failure at %s.' % carg
 			else:
