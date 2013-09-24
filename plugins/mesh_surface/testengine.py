@@ -42,8 +42,9 @@ support = root + 'support_files/'
 
 
 def generate_support():
+
   print "  Generating data files"
- # os.system("module load gmt")
+  # os.system("module load gmt")
   #os.system("python " + support + 'gaussian_bump.py ' + support + '/gaussian_bump.nc')
   #os.system("grdmath " + support + "/gaussian_bump.nc 2 MUL = " + support + "/gaussian_bump_medium.nc")
   #os.system("grdmath " + support + "/gaussian_bump.nc 4 MUL = " + support + "/gaussian_bump_coarse.nc")
