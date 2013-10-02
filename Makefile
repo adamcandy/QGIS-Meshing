@@ -40,7 +40,7 @@ localplugindir = ${HOME}/.qgis/python/plugins/
 DEVPACKAGEFILES = mesh_surface  meshing_raster_calc  rasterise_polygons boundary_identification
 PACKAGEFILES = mesh_surface  meshing_raster_calc  rasterise_polygons Polygonizer QuickMultiAttributeEdit
 
-testdir = ./plugins/mesh_netcdf/
+testdir = ./plugins/mesh_surface/
 outputdir = ./tests/output/
 
 

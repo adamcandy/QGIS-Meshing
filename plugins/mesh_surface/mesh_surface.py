@@ -58,8 +58,11 @@ from Scientific.IO import NetCDF #Most likelly obsolete this file should only de
 from scripts.PreMeshingFunctions import PreMesh
 from scripts.MeshOperations import MeshOp
 from scripts.ErrorMessages import *
+from scripts.export_geo import *
 from scripts.define_id import *
 from scripts.flat_mesh_to_spherical import flat_mesh_spherical
+
+import pdb
 
 
 # with args?
@@ -347,6 +350,7 @@ class MeshSurface(PreMesh, MeshOp):
       #  QtGui.QMessageBox.critical(None,"Error: No Active Layer","There are no active layers. Please load a layer.")
       #  raise AssertionError ("Error: No Active Layer.")
 
+
       self.setDropDownOptions()
       layers = self.iface.mapCanvas().layers()
       self.dlg.ui.IdDropdown.clear()
@@ -364,11 +368,57 @@ class MeshSurface(PreMesh, MeshOp):
         startTime = datetime.datetime.now()
         print "Operation Started: " + str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
         self._checkForErrors()
-        self.MeshSurface()
-			
+        #self.MeshSurface()
+
+       # pyqtRemoveInputHook()
+       # pdb.set_trace()
+
+      ### BSplines doesnt work currently hence on LY and LN
+        lineType = "LN "
+
+        if self.dlg.ui.compoundCheckBox.isChecked():
+          if self.dlg.ui.lineRadioButton.isChecked():
+           lineType = "LY "
+
+        ## mesh the shape file
+        mesh = ""
+        if self.dlg.ui.commandEdit.isChecked():
+          mesh = "--mesh "
+
+
+        ## select the shape file or the supplied geo file
+        domainShapefile = str(self.dlg.ui.domainShapefileLayerDropDown.itemData(self.domainShapefileLayerIndex).toString())
+        if self.dlg.ui.chooseGeoFileRadioButton.isChecked():
+          geoFile = " -g "+self.dlg.ui.chooseGeoFileLineEdit.text()+" "
+        else:
+          geofile = " -g "+domainShapefile[:-4]+".geo "
+
+          ##ADDing the netcdf to it
+        netCDFFileName = ""
+        if self.dlg.ui.singleNetCDFChooseFilesRadioButton.isChecked():
+          filename = str(self.dlg.ui.singleNetCDFLayerDropDown.itemData(self.singleNetCDFLayerIndex).toString())
+          netCDFFileName = " -m "+filename
+
+          ##Adding the IDs
+
+        idFile = ""
+        defID = ""
+
+        if self.dlg.ui.grpDefID.isChecked():
+          idText = self.dlg.ui.IdDropdown.currentText()
+          idIndex = self.dlg.ui.IdDropdown.findText(idText)
+          idFile = " --id "+str(self.dlg.ui.IdDropdown.itemData(idIndex).toString())
+          defID = " --defid "+str(self.dlg.ui.Default_Id.text())
+
+
+
+        os.system("python plugins/mesh_surface/mesh_surface -l "+lineType+geofile+idFile+" "+defID+" "+mesh+netCDFFileName+" "+domainShapefile)
+
+
+
         print "Operation Stopped: " + str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
-	timePassed = datetime.datetime.now() - startTime
-	print "Time Elapsed: " + str(timePassed.seconds) + " seconds."
+        timePassed = datetime.datetime.now() - startTime
+        print "Time Elapsed: " + str(timePassed.seconds) + " seconds."
 
     except AssertionError as e:
       print e.message

@@ -39,10 +39,11 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/..'))
 from StandardModules import *
 from PyQt4.QtGui import *
 from export_geo import *
+import pdb
+#import export_geo
 
 
-class PreMesh(DefineDomain):
-
+class PreMesh(DefineDomain, geometry_writer):
 	"""
 	Once the user has selected something from the drop-downs and clicked OK these functions retrieve the layer names as well as the source files of the
 	layers.
@@ -94,7 +95,8 @@ class PreMesh(DefineDomain):
 		self.define_bounds(self.dlg.ui.grpDefID.isChecked())
 
 		# Write the Geo.
-		self.GeoWriter()
+		pdb.set_trace()
+		geometry_writer.GeoWriter()
 
 	"""
 	Retrieve the information from the drop-down boxes.

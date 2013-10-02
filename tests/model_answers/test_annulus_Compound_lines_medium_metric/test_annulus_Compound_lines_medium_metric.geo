@@ -680,6 +680,5 @@ Physical Surface(0) = {1};
 
 Mesh.RemeshAlgorithm=1;
 Field[1] = Structured;
-Field[1].FileName = "/home/mg2111/QGIS-Meshing/tests/support_files/gaussian_bump_medium.fld";
 Field[1].TextFormat = 1;
 Background Field = 1;
