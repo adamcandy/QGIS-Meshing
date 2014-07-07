@@ -14,7 +14,9 @@ Test engine status
 
 [![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev)](https://travis-ci.org/adamcandy/QGIS-Meshing) Development
 
+<!-- Development reporting on compound lines and boundary IDs on hold
 [![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev-compound)](https://travis-ci.org/adamcandy/QGIS-Meshing) Development (Compound Lines and Boundary IDs)
+-->
 
 Outline
 -------
