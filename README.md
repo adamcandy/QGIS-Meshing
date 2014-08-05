@@ -117,6 +117,15 @@ The plugins are written in Python, each being a [Python package](http://docs.pyt
 A guide to developing Python plugins for QGIS is available [here](http://www.qgis.org/pyqgis-cookbook/plugins.html#plugins).
 The [PyQGIS Developer Cookbook](http://www.qgis.org/pyqgis-cookbook/) is also a useful resource.
 
+Further information
+-------------------
+
+Additional information on this work, with further details on simulation initialisation in general are available from the research group pages at:
+
+#### [http://amcg.ese.ic.ac.uk/meshing](http://amcg.ese.ic.ac.uk/meshing)
+#### [http://www3.imperial. ac.uk/earthscienceandengineering/research/amcg/meshing](http://www3.imperial. ac.uk/earthscienceandengineering/research/amcg/meshing)
+
+
 Contact
 -------
 
