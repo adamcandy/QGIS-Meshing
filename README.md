@@ -123,6 +123,7 @@ Further information
 Additional information on this work, with further details on simulation initialisation in general are available from the research group pages at:
 
 • [http://amcg.ese.ic.ac.uk/meshing](http://amcg.ese.ic.ac.uk/meshing)
+
 • [http://www3.imperial. ac.uk/earthscienceandengineering/research/amcg/meshing](http://www3.imperial. ac.uk/earthscienceandengineering/research/amcg/meshing)
 
 
