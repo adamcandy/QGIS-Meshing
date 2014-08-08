@@ -8,6 +8,9 @@ branches:
 virtualenv:
   system_site_packages: true
 before_install:
+ # Fix for python-gdal errors on Travis from:
+ # https://github.com/travis-ci/travis-ci/issues/2401
+ - sudo rm /etc/apt/sources.list.d/ubuntugis-stable-source.list
  - sudo apt-get install -qq python-numpy python-scientific
  - sudo apt-get install -qq python-shapely
  - sudo apt-get install -qq python-gdal
