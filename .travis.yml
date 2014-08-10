@@ -8,13 +8,14 @@ branches:
 virtualenv:
   system_site_packages: true
 before_install:
+ - sudo apt-get install -qq libgdal1h
  - sudo apt-get install -qq python-numpy python-scientific
  - sudo apt-get install -qq python-shapely
- - sudo apt-get install -qq python-gdal
  - sudo apt-get install -qq python-qt4
  - sudo apt-get install -qq proj
  - sudo apt-get install -qq gmsh
  - sudo apt-get install -qq gmt
+ - sudo apt-get install -qq python-gdal
  #- sudo apt-get install -qq blender python-shapely grass qgis-plugin-grass thuban gmt gpsbabel gpx2shp python-mapscript postgis python-gdal proj libterralib
  #- sudo apt-get install -qq qgis
 #install:

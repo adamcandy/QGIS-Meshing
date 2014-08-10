@@ -14,7 +14,9 @@ Test engine status
 
 [![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev)](https://travis-ci.org/adamcandy/QGIS-Meshing) Development
 
+<!-- Development reporting on compound lines and boundary IDs on hold
 [![Build Status](https://travis-ci.org/adamcandy/QGIS-Meshing.png?branch=dev-compound)](https://travis-ci.org/adamcandy/QGIS-Meshing) Development (Compound Lines and Boundary IDs)
+-->
 
 Outline
 -------
@@ -114,6 +116,16 @@ Issues and bugs found with the project can be viewed and edited at [Issues](http
 The plugins are written in Python, each being a [Python package](http://docs.python.org/2/tutorial/modules.html#packages).
 A guide to developing Python plugins for QGIS is available [here](http://www.qgis.org/pyqgis-cookbook/plugins.html#plugins).
 The [PyQGIS Developer Cookbook](http://www.qgis.org/pyqgis-cookbook/) is also a useful resource.
+
+Further information
+-------------------
+
+Additional information on this work, with further details on simulation initialisation in general are available from the research group pages at:
+
+• [http://amcg.ese.ic.ac.uk/meshing](http://amcg.ese.ic.ac.uk/meshing)
+
+• [http://www3.imperial.ac.uk/earthscienceandengineering/research/amcg/meshing](http://www3.imperial.ac.uk/earthscienceandengineering/research/amcg/meshing)
+
 
 Contact
 -------
