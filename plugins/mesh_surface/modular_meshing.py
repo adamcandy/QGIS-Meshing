@@ -79,7 +79,7 @@ class _baseCommands( object ):
     -e      :Shows all errors found after command.
     '''
 
-class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
+class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.geometry_writer ):
 
   domainShapefileLayerFileName = None
   threshold = None
@@ -252,7 +252,8 @@ class Modular_meshing ( define_id.DefineDomain, _baseCommands, MeshOp ):
   def _usage( self ):
     _baseCommands._usage(self)
   def export_geo( self ):
-    export_geo.write_geo_file(self.geofilepath,self.data,self.Compound,self.BSpline)
+    #export_geo.write_geo_file(self.geofilepath,self.data,self.Compound,self.BSpline)
+     export_geo.geometry_writer.GeoWriter(self)
   def define_bounds( self, isIdLayer ):
     define_id.DefineDomain.define_bounds(self,isIdLayer)
   def set_defid( self ):

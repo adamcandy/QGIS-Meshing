@@ -1,0 +1,61 @@
+#! /bin/sh
+
+S_SRS=$1
+T_SRS=$2
+INFILE=$3
+OUTFILE=$4
+
+module load gmt
+
+gdalwarp -s_srs "${S_SRS}" -t_srs "${T_SRS}" $INFILE /tmp/tmpWARPFILE.nc
+
+python extract_coord.py 0 $INFILE /tmp/tmpCoords1file.nc
+python extract_coord.py 0 $INFILE /tmp/tmpCoords2file.nc
+
+gdalwarp -s_srs "${S_SRS}" -t_srs "${T_SRS}" \
+  /tmp/tmpCoords1file.nc /tmp/tmpWarpCoords1file.nc
+gdalwarp -s_srs "${S_SRS}" -t_srs "${T_SRS}" \
+  /tmp/tmpCoords2file.nc /tmp/tmpWarpCoords2file.nc
+
+#may be a constant out here
+grdmath /tmp/tmpWarpCoords1file.nc DDX \
+  tmp/tmpCoords1file.nc  DDX \
+  DIV \
+  /tmp/tmpWarpCoords1file.nc DDY \
+  tmp/tmpCoords1file.nc  DDY \
+  DIV \
+  ADD \
+  /tmp/tmpWarpCoords2file.nc DDX \
+  tmp/tmpCoords2file.nc  DDX \
+  DIV \
+  /tmp/tmpWarpCoords2file.nc DDY \
+  tmp/tmpCoords2file.nc  DDY \
+  DIV \
+  ADD \
+  MUL \
+  /tmp/tmpWarpCoords2file.nc DDX \
+  tmp/tmpCoords1file.nc  DDX \
+  DIV \
+  /tmp/tmpWarpCoords2file.nc DDY \
+  tmp/tmpCoords1file.nc  DDY \
+  DIV \
+  ADD \
+  /tmp/tmpWarpCoords1file.nc DDX \
+  tmp/tmpCoords2file.nc  DDX \
+  DIV \
+  /tmp/tmpWarpCoords1file.nc DDY \
+  tmp/tmpCoords2file.nc  DDY \
+  DIV \
+  ADD \
+  MUL \
+  SUB = /tmp/tmpDeterminantFile.nc
+
+grdmath /tmp/tmpWARPFILE.nc \
+  /tmp/tmpDeterminantFile.nc SQRT 
+  MUL = $OUTFILE
+
+rm /tmp/tmpWARPFILE.nc /tmp/tmpDeterminantFile.nc /tmp/tmpWarpCoords1file.nc /tmp/tmpWarpCoords2file.nc tmp/tmpCoords1file.nc tmp/tmpCoords2file.nc 
+
+
+
+

@@ -85,7 +85,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 	isIdLayer = False
 	geofilepath = None
 	singleNetCDFLayerFileName = None
-	postviewFileName = None
+	fieldFileName = None
 	compound_line_enable = False
 	gmshcall = False
 	gmshShow = False
@@ -145,7 +145,7 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 		if self.gmshcall:
 			os.system('gmsh -2 '+str(self.geofilepath))
 			meshpath = self.geofilepath[:-3] + 'msh'
-			if self.coord == 'L' or self.coord == 'S':
+			if self.coord == 'L':
 				print "Projecting to Sphere..."
 				meshpath = flat_mesh_spherical(meshpath,self.coord == 'S')
 				print "Mesh Projected."
@@ -208,13 +208,13 @@ class _mainObject ( define_id.DefineDomain, _baseCommands, MeshOp, export_geo.ge
 		self.gmshShow = self.sarg.pop(0)
 	def set_lineType( self ):
 		exec(self.lineType[self.sarg.pop(0)])
-	def gradeToNCFlat( self ):
-		geoFile = open(str(self.geofilepath), 'a')
-                geoFile.write('\nField[1] = Structured;\n')
-                geoFile.write('Field[1].FileName = "%s";\n' % self.fieldFileName)
-                geoFile.write('Field[1].TextFormat = 1;\n')
-                geoFile.write("Background Field = 1;\n")
-                geoFile.close()  
+	#def gradeToNCFlat( self ):
+		#geoFile = open(str(self.geofilepath), 'a')
+                #geoFile.write('\nField[1] = Structured;\n')
+                #geoFile.write('Field[1].FileName = "%s";\n' % self.fieldFileName)
+                #geoFile.write('Field[1].TextFormat = 1;\n')
+                #geoFile.write("Background Field = 1;\n")
+                #geoFile.close()  
 	def set_mevalcall( self ):
 		self.mEval = float(self.sarg.pop(0))
 	def write_meval( self ):

@@ -41,7 +41,7 @@ meshing algorithm in the background and opens the .msh in Gmsh.
 import subprocess
 from PosFileConverter import *
 from PyQt4 import QtCore, QtGui
-from bathy_to_field import create_fld_file
+from scripts.bathy_to_field import create_fld_file
 
 class MeshOp( converter ):
 
@@ -69,7 +69,7 @@ class MeshOp( converter ):
 
 		f = open(str(self.geoFileName), 'a')
                 f.write('\nField[1] = Structured;\n')
-                f.write('Field[1].FileName = %s;\n' % self.fieldFileName)
+                f.write('Field[1].FileName = "%s";\n' % self.fieldFileName)
                 f.write('Field[1].TextFormat = 1;\n')
                 f.write("Background Field = 1;\n")
                 f.close()

@@ -12,6 +12,7 @@ before_install:
  - sudo apt-get install -qq python-numpy python-scientific
  - sudo apt-get install -qq python-shapely
  - sudo apt-get install -qq python-qt4
+ - sudo apt-get install -qq python-mpltoolkits.basemap
  - sudo apt-get install -qq proj
  - sudo apt-get install -qq gmsh
  - sudo apt-get install -qq gmt
